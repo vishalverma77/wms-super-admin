@@ -258,115 +258,115 @@ function EnquiryDialog({
 
   return (
     <>
-    <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(15,30,53,0.5)', backdropFilter: 'blur(4px)', padding: 20 }} onClick={onClose}>
-      <div className="card contact-sales-dialog" style={{ width: '100%', maxWidth: 760, maxHeight: '90vh', overflowY: 'auto', background: '#fff', borderRadius: 16, display: 'flex', flexDirection: 'column', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }} onClick={e => e.stopPropagation()}>
-        
-        {/* Modal Header */}
-        <div className="pgh" style={{ margin: 0, padding: '24px', borderRadius: '16px 16px 0 0', borderBottom: '1px solid #f2f2f2', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', position: 'sticky', top: 0, background: '#fff', zIndex: 10, boxShadow: 'none' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-              <div style={{ width: 48, height: 48, borderRadius: 12, background: 'var(--primary-light)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 700 }}>
-                {enquiry.company.charAt(0)}
-              </div>
-              <div>
-                <h2 style={{ margin: '0 0 4px', fontSize: 20, color: 'var(--tx)' }}>{enquiry.company}</h2>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#7a7876' }}>
-                  <span>{enquiry.industry}</span>
-                  <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#d1d5db' }} />
-                  <span>{enquiry.companySize} employees</span>
+      <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(15,30,53,0.5)', backdropFilter: 'blur(4px)', padding: 20 }} onClick={onClose}>
+        <div className="card contact-sales-dialog" style={{ width: '100%', maxWidth: 760, maxHeight: '90vh', overflowY: 'auto', background: '#fff', borderRadius: 16, display: 'flex', flexDirection: 'column', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }} onClick={e => e.stopPropagation()}>
+
+          {/* Modal Header */}
+          <div className="pgh" style={{ margin: 0, padding: '24px', borderRadius: '16px 16px 0 0', borderBottom: '1px solid #f2f2f2', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', position: 'sticky', top: 0, background: '#fff', zIndex: 10, boxShadow: 'none' }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'var(--primary-light)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 700 }}>
+                  {enquiry.company.charAt(0)}
+                </div>
+                <div>
+                  <h2 style={{ margin: '0 0 4px', fontSize: 20, color: 'var(--tx)' }}>{enquiry.company}</h2>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#7a7876' }}>
+                    <span>{enquiry.industry}</span>
+                    <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#d1d5db' }} />
+                    <span>{enquiry.companySize} employees</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <button onClick={onClose} aria-label="Close" style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', padding: 4 }}>
-            <svg viewBox="0 0 24 24" style={{ width: 20, height: 20, fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }}><path d="M18 6 6 18M6 6l12 12" /></svg>
-          </button>
-        </div>
-
-        {/* Modal Body */}
-        <div style={{ padding: 24, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
-          
-          {/* Column 1: Customer Info */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            <section>
-              <h3 style={{ margin: '0 0 16px', fontSize: 14, color: '#46536a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Customer Details</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
-                  <span style={{ color: '#7a7876' }}>Full Name</span>
-                  <span style={{ fontWeight: 500, color: 'var(--tx)' }}>{enquiry.name}</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
-                  <span style={{ color: '#7a7876' }}>Email Address</span>
-                  <a href={`mailto:${enquiry.email}`} style={{ fontWeight: 500, color: 'var(--primary)', textDecoration: 'none' }}>{enquiry.email}</a>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
-                  <span style={{ color: '#7a7876' }}>Phone Number</span>
-                  <a href={`tel:${enquiry.phone}`} style={{ fontWeight: 500, color: 'var(--primary)', textDecoration: 'none' }}>{enquiry.phone}</a>
-                </div>
-              </div>
-            </section>
-            
-            <section>
-              <h3 style={{ margin: '0 0 16px', fontSize: 14, color: '#46536a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Enquiry Metadata</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
-                  <span style={{ color: '#7a7876' }}>Date Submitted</span>
-                  <span style={{ fontWeight: 500, color: 'var(--tx)' }}>{enquiry.date}</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
-                  <span style={{ color: '#7a7876' }}>Source</span>
-                  <span style={{ display: 'inline-block', padding: '4px 10px', background: '#f3f4f6', borderRadius: 20, fontSize: 12, fontWeight: 500, color: '#4b5563' }}>{enquiry.source}</span>
-                </div>
-              </div>
-            </section>
+            <button onClick={onClose} aria-label="Close" style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', padding: 4 }}>
+              <svg viewBox="0 0 24 24" style={{ width: 20, height: 20, fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }}><path d="M18 6 6 18M6 6l12 12" /></svg>
+            </button>
           </div>
 
-          {/* Column 2: Enquiry Details */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            <section>
-              <h3 style={{ margin: '0 0 16px', fontSize: 14, color: '#46536a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Requirements</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
-                  <span style={{ color: '#7a7876' }}>Warehouse Count</span>
-                  <span style={{ fontWeight: 500, color: 'var(--tx)' }}>{enquiry.warehouseCount} locations</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
-                  <span style={{ color: '#7a7876' }}>Expected Users</span>
-                  <span style={{ fontWeight: 500, color: 'var(--tx)' }}>{enquiry.expectedUsers} users</span>
-                </div>
-              </div>
-            </section>
+          {/* Modal Body */}
+          <div style={{ padding: 24, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
 
-            <section>
-              <h3 style={{ margin: '0 0 12px', fontSize: 14, color: '#46536a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Message</h3>
-              <div style={{ padding: 16, background: '#f9fbfe', border: '1px solid #edf1f6', borderRadius: 8, fontSize: 14, color: '#46536a', lineHeight: 1.6 }}>
-                {enquiry.message}
-              </div>
-            </section>
+            {/* Column 1: Customer Info */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              <section>
+                <h3 style={{ margin: '0 0 16px', fontSize: 14, color: '#46536a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Customer Details</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
+                    <span style={{ color: '#7a7876' }}>Full Name</span>
+                    <span style={{ fontWeight: 500, color: 'var(--tx)' }}>{enquiry.name}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
+                    <span style={{ color: '#7a7876' }}>Email Address</span>
+                    <a href={`mailto:${enquiry.email}`} style={{ fontWeight: 500, color: 'var(--primary)', textDecoration: 'none' }}>{enquiry.email}</a>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
+                    <span style={{ color: '#7a7876' }}>Phone Number</span>
+                    <a href={`tel:${enquiry.phone}`} style={{ fontWeight: 500, color: 'var(--primary)', textDecoration: 'none' }}>{enquiry.phone}</a>
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <h3 style={{ margin: '0 0 16px', fontSize: 14, color: '#46536a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Enquiry Metadata</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
+                    <span style={{ color: '#7a7876' }}>Date Submitted</span>
+                    <span style={{ fontWeight: 500, color: 'var(--tx)' }}>{enquiry.date}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
+                    <span style={{ color: '#7a7876' }}>Source</span>
+                    <span style={{ display: 'inline-block', padding: '4px 10px', background: '#f3f4f6', borderRadius: 20, fontSize: 12, fontWeight: 500, color: '#4b5563' }}>{enquiry.source}</span>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            {/* Column 2: Enquiry Details */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              <section>
+                <h3 style={{ margin: '0 0 16px', fontSize: 14, color: '#46536a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Requirements</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
+                    <span style={{ color: '#7a7876' }}>Warehouse Count</span>
+                    <span style={{ fontWeight: 500, color: 'var(--tx)' }}>{enquiry.warehouseCount} locations</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
+                    <span style={{ color: '#7a7876' }}>Expected Users</span>
+                    <span style={{ fontWeight: 500, color: 'var(--tx)' }}>{enquiry.expectedUsers} users</span>
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <h3 style={{ margin: '0 0 12px', fontSize: 14, color: '#46536a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Message</h3>
+                <div style={{ padding: 16, background: '#f9fbfe', border: '1px solid #edf1f6', borderRadius: 8, fontSize: 14, color: '#46536a', lineHeight: 1.6 }}>
+                  {enquiry.message}
+                </div>
+              </section>
+            </div>
+
+          </div>
+
+          {/* Actions Footer */}
+          <div style={{ padding: '20px 24px', background: '#f9fbfe', borderTop: '1px solid #edf1f6', display: 'flex', gap: 12, justifyContent: 'flex-end', borderRadius: '0 0 16px 16px' }}>
+            <button onClick={() => setShowDeleteConfirm(true)} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', background: '#fff', border: '1px solid #ffb3b3', borderRadius: 6, color: '#ef1f1f', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+              <svg viewBox="0 0 24 24" style={{ width: 16, height: 16, fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }}><path d="M3 6h18" /><path d="M8 6V4h8v2" /><path d="M19 6l-1 14H6L5 6" /><path d="M10 11v6M14 11v6" /></svg>
+              Delete
+            </button>
+            <div style={{ flex: 1 }} />
+            <button onClick={() => setShowNoteDialog(true)} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', background: '#fff', border: '1px solid #dbe4ef', borderRadius: 6, color: '#46536a', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+              <svg viewBox="0 0 24 24" style={{ width: 16, height: 16, fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }}><path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg>
+              Add Note
+            </button>
+            <button onClick={() => setShowEmailDialog(true)} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 18px', background: 'var(--primary)', border: '1px solid var(--primary)', borderRadius: 6, color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
+              <svg viewBox="0 0 24 24" style={{ width: 16, height: 16, fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
+              Reply Email
+            </button>
           </div>
 
         </div>
-
-        {/* Actions Footer */}
-        <div style={{ padding: '20px 24px', background: '#f9fbfe', borderTop: '1px solid #edf1f6', display: 'flex', gap: 12, justifyContent: 'flex-end', borderRadius: '0 0 16px 16px' }}>
-          <button onClick={() => setShowDeleteConfirm(true)} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', background: '#fff', border: '1px solid #ffb3b3', borderRadius: 6, color: '#ef1f1f', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-            <svg viewBox="0 0 24 24" style={{ width: 16, height: 16, fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }}><path d="M3 6h18" /><path d="M8 6V4h8v2" /><path d="M19 6l-1 14H6L5 6" /><path d="M10 11v6M14 11v6" /></svg>
-            Delete
-          </button>
-          <div style={{ flex: 1 }} />
-          <button onClick={() => setShowNoteDialog(true)} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', background: '#fff', border: '1px solid #dbe4ef', borderRadius: 6, color: '#46536a', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-            <svg viewBox="0 0 24 24" style={{ width: 16, height: 16, fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }}><path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg>
-            Add Note
-          </button>
-          <button onClick={() => setShowEmailDialog(true)} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 18px', background: 'var(--primary)', border: '1px solid var(--primary)', borderRadius: 6, color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-            <svg viewBox="0 0 24 24" style={{ width: 16, height: 16, fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
-            Reply Email
-          </button>
-        </div>
-
       </div>
-    </div>
-    
+
       {showDeleteConfirm && (
         <DeleteConfirmDialog onClose={() => setShowDeleteConfirm(false)} onConfirm={onDelete} />
       )}
@@ -380,55 +380,55 @@ function EnquiryDialog({
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function DetailSection({
-  icon,
-  title,
-  rows,
-}: {
-  icon: "customer" | "file" | "info";
-  title: string;
-  rows: string[][];
-}) {
-  return (
-    <section className="contact-sales-section">
-      <div className="contact-sales-section-title">
-        <span className="contact-sales-section-icon">
-          {icon === "customer" && (
-            <svg viewBox="0 0 24 24">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
-              <path d="M19 8v6M22 11h-6" />
-            </svg>
-          )}
-          {icon === "file" && (
-            <svg viewBox="0 0 24 24">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-              <path d="M14 2v6h6" />
-              <path d="M9 15h6M9 11h2" />
-            </svg>
-          )}
-          {icon === "info" && (
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 16v-4M12 8h.01" />
-            </svg>
-          )}
-        </span>
-        <h3>{title}</h3>
-      </div>
-      <div className="contact-sales-fields">
-        {rows.map(([label, value]) => (
-          <div className="contact-sales-field" key={label}>
-            <span>{label}</span>
-            <b>:</b>
-            <strong>{value}</strong>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
+// // eslint-disable-next-line @typescript-eslint/no-unused-vars
+// function DetailSection({
+//   icon,
+//   title,
+//   rows,
+// }: {
+//   icon: "customer" | "file" | "info";
+//   title: string;
+//   rows: string[][];
+// }) {
+//   return (
+//     <section className="contact-sales-section">
+//       <div className="contact-sales-section-title">
+//         <span className="contact-sales-section-icon">
+//           {icon === "customer" && (
+//             <svg viewBox="0 0 24 24">
+//               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+//               <circle cx="9" cy="7" r="4" />
+//               <path d="M19 8v6M22 11h-6" />
+//             </svg>
+//           )}
+//           {icon === "file" && (
+//             <svg viewBox="0 0 24 24">
+//               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+//               <path d="M14 2v6h6" />
+//               <path d="M9 15h6M9 11h2" />
+//             </svg>
+//           )}
+//           {icon === "info" && (
+//             <svg viewBox="0 0 24 24">
+//               <circle cx="12" cy="12" r="10" />
+//               <path d="M12 16v-4M12 8h.01" />
+//             </svg>
+//           )}
+//         </span>
+//         <h3>{title}</h3>
+//       </div>
+//       <div className="contact-sales-fields">
+//         {rows.map(([label, value]) => (
+//           <div className="contact-sales-field" key={label}>
+//             <span>{label}</span>
+//             <b>:</b>
+//             <strong>{value}</strong>
+//           </div>
+//         ))}
+//       </div>
+//     </section>
+//   );
+// }
 
 function DeleteConfirmDialog({ onClose, onConfirm }: { onClose: () => void, onConfirm: () => void }) {
   return (
@@ -437,7 +437,7 @@ function DeleteConfirmDialog({ onClose, onConfirm }: { onClose: () => void, onCo
         <div style={{ padding: '32px 24px', textAlign: 'center' }}>
           <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#fff1f2', color: '#ef1f1f', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
             <svg viewBox="0 0 24 24" style={{ width: 24, height: 24, stroke: 'currentColor', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-              <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/>
+              <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6" />
             </svg>
           </div>
           <h2 style={{ margin: '0 0 8px', fontSize: 18, color: 'var(--tx)' }}>Delete Enquiry?</h2>

@@ -10,7 +10,7 @@ import type { RootState } from "../index";
 
 const getToken = (state: RootState) => state.auth.token;
 
-function* handleFetchTrialUsers() {
+function* handleFetchTrialUsers(): Generator<any, any, any> {
   try {
     const token: string | null = yield select(getToken);
 
@@ -31,6 +31,6 @@ function* handleFetchTrialUsers() {
   }
 }
 
-export function* trialUsersSaga() {
+export function* trialUsersSaga(): Generator<any, any, any> {
   yield takeLatest(fetchTrialUsersRequest.type, handleFetchTrialUsers);
 }
