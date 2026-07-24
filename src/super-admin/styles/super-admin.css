@@ -23,6 +23,7 @@
 
 /* ── Sidebar ── */
 .sa-root #sb {
+  position: relative;
   width: var(--sw);
   min-width: var(--sw);
   background: var(--primary-light);
@@ -678,5 +679,49 @@
     margin-right: -16px;
     margin-top: -16px;
     padding: 16px 16px 12px;
+  }
+}
+
+/* ── Responsive Layout Utilities ── */
+.layout-grid-sidebar {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+  align-items: start;
+}
+.layout-grid-sidebar-300 {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  align-items: start;
+}
+.layout-grid-half {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.layout-grid-half-gap12 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.layout-grid-half-gap32 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+@media (max-width: 1024px) {
+  .layout-grid-sidebar,
+  .layout-grid-sidebar-300 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .layout-grid-half,
+  .layout-grid-half-gap12,
+  .layout-grid-half-gap32 {
+    grid-template-columns: 1fr;
   }
 }

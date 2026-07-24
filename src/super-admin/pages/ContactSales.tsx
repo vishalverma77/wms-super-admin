@@ -284,7 +284,7 @@ function EnquiryDialog({
         </div>
 
         {/* Modal Body */}
-        <div style={{ padding: 24, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
+        <div className="layout-grid-half-gap32" style={{ padding: 24 }}>
           
           {/* Column 1: Customer Info */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>

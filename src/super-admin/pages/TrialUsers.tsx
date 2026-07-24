@@ -269,7 +269,7 @@ function TrialUserDetailModal({ user, onClose }: { user: MappedTrialUser, onClos
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 20, alignItems: 'start' }}>
+          <div className="layout-grid-sidebar">
             {/* ── Left column ── */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               
@@ -278,7 +278,7 @@ function TrialUserDetailModal({ user, onClose }: { user: MappedTrialUser, onClos
                 <div style={{ fontFamily: '"Outfit",sans-serif', fontWeight: 700, fontSize: 14, marginBottom: 16 }}>
                   Company Details
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
+                <div className="layout-grid-half">
                   {[
                     { label: 'Contact Person', value: user.contact },
                     { label: 'Email', value: user.email },

@@ -40,7 +40,7 @@ export function Dashboard() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 20, alignItems: 'start' }}>
+      <div className="layout-grid-sidebar">
         
         {/* Main Panel */}
         <div className="card" style={{ padding: '24px', minHeight: 400 }}>

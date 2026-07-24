@@ -173,7 +173,7 @@ function CustomerActionModal({ customerId, onClose }: { customerId: number, onCl
           </button>
         </div>
 
-        <div style={{ padding: 24, display: 'grid', gridTemplateColumns: '1fr 300px', gap: 24 }}>
+        <div className="layout-grid-sidebar-300" style={{ padding: 24 }}>
           
           {/* Left Column: WMS Features & Limits */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -224,7 +224,7 @@ function CustomerActionModal({ customerId, onClose }: { customerId: number, onCl
               <div style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', color: '#a8a5a0', letterSpacing: '0.04em', marginBottom: 12 }}>
                 WMS Resource Limits
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div className="layout-grid-half-gap12">
                 <div style={{ background: '#f9fbfe', border: '1px solid #f2f2f2', borderRadius: 8, padding: 16 }}>
                   <div style={{ fontSize: 11, color: '#7a7876', marginBottom: 4 }}>Warehouses</div>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
