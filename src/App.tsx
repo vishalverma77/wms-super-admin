@@ -9,16 +9,9 @@ import { Login } from "./super-admin/pages/Login";
 
 // Analytics Pages
 import { OverviewPage } from "./super-admin/analytics/pages/OverviewPage";
-import { UserBehaviourPage } from "./super-admin/analytics/pages/UserBehaviourPage";
 import { LandingPageAnalytics } from "./super-admin/analytics/pages/LandingPageAnalytics";
 import { TrafficSourcesPage } from "./super-admin/analytics/pages/TrafficSourcesPage";
-import { ConversionsPage } from "./super-admin/analytics/pages/ConversionsPage";
-import { DevicesPage } from "./super-admin/analytics/pages/DevicesPage";
-import { CountriesPage } from "./super-admin/analytics/pages/CountriesPage";
 import { EventsPage } from "./super-admin/analytics/pages/EventsPage";
-import { HeatmapsPage } from "./super-admin/analytics/pages/HeatmapsPage";
-import { SessionRecordingsPage } from "./super-admin/analytics/pages/SessionRecordingsPage";
-import { ReportsPage } from "./super-admin/analytics/pages/ReportsPage";
 
 import { useAppSelector } from "./store/hooks";
 
@@ -53,16 +46,9 @@ function App() {
           {/* Analytics Submenu Routes */}
           <Route path="analytics" element={<OverviewPage />} />
           <Route path="analytics/overview" element={<OverviewPage />} />
-          <Route path="analytics/user-behaviour" element={<UserBehaviourPage />} />
           <Route path="analytics/landing-page" element={<LandingPageAnalytics />} />
           <Route path="analytics/traffic-sources" element={<TrafficSourcesPage />} />
-          <Route path="analytics/conversions" element={<ConversionsPage />} />
-          <Route path="analytics/devices" element={<DevicesPage />} />
-          <Route path="analytics/countries" element={<CountriesPage />} />
           <Route path="analytics/events" element={<EventsPage />} />
-          <Route path="analytics/heatmaps" element={<HeatmapsPage />} />
-          <Route path="analytics/session-recordings" element={<SessionRecordingsPage />} />
-          <Route path="analytics/reports" element={<ReportsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

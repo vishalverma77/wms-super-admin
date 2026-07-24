@@ -3,7 +3,6 @@ import {
   Search,
   Calendar,
   RefreshCw,
-  Download,
   Bell,
   ChevronDown,
   Sparkles,
@@ -14,7 +13,6 @@ interface AnalyticsHeaderProps {
   title: string;
   subtitle: string;
   onRefresh?: () => void;
-  onExport?: () => void;
   dateRange: string;
   setDateRange: (range: string) => void;
 }
@@ -23,7 +21,6 @@ export function AnalyticsHeader({
   title,
   subtitle,
   onRefresh,
-  onExport,
   dateRange,
   setDateRange
 }: AnalyticsHeaderProps) {
@@ -86,9 +83,6 @@ export function AnalyticsHeader({
         <div className="pgh-l" style={{ minWidth: 240 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <h1>{title}</h1>
-            <span className="tag t-blue" style={{ fontSize: 11, padding: "2px 8px" }}>
-              Live Stream
-            </span>
           </div>
           <p>{subtitle}</p>
         </div>
@@ -227,30 +221,6 @@ export function AnalyticsHeader({
             />
           </button>
 
-          {/* Export Report Button */}
-          <button
-            onClick={onExport}
-            style={{
-              height: 38,
-              padding: "0 14px",
-              borderRadius: 8,
-              border: "1px solid var(--primary)",
-              background: "var(--primary)",
-              color: "#fff",
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              fontSize: 12,
-              fontWeight: 700,
-              cursor: "pointer",
-              boxShadow: "0 2px 6px rgba(58,193,239,0.3)",
-              transition: "background 0.15s"
-            }}
-          >
-            <Download size={14} />
-            <span>Export Report</span>
-          </button>
-
           {/* Notification Icon */}
           <div style={{ position: "relative" }}>
             <button
@@ -308,12 +278,12 @@ export function AnalyticsHeader({
                     <div style={{ fontSize: 11, color: "#64748b" }}>Organic Google traffic surge detected</div>
                   </div>
                   <div style={{ padding: "8px 10px", background: "#fff4e8", borderRadius: 6 }}>
-                    <div style={{ fontWeight: 600, color: "#b45309" }}>Funnel Drop-off Alert</div>
-                    <div style={{ fontSize: 11, color: "#64748b" }}>Project budget field drop-off at 14.4%</div>
+                    <div style={{ fontWeight: 600, color: "#b45309" }}>Funnel Alert</div>
+                    <div style={{ fontSize: 11, color: "#64748b" }}>Visitor drop-off tracked at step 3</div>
                   </div>
                   <div style={{ padding: "8px 10px", background: "#e8f8ef", borderRadius: 6 }}>
-                    <div style={{ fontWeight: 600, color: "#15803d" }}>Goal Achieved</div>
-                    <div style={{ fontSize: 11, color: "#64748b" }}>Conversion rate hit 4.85% target</div>
+                    <div style={{ fontWeight: 600, color: "#15803d" }}>Goal Reached</div>
+                    <div style={{ fontSize: 11, color: "#64748b" }}>Monthly active session target achieved</div>
                   </div>
                 </div>
               </div>

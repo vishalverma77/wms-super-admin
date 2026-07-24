@@ -1,61 +1,51 @@
 import { useState } from "react";
-import {
-  TrendingDown,
-  Award,
-  MousePointer
-} from "lucide-react";
-
+import { MousePointer, Layers, Award } from "lucide-react";
 import {
   landingPageFunnel,
   topPerformingServices,
-  ctaPerformance
+  ctaPerformance,
+  sectionAnalytics
 } from "../mockData";
-
 import { AnalyticsHeader } from "../components/AnalyticsHeader";
-import { ExportReportModal } from "../components/ExportReportModal";
 
 export function LandingPageAnalytics() {
   const [dateRange, setDateRange] = useState("Last 30 Days");
-  const [showExportModal, setShowExportModal] = useState(false);
 
   return (
     <>
       <AnalyticsHeader
-        title="Landing Page Analytics & Funnel"
-        subtitle="Conversion funnel drop-off · CTA button efficiency · Service conversion leaderboards"
+        title="Landing Page Analytics"
+        subtitle="Funnel conversion · Section engagement · Service interest & CTA performance"
         dateRange={dateRange}
         setDateRange={setDateRange}
-        onExport={() => setShowExportModal(true)}
       />
 
-      {/* 8-Stage Conversion Funnel Visualizer */}
-      <div className="card" style={{ padding: 24, marginBottom: 20 }}>
+      {/* 1. Landing Page Funnel */}
+      <div className="card" style={{ padding: 24, marginBottom: 24 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
           <div>
             <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: 18, color: "#1a1a1a" }}>
-              Landing Page Conversion Funnel (8 Stages)
+              Landing Page Conversion Funnel
             </div>
-            <div style={{ fontSize: 12, color: "#64748b" }}>
-              Step-by-step visitor progression from initial view to completed form submission
+            <div style={{ fontSize: 13, color: "#64748b" }}>
+              Visitor progression from initial view to completed form submission
             </div>
           </div>
-          <span className="tag t-green" style={{ fontSize: 12, padding: "4px 12px" }}>
-            Overall Conversion Rate: 4.85%
+          <span className="tag t-green" style={{ fontSize: 12, padding: "4px 12px", fontWeight: 700 }}>
+            Overall Conversion: 4.85%
           </span>
         </div>
 
-        {/* Funnel Steps */}
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {landingPageFunnel.map((fn, idx) => {
-            const widthPct = Math.max(100 - idx * 11, 20);
+            const widthPct = Math.max(100 - idx * 11, 25);
             return (
               <div
                 key={idx}
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
-                  position: "relative"
+                  justifyContent: "center"
                 }}
               >
                 <div
@@ -67,9 +57,7 @@ export function LandingPageAnalytics() {
                     border: idx === landingPageFunnel.length - 1 ? "1px solid #15803d" : "1px solid #e2e8f0",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "space-between",
-                    boxShadow: "0 1px 3px rgba(0,0,0,0.03)",
-                    transition: "all 0.3s ease"
+                    justifyContent: "space-between"
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -98,16 +86,9 @@ export function LandingPageAnalytics() {
                     <span style={{ fontSize: 13, fontWeight: 700, color: "#1a1a1a" }}>
                       {fn.visitors.toLocaleString()} visitors
                     </span>
-
                     <span className="tag t-blue" style={{ fontSize: 11 }}>
                       {fn.percentage}
                     </span>
-
-                    {idx > 0 && (
-                      <span className="tag t-red" style={{ fontSize: 11, display: "flex", gap: 3, alignItems: "center" }}>
-                        <TrendingDown size={11} /> {fn.dropOff} Drop-off
-                      </span>
-                    )}
                   </div>
                 </div>
               </div>
@@ -116,17 +97,55 @@ export function LandingPageAnalytics() {
         </div>
       </div>
 
-      {/* Top Performing Services Leaderboard & CTA Performance Table Grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
-        
-        {/* Top Performing Services Leaderboard */}
+      {/* 2. Section Analytics Grid */}
+      <div className="card" style={{ padding: 24, marginBottom: 24 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+          <Layers size={20} color="var(--primary)" />
+          <div>
+            <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: 18, color: "#1a1a1a" }}>
+              Section Analytics
+            </div>
+            <div style={{ fontSize: 13, color: "#64748b" }}>Engagement and views across landing page sections</div>
+          </div>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+          {sectionAnalytics.map((sec, idx) => (
+            <div
+              key={idx}
+              style={{
+                background: "#f8fafc",
+                border: "1px solid #e2e8f0",
+                borderRadius: 10,
+                padding: 16
+              }}
+            >
+              <div style={{ fontWeight: 700, fontSize: 14, color: "#0f1e35", marginBottom: 8 }}>
+                {sec.section}
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
+                <span style={{ color: "#64748b" }}>Views:</span>
+                <span style={{ fontWeight: 700, color: "#1a1a1a" }}>{sec.views.toLocaleString()}</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12 }}>
+                <span style={{ color: "#64748b" }}>Avg Time Spent:</span>
+                <span style={{ fontWeight: 700, color: "var(--primary)" }}>{sec.avgTime}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 3. Service Interest & CTA Performance Grid */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+        {/* Service Interest Leaderboard */}
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
             <div>
               <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: 16, color: "#1a1a1a" }}>
-                Top Performing Services Leaderboard
+                Service Interest
               </div>
-              <div style={{ fontSize: 12, color: "#64748b" }}>Ranked by views, lead generation & conversion rate</div>
+              <div style={{ fontSize: 12, color: "#64748b" }}>Visitor views and interest level by service</div>
             </div>
             <Award size={20} color="var(--primary)" />
           </div>
@@ -138,8 +157,7 @@ export function LandingPageAnalytics() {
                   <th>Rank</th>
                   <th>Service Name</th>
                   <th>Views</th>
-                  <th>Leads</th>
-                  <th>Conversion</th>
+                  <th>Interest Score</th>
                 </tr>
               </thead>
               <tbody>
@@ -168,8 +186,7 @@ export function LandingPageAnalytics() {
                       <div style={{ fontSize: 10, color: "#94a3b8" }}>{srv.category}</div>
                     </td>
                     <td>{srv.views}</td>
-                    <td><span className="tag t-green">{srv.leads}</span></td>
-                    <td style={{ fontWeight: 700, color: "var(--primary)" }}>{srv.conversion}</td>
+                    <td><span className="tag t-blue">{srv.conversion}</span></td>
                   </tr>
                 ))}
               </tbody>
@@ -177,14 +194,14 @@ export function LandingPageAnalytics() {
           </div>
         </div>
 
-        {/* CTA Performance Data Table */}
+        {/* CTA Performance Matrix */}
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
             <div>
               <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: 16, color: "#1a1a1a" }}>
-                CTA Performance Matrix
+                CTA Performance
               </div>
-              <div style={{ fontSize: 12, color: "#64748b" }}>Click-through rate & conversion by primary CTA buttons</div>
+              <div style={{ fontSize: 12, color: "#64748b" }}>Click-through rate by primary call-to-action buttons</div>
             </div>
             <MousePointer size={20} color="var(--primary)" />
           </div>
@@ -197,7 +214,6 @@ export function LandingPageAnalytics() {
                   <th>Views</th>
                   <th>Clicks</th>
                   <th>CTR %</th>
-                  <th>Conversion</th>
                 </tr>
               </thead>
               <tbody>
@@ -212,7 +228,6 @@ export function LandingPageAnalytics() {
                     <td>{cta.views}</td>
                     <td style={{ fontWeight: 600 }}>{cta.clicks}</td>
                     <td><span className="tag t-blue">{cta.ctr}</span></td>
-                    <td style={{ fontWeight: 700, color: "#15803d" }}>{cta.conversion}</td>
                   </tr>
                 ))}
               </tbody>
@@ -220,8 +235,6 @@ export function LandingPageAnalytics() {
           </div>
         </div>
       </div>
-
-      <ExportReportModal isOpen={showExportModal} onClose={() => setShowExportModal(false)} />
     </>
   );
 }
