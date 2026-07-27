@@ -4,7 +4,7 @@ import { Dashboard } from "./super-admin/pages/Dashboard";
 import { TrialUsers } from "./super-admin/pages/TrialUsers";
 import { Subscriptions } from "./super-admin/pages/Subscriptions";
 import { Revenue } from "./super-admin/pages/Revenue";
-import { ContactSales } from "./super-admin/pages/ContactSales";
+
 import { Login } from "./super-admin/pages/Login";
 
 // Analytics Pages
@@ -41,7 +41,7 @@ function App() {
           <Route path="trial-users" element={<TrialUsers />} />
           <Route path="subscriptions" element={<Subscriptions />} />
           <Route path="revenue" element={<Revenue />} />
-          <Route path="contact-sales" element={<ContactSales />} />
+
 
           {/* Analytics Submenu Routes */}
           <Route path="analytics" element={<OverviewPage />} />

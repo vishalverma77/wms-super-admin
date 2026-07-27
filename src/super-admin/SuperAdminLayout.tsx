@@ -97,7 +97,6 @@ const pageTitles: Record<string, string> = {
   "/trial-users": "Trial Users",
   "/subscriptions": "Subscriptions",
   "/revenue": "Revenue",
-  "/contact-sales": "Contact Sales",
   "/plans": "Plan Management",
   "/analytics": "Analytics Overview",
   "/analytics/overview": "Analytics Overview",
