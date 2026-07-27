@@ -95,6 +95,7 @@ export function EventsPage() {
   }, [filteredEvents]);
 
   const eventFrequencyMap = useMemo(() => new Map(eventCounts.map((item) => [item.event, item.count])), [eventCounts]);
+  const isInitialLoading = loading && !events;
   const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
   const paginatedEvents = filteredEvents.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
@@ -114,6 +115,37 @@ export function EventsPage() {
         </div>
       )}
 
+      {isInitialLoading ? (
+        <div className="card" style={{ padding: 24 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20, flexWrap: "wrap", gap: 12 }}>
+            <div>
+              <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: 18, color: "#1a1a1a" }}>
+                Loading events analytics...
+              </div>
+              <div style={{ fontSize: 13, color: "#64748b" }}>
+                Fetching event rows, section context, device, browser, and country data
+              </div>
+            </div>
+            <span className="tag t-gray" style={{ fontSize: 12, padding: "4px 12px", fontWeight: 700 }}>
+              Please wait
+            </span>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {[1, 2, 3, 4, 5, 6].map((row) => (
+              <div
+                key={row}
+                style={{
+                  height: 46,
+                  borderRadius: 10,
+                  background: "linear-gradient(90deg, #eef2f7 0%, #f8fafc 50%, #eef2f7 100%)",
+                  border: "1px solid #dbe4ef",
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      ) : (
       <div className="card" style={{ padding: 20 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16, flexWrap: "wrap", gap: 12 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -224,8 +256,9 @@ export function EventsPage() {
               Next
             </button>
           </div>
-          </div>
         </div>
+      </div>
+      )}
     </>
   );
 }
