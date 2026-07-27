@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ResponsiveContainer,
   AreaChart,
@@ -16,19 +16,54 @@ import {
   Target
 } from "lucide-react";
 
-import {
-  kpiData,
-  visitorAnalyticsTrend
-} from "../mockData";
-
 import { AnalyticsHeader } from "../components/AnalyticsHeader";
 import { KpiCard } from "../components/KpiCard";
+import { fetchAnalyticsOverview, type AnalyticsOverviewData } from "../analytics.api";
+import {
+  formatCompactNumber,
+  formatDurationSeconds,
+  formatPercentage,
+  resolveAnalyticsDateRange,
+} from "../analytics.utils";
 
 export function OverviewPage() {
   const [dateRange, setDateRange] = useState("Last 30 Days");
-  const [timeFilter, setTimeFilter] = useState<"24H" | "7D" | "30D" | "90D">("30D");
+  const [dashboard, setDashboard] = useState<AnalyticsOverviewData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [reloadToken, setReloadToken] = useState(0);
 
-  const activeTrendData = visitorAnalyticsTrend[timeFilter];
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadOverview = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const range = resolveAnalyticsDateRange(dateRange);
+        const data = await fetchAnalyticsOverview(range);
+
+        if (isMounted) {
+          setDashboard(data);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err instanceof Error ? err.message : "Failed to load analytics overview.");
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    void loadOverview();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [dateRange, reloadToken]);
 
   return (
     <>
@@ -37,48 +72,72 @@ export function OverviewPage() {
         subtitle="Executive summary · Real-time traffic analytics & session insights"
         dateRange={dateRange}
         setDateRange={setDateRange}
+        onRefresh={() => setReloadToken((value) => value + 1)}
       />
 
-      {/* Core KPI Cards Grid */}
+      {error && (
+        <div className="card" style={{ padding: 16, marginBottom: 20, borderColor: "#fecaca", background: "#fff1f2", color: "#9f1239" }}>
+          {error}
+        </div>
+      )}
+
       <div className="kgrid kg5" style={{ marginBottom: 24, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
         <KpiCard
-          label={kpiData.totalVisitors.label}
-          value={kpiData.totalVisitors.value}
+          label="Total Visitors"
+          value={loading ? "Loading..." : formatCompactNumber(dashboard?.totalVisitors)}
           icon={Users}
           colorTheme="b"
           description="Total visits"
         />
         <KpiCard
-          label={kpiData.uniqueVisitors.label}
-          value={kpiData.uniqueVisitors.value}
+          label="Active Visitors"
+          value={loading ? "Loading..." : formatCompactNumber(dashboard?.activeVisitors)}
           icon={Target}
           colorTheme="t"
-          description="Unique session IDs"
+          description="Currently active users"
         />
         <KpiCard
-          label={kpiData.pageViews.label}
-          value={kpiData.pageViews.value}
+          label="Page Views"
+          value={loading ? "Loading..." : formatCompactNumber(dashboard?.pageViews)}
           icon={Eye}
           colorTheme="b"
           description="Total views"
         />
         <KpiCard
-          label={kpiData.avgSessionDuration.label}
-          value={kpiData.avgSessionDuration.value}
+          label="Avg Session Duration"
+          value={loading ? "Loading..." : formatDurationSeconds(dashboard?.averageSessionDuration)}
           icon={Clock}
           colorTheme="g"
           description="Avg time on platform"
         />
         <KpiCard
-          label={kpiData.bounceRate.label}
-          value={kpiData.bounceRate.value}
+          label="Bounce Rate"
+          value={loading ? "Loading..." : formatPercentage(dashboard?.bounceRate)}
           icon={Activity}
           colorTheme="w"
           description="Single page sessions"
         />
       </div>
 
-      {/* Single Clean Traffic Trend Chart */}
+      <div className="kgrid kg4" style={{ marginBottom: 24, gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
+        <div className="card" style={{ padding: 18 }}>
+          <div className="kl">New Visitors</div>
+          <div className="kn">{loading ? "..." : formatCompactNumber(dashboard?.newVisitors)}</div>
+        </div>
+        <div className="card" style={{ padding: 18 }}>
+          <div className="kl">Returning Visitors</div>
+          <div className="kn">{loading ? "..." : formatCompactNumber(dashboard?.returningVisitors)}</div>
+        </div>
+        <div className="card" style={{ padding: 18 }}>
+          <div className="kl">Conversion Rate</div>
+          <div className="kn">{loading ? "..." : formatPercentage(dashboard?.conversionRate)}</div>
+        </div>
+        <div className="card" style={{ padding: 18 }}>
+          <div className="kl">CTA Click Rate</div>
+          <div className="kn">{loading ? "..." : formatPercentage(dashboard?.ctaClickRate)}</div>
+        </div>
+      </div>
+
       <div className="card" style={{ padding: 24, marginBottom: 24 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20, flexWrap: "wrap", gap: 12 }}>
           <div>
@@ -86,36 +145,14 @@ export function OverviewPage() {
               Visitor Traffic Trend
             </div>
             <div style={{ fontSize: 13, color: "#64748b" }}>
-              Daily total visitors and session volume
+              Daily visitor trend for the selected date range
             </div>
-          </div>
-
-          <div style={{ display: "flex", gap: 6, background: "#f1f5f9", padding: 3, borderRadius: 8 }}>
-            {(["24H", "7D", "30D", "90D"] as const).map((tf) => (
-              <button
-                key={tf}
-                onClick={() => setTimeFilter(tf)}
-                style={{
-                  padding: "5px 12px",
-                  borderRadius: 6,
-                  fontSize: 12,
-                  fontWeight: 600,
-                  border: 0,
-                  background: timeFilter === tf ? "#ffffff" : "transparent",
-                  color: timeFilter === tf ? "var(--primary)" : "#64748b",
-                  boxShadow: timeFilter === tf ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
-                  cursor: "pointer"
-                }}
-              >
-                {tf}
-              </button>
-            ))}
           </div>
         </div>
 
         <div style={{ width: "100%", height: 340 }}>
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={activeTrendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+            <AreaChart data={dashboard?.visitorTrend || []} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorVisitors" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#3ac1ef" stopOpacity={0.35} />
@@ -123,7 +160,7 @@ export function OverviewPage() {
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-              <XAxis dataKey="time" stroke="#94a3b8" fontSize={11} tickLine={false} />
+              <XAxis dataKey="date" stroke="#94a3b8" fontSize={11} tickLine={false} />
               <YAxis stroke="#94a3b8" fontSize={11} tickLine={false} />
               <Tooltip
                 contentStyle={{

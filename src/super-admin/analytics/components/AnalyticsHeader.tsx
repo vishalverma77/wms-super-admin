@@ -35,8 +35,7 @@ export function AnalyticsHeader({
     "Yesterday",
     "Last 7 Days",
     "Last 30 Days",
-    "Last 90 Days",
-    "Custom Range"
+    "Last 90 Days"
   ];
 
   const handleRefreshClick = () => {

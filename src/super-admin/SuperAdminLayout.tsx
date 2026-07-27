@@ -62,7 +62,7 @@ const navItems = [
   },
   {
     path: "/analytics/landing-page",
-    label: "Landing Page",
+    label: "Landing Page Views",
     icon: (
       <svg viewBox="0 0 24 24">
         <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
@@ -101,7 +101,7 @@ const pageTitles: Record<string, string> = {
   "/plans": "Plan Management",
   "/analytics": "Analytics Overview",
   "/analytics/overview": "Analytics Overview",
-  "/analytics/landing-page": "Landing Page Analytics",
+  "/analytics/landing-page": "Landing Page Views",
   "/analytics/traffic-sources": "Traffic Sources",
   "/analytics/events": "Events Log",
 };
