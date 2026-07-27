@@ -3,7 +3,6 @@ import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/new-logo-dexo-glob.svg";
 import { useAppDispatch } from "../store/hooks";
 import { logout } from "../store/slices/authSlice";
-import "./styles/super-admin.css";
 
 const navItems = [
   { section: "Super Admin" },
