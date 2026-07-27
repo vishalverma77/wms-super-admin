@@ -48,6 +48,48 @@ const navItems = [
       </svg>
     ),
   },
+  { section: "Analytics" },
+  {
+    path: "/analytics/overview",
+    label: "Overview",
+    icon: (
+      <svg viewBox="0 0 24 24">
+        <rect x="2" y="3" width="20" height="14" rx="2" />
+        <line x1="8" y1="21" x2="16" y2="21" />
+        <line x1="12" y1="17" x2="12" y2="21" />
+      </svg>
+    )
+  },
+  {
+    path: "/analytics/landing-page",
+    label: "Landing Page Views",
+    icon: (
+      <svg viewBox="0 0 24 24">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+    )
+  },
+  {
+    path: "/analytics/traffic-sources",
+    label: "Traffic Sources",
+    icon: (
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="2" y1="12" x2="22" y2="12" />
+        <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+      </svg>
+    )
+  },
+  {
+    path: "/analytics/events",
+    label: "Events",
+    icon: (
+      <svg viewBox="0 0 24 24">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+      </svg>
+    )
+  }
 ];
 
 const pageTitles: Record<string, string> = {
@@ -56,6 +98,12 @@ const pageTitles: Record<string, string> = {
   "/subscriptions": "Subscriptions",
   "/revenue": "Revenue",
   "/contact-sales": "Contact Sales",
+  "/plans": "Plan Management",
+  "/analytics": "Analytics Overview",
+  "/analytics/overview": "Analytics Overview",
+  "/analytics/landing-page": "Landing Page Views",
+  "/analytics/traffic-sources": "Traffic Sources",
+  "/analytics/events": "Events Log",
 };
 
 export function SuperAdminLayout() {
@@ -158,22 +206,25 @@ export function SuperAdminLayout() {
 
       {/* ── Main ── */}
       <div id="main">
+        {/* Topbar */}
         <div id="topbar">
-          {/* Mobile hamburger */}
-          <button
-            className="mobile-nav-toggle"
-            onClick={() => setMobileOpen((v) => !v)}
-          >
+          <button className="mobile-nav-toggle" onClick={() => setMobileOpen((v) => !v)}>
             <svg viewBox="0 0 24 24">
-              <line x1="4" y1="6" x2="20" y2="6" />
-              <line x1="4" y1="12" x2="20" y2="12" />
-              <line x1="4" y1="18" x2="20" y2="18" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="18" x2="21" y2="18" />
             </svg>
           </button>
 
           <div id="tbt">{title}</div>
+
+          <div className="tbp">
+            <span className="tbd" />
+            <span>LIVE NETWORK</span>
+          </div>
         </div>
 
+        {/* Content Area */}
         <div id="content">
           <div className="pg">
             <Outlet />
