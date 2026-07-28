@@ -1,21 +1,25 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { SuperAdminLayout } from "./super-admin/SuperAdminLayout";
-import { Dashboard } from "./super-admin/pages/Dashboard";
-import { TrialUsers } from "./super-admin/pages/TrialUsers";
-import { Subscriptions } from "./super-admin/pages/Subscriptions";
-import { Revenue } from "./super-admin/pages/Revenue";
+import { SuperAdminLayout } from "./layout/view/SuperAdminLayout";
+import { Dashboard } from "./modules/dashboard/view/Dashboard";
+import { TrialUsers } from "./modules/trial-users/view/TrialUsers";
+import { Subscriptions } from "./modules/subscriptions/view/Subscriptions";
+import { Revenue } from "./modules/revenue/view/Revenue";
+import { Login } from "./modules/auth/view/Login";
 
-import { Login } from "./super-admin/pages/Login";
+// Domain Module Views
+import { OverviewPage } from "./modules/overview/view/OverviewPage";
+import { LandingPageAnalytics } from "./modules/landing/view/LandingPageAnalytics";
+import { TrafficSourcesPage } from "./modules/traffic/view/TrafficSourcesPage";
+import { EventsPage } from "./modules/events/view/EventsPage";
 
-// Analytics Pages
-import { OverviewPage } from "./super-admin/analytics/pages/OverviewPage";
-import { LandingPageAnalytics } from "./super-admin/analytics/pages/LandingPageAnalytics";
-import { TrafficSourcesPage } from "./super-admin/analytics/pages/TrafficSourcesPage";
-import { EventsPage } from "./super-admin/analytics/pages/EventsPage";
-
+import type { ReactNode } from "react";
 import { useAppSelector } from "./store/hooks";
 
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
+type ProtectedRouteProps = {
+  children: ReactNode;
+};
+
+function ProtectedRoute({ children }: ProtectedRouteProps) {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
@@ -42,12 +46,17 @@ function App() {
           <Route path="subscriptions" element={<Subscriptions />} />
           <Route path="revenue" element={<Revenue />} />
 
-
           {/* Analytics Submenu Routes */}
           <Route path="analytics" element={<OverviewPage />} />
           <Route path="analytics/overview" element={<OverviewPage />} />
-          <Route path="analytics/landing-page" element={<LandingPageAnalytics />} />
-          <Route path="analytics/traffic-sources" element={<TrafficSourcesPage />} />
+          <Route
+            path="analytics/landing-page"
+            element={<LandingPageAnalytics />}
+          />
+          <Route
+            path="analytics/traffic-sources"
+            element={<TrafficSourcesPage />}
+          />
           <Route path="analytics/events" element={<EventsPage />} />
         </Route>
       </Routes>
