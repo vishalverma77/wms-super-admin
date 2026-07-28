@@ -79,7 +79,7 @@ export function AnalyticsHeader({
 
       {/* Main Top Row */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-        <div className="pgh-l" style={{ minWidth: 240 }}>
+        <div className="pgh-l" style={{ minWidth: 0, flex: "1 1 200px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <h1>{title}</h1>
           </div>
@@ -87,14 +87,16 @@ export function AnalyticsHeader({
         </div>
 
         {/* Global Toolbar Actions */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", maxWidth: "100%" }}>
           {/* Search Input */}
           <div
             style={{
               position: "relative",
               display: "flex",
               alignItems: "center",
-              width: 220,
+              flex: "1 1 180px",
+              maxWidth: 260,
+              minWidth: 140,
               height: 38,
               background: "#fff",
               border: "1px solid #dbe4ef",

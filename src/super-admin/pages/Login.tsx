@@ -82,6 +82,14 @@ export function Login() {
               flex: none;
             }
           }
+          @media (max-width: 480px) {
+            .login-left {
+              padding: 24px 16px;
+            }
+            .login-right {
+              padding: 24px 16px;
+            }
+          }
           @keyframes spin {
             to { transform: rotate(360deg); }
           }

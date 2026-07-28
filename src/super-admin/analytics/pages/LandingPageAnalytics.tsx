@@ -145,8 +145,8 @@ export function LandingPageAnalytics() {
             const widthPct = landingFunnelBaseVisitors > 0
               ? idx === 0
                 ? 100
-                : Math.max((fn.visitors / landingFunnelBaseVisitors) * 100, 24)
-              : landingFunnelFallbackWidths[idx] ?? Math.max(24, 100 - idx * 12);
+                : Math.max((fn.visitors / landingFunnelBaseVisitors) * 100, 8)
+              : landingFunnelFallbackWidths[idx] ?? Math.max(8, 100 - idx * 12);
             const isTopStep = idx === 0;
             const isBottomStep = idx === landingPageFunnel.length - 1;
 
@@ -154,31 +154,47 @@ export function LandingPageAnalytics() {
               <div
                 key={fn.stage}
                 style={{
-                  display: "flex",
-                  justifyContent: "flex-start",
+                  position: "relative",
+                  width: "100%",
+                  borderRadius: 12,
+                  background: "#ffffff",
+                  border: isBottomStep ? "1px solid #16a34a" : "1px solid #dbe4f0",
+                  boxShadow: "0 4px 14px rgba(15, 23, 42, 0.04)",
+                  overflow: "hidden",
                 }}
               >
+                {/* Visual Progress Fill Overlay */}
                 <div
                   style={{
+                    position: "absolute",
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
                     width: `${Math.min(widthPct, 100)}%`,
-                    minWidth: 0,
-                    padding: "14px 18px",
-                    borderRadius: 12,
                     background: isTopStep
-                      ? "linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%)"
+                      ? "linear-gradient(90deg, rgba(58, 193, 239, 0.28) 0%, rgba(58, 193, 239, 0.12) 100%)"
                       : isBottomStep
-                        ? "linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)"
-                        : "#ffffff",
-                    border: isBottomStep ? "1px solid #16a34a" : "1px solid #dbe4f0",
-                    boxShadow: "0 6px 18px rgba(15, 23, 42, 0.05)",
+                        ? "linear-gradient(90deg, rgba(22, 163, 74, 0.28) 0%, rgba(22, 163, 74, 0.12) 100%)"
+                        : "linear-gradient(90deg, rgba(219, 228, 240, 0.65) 0%, rgba(241, 245, 249, 0.3) 100%)",
+                    borderRadius: 12,
+                    transition: "width 0.4s ease",
+                  }}
+                />
+
+                {/* Content Row */}
+                <div
+                  style={{
+                    position: "relative",
+                    zIndex: 1,
+                    padding: "14px 18px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    gap: 16,
-                    boxSizing: "border-box",
+                    gap: 12,
+                    flexWrap: "wrap",
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0, flex: "1 1 200px" }}>
                     <span
                       style={{
                         width: 28,
@@ -206,7 +222,7 @@ export function LandingPageAnalytics() {
                     </div>
                   </div>
 
-                  <div style={{ display: "flex", alignItems: "center", gap: 14, flexShrink: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0, marginLeft: "auto" }}>
                     <span style={{ fontSize: 13, fontWeight: 800, color: "#1a1a1a" }}>
                       {formatCompactNumber(fn.visitors)} visitors
                     </span>
@@ -221,7 +237,7 @@ export function LandingPageAnalytics() {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 24, marginBottom: 24 }}>
+      <div className="resp-grid-half" style={{ marginBottom: 24 }}>
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
             <div>
@@ -359,7 +375,7 @@ export function LandingPageAnalytics() {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+      <div className="resp-grid-half">
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
             <div>

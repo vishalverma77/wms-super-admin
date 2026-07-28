@@ -40,10 +40,10 @@ export function Dashboard() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 20, alignItems: 'start' }}>
+      <div className="resp-grid">
         
         {/* Main Panel */}
-        <div className="card" style={{ padding: '24px', minHeight: 400 }}>
+        <div className="card" style={{ padding: 'clamp(14px, 3vw, 24px)', minHeight: 360 }}>
           <div style={{ fontFamily: '"Outfit",sans-serif', fontWeight: 700, fontSize: 16, marginBottom: 20 }}>
             Revenue Growth
           </div>

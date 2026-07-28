@@ -250,7 +250,7 @@ export function Subscriptions() {
           alignItems: 'center',
           justifyContent: 'center',
           zIndex: 9999,
-          padding: '24px'
+          padding: '12px'
         }}>
           <div className="ent-modal-card" style={{ animation: 'modalFadeIn 0.2s ease-out' }}>
             <style>
@@ -262,8 +262,8 @@ export function Subscriptions() {
               `}
             </style>
             <div className="ent-modal-header">
-              <div>
-                <h2 style={{ margin: 0, fontSize: '1.5rem', color: 'var(--color-navy)', display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <h2 style={{ margin: 0, fontSize: 'clamp(16px, 3.5vw, 1.35rem)', color: 'var(--color-navy)', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                   Enterprise Pro Plan Requests
                   {newContactsCount > 0 && (
                     <span style={{ 
@@ -271,14 +271,14 @@ export function Subscriptions() {
                       color: 'var(--color-primary-strong)', 
                       padding: '2px 10px', 
                       borderRadius: '20px', 
-                      fontSize: '0.875rem', 
+                      fontSize: '0.8rem', 
                       fontWeight: 600 
                     }}>
                       {newContactsCount} New
                     </span>
                   )}
                 </h2>
-                <p style={{ margin: '6px 0 0 0', color: 'var(--color-muted)', fontSize: '0.95rem' }}>
+                <p style={{ margin: '4px 0 0 0', color: 'var(--color-muted)', fontSize: '0.875rem' }}>
                   List of leads that submitted the enterprise contact form from the landing page.
                 </p>
               </div>

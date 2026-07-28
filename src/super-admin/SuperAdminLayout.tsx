@@ -126,7 +126,6 @@ export function SuperAdminLayout() {
       <div
         id="sb"
         className={collapsed ? "collapsed" : ""}
-        style={{ position: "relative" }}
       >
         <button
           className="collapse-btn"

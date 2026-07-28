@@ -206,45 +206,45 @@ function TrialUserDetailModal({ user, onClose }: { user: MappedTrialUser, onClos
   return (
     <div style={{
       position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'rgba(15,30,53,0.5)', backdropFilter: 'blur(4px)', padding: 20
+      background: 'rgba(15,30,53,0.5)', backdropFilter: 'blur(4px)', padding: '12px'
     }} onClick={onClose}>
       <div className="card" style={{
-        width: '100%', maxWidth: 840, maxHeight: '90vh', overflowY: 'auto',
+        width: '100%', maxWidth: 840, maxHeight: '92vh', overflowY: 'auto',
         background: '#fff', borderRadius: 16, display: 'flex', flexDirection: 'column',
         boxShadow: '0 20px 40px rgba(0,0,0,0.1)'
       }} onClick={e => e.stopPropagation()}>
         
         {/* Modal Header */}
         <div className="pgh" style={{ 
-          margin: 0, padding: '24px', borderRadius: '16px 16px 0 0', position: 'sticky', 
+          margin: 0, padding: '16px 20px', borderRadius: '16px 16px 0 0', position: 'sticky', 
           top: 0, zIndex: 10, background: '#fff', borderBottom: '1px solid #f2f2f2',
-          boxShadow: 'none',
+          boxShadow: 'none', gap: 10
         }}>
-          <div className="pgh-l">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-              <span style={{ fontSize: 13, color: 'var(--primary)', fontWeight: 700 }}>Trial Details</span>
+          <div className="pgh-l" style={{ minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 12, color: 'var(--primary)', fontWeight: 700 }}>Trial Details</span>
               <span style={{ color: '#a8a5a0' }}>/</span>
-              <span style={{ fontSize: 13 }}>{user.name}</span>
+              <span style={{ fontSize: 12, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user.name}</span>
             </div>
-            <h1 style={{ fontFamily: '"Outfit",sans-serif', margin: 0, fontSize: 24, color: 'var(--tx)' }}>{user.name}</h1>
-            <p style={{ margin: 0, color: '#7a7876', fontSize: 13, marginTop: 4 }}>Trial User</p>
+            <h1 style={{ fontFamily: '"Outfit",sans-serif', margin: 0, fontSize: 'clamp(18px, 4vw, 24px)', color: 'var(--tx)', wordBreak: 'break-word' }}>{user.name}</h1>
+            <p style={{ margin: 0, color: '#7a7876', fontSize: 12, marginTop: 2 }}>Trial User</p>
           </div>
-          <div className="pgh-r" style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            <span className={`tag ${['Active', 'Trial Created'].includes(user.status) ? 't-green' : 't-gray'}`} style={{ fontSize: 13, padding: '5px 14px' }}>
+          <div className="pgh-r" style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0 }}>
+            <span className={`tag ${['Active', 'Trial Created'].includes(user.status) ? 't-green' : 't-gray'}`} style={{ fontSize: 12, padding: '4px 10px' }}>
               {user.status}
             </span>
-            <button onClick={onClose} style={{
-              background: '#f2f2f2', border: 'none', borderRadius: '50%', width: 36, height: 36,
+            <button onClick={onClose} aria-label="Close modal" style={{
+              background: '#f2f2f2', border: 'none', borderRadius: '50%', width: 34, height: 34,
               display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#4a4a4a',
-              transition: 'background 0.2s'
+              transition: 'background 0.2s', flexShrink: 0
             }} onMouseOver={e => e.currentTarget.style.background = '#e6eef2'} onMouseOut={e => e.currentTarget.style.background = '#f2f2f2'}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
           </div>
         </div>
 
         {/* Modal Content Area */}
-        <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <div style={{ padding: '16px 20px 24px', display: 'flex', flexDirection: 'column', gap: 20 }}>
           {/* KPI row */}
           <div className="kgrid kg4" style={{ marginBottom: 0 }}>
             <div className="kc kc-w">
@@ -269,7 +269,7 @@ function TrialUserDetailModal({ user, onClose }: { user: MappedTrialUser, onClos
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 20, alignItems: 'start' }}>
+          <div className="resp-grid">
             {/* ── Left column ── */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               
@@ -278,7 +278,7 @@ function TrialUserDetailModal({ user, onClose }: { user: MappedTrialUser, onClos
                 <div style={{ fontFamily: '"Outfit",sans-serif', fontWeight: 700, fontSize: 14, marginBottom: 16 }}>
                   Company Details
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
+                <div className="resp-grid-half-18">
                   {[
                     { label: 'Contact Person', value: user.contact },
                     { label: 'Email', value: user.email },
