@@ -19,7 +19,6 @@ import {
   Edit as EditIcon,
 } from "@mui/icons-material";
 import type { PlanCardListProps, GroupedPlan } from "../types";
-import { parsePlanColor } from "../utils";
 import "./index.css";
 
 const formatQuota = (val?: number) =>
