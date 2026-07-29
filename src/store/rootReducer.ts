@@ -6,6 +6,7 @@ import landingReducer from "../modules/landing/slice";
 import trafficReducer from "../modules/traffic/slice";
 import eventsReducer from "../modules/events/slice";
 import subscriptionsReducer from "../modules/subscriptions/slice";
+import plansReducer from "../modules/plans/slice";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,6 +16,7 @@ export const rootReducer = combineReducers({
   traffic: trafficReducer,
   events: eventsReducer,
   subscriptions: subscriptionsReducer,
+  plans: plansReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

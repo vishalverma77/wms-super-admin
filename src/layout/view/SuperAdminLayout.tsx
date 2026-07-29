@@ -49,9 +49,18 @@ const navItems: NavItem[] = [
       </svg>
     ),
   },
+  {
+    path: "/plans",
+    label: "Plan Management",
+    icon: (
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+      </svg>
+    ),
+  },
   { section: "Analytics" },
   {
-    path: "/analytics/overview",
+    path: "/overview",
     label: "Overview",
     icon: (
       <svg viewBox="0 0 24 24">
@@ -62,7 +71,7 @@ const navItems: NavItem[] = [
     ),
   },
   {
-    path: "/analytics/landing-page",
+    path: "/landing-page",
     label: "Landing Page Views",
     icon: (
       <svg viewBox="0 0 24 24">
@@ -72,7 +81,7 @@ const navItems: NavItem[] = [
     ),
   },
   {
-    path: "/analytics/traffic-sources",
+    path: "/traffic-sources",
     label: "Traffic Sources",
     icon: (
       <svg viewBox="0 0 24 24">
@@ -83,7 +92,7 @@ const navItems: NavItem[] = [
     ),
   },
   {
-    path: "/analytics/events",
+    path: "/events",
     label: "Events",
     icon: (
       <svg viewBox="0 0 24 24">
@@ -99,11 +108,10 @@ const pageTitles: Record<string, string> = {
   "/subscriptions": "Subscriptions",
   "/revenue": "Revenue",
   "/plans": "Plan Management",
-  "/analytics": "Analytics Overview",
-  "/analytics/overview": "Analytics Overview",
-  "/analytics/landing-page": "Landing Page Views",
-  "/analytics/traffic-sources": "Traffic Sources",
-  "/analytics/events": "Events Log",
+  "/overview": "Analytics Overview",
+  "/landing-page": "Landing Page Views",
+  "/traffic-sources": "Traffic Sources",
+  "/events": "Events Log",
 };
 
 export function SuperAdminLayout() {
