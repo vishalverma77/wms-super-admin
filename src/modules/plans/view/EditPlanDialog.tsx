@@ -16,15 +16,15 @@ import type {
   InputChangeEvent,
 } from "../types";
 import { PlanRatesSection } from "./PlanRatesSection";
-import { ColorCustomizerSection } from "./ColorCustomizerSection";
+// import { ColorCustomizerSection } from "./ColorCustomizerSection";
 import { PlanDetailsSection } from "./PlanDetailsSection";
-import {
-  generateColorShades,
-  combineColorShades,
-  createGradientString,
-  parsePlanColor,
-  isValidHex,
-} from "../utils";
+// import {
+//   generateColorShades,
+//   combineColorShades,
+//   createGradientString,
+//   parsePlanColor,
+//   isValidHex,
+// } from "../utils";
 import "./index.css";
 
 export function EditPlanDialog({
@@ -47,16 +47,16 @@ export function EditPlanDialog({
   );
 
   // Color state
-  const initialColors = parsePlanColor(
-    selectedGroupedPlan?.gradientColor ||
-      selectedGroupedPlan?.cardColor ||
-      selectedGroupedPlan?.color,
-    selectedGroupedPlan?.tier || selectedGroupedPlan?.name,
-  );
-  const [baseHex, setBaseHex] = useState<string>(initialColors.main);
-  const [lightColor, setLightColor] = useState<string>(initialColors.light);
-  const [mainColor, setMainColor] = useState<string>(initialColors.main);
-  const [darkColor, setDarkColor] = useState<string>(initialColors.dark);
+  // const initialColors = parsePlanColor(
+  //   selectedGroupedPlan?.gradientColor ||
+  //     selectedGroupedPlan?.cardColor ||
+  //     selectedGroupedPlan?.color,
+  //   selectedGroupedPlan?.tier || selectedGroupedPlan?.name,
+  // );
+  // const [baseHex, setBaseHex] = useState<string>(initialColors.main);
+  // const [lightColor, setLightColor] = useState<string>(initialColors.light);
+  // const [mainColor, setMainColor] = useState<string>(initialColors.main);
+  // const [darkColor, setDarkColor] = useState<string>(initialColors.dark);
   const [isPopular, setIsPopular] = useState<boolean>(
     Boolean(selectedGroupedPlan?.isPopular),
   );
@@ -68,29 +68,29 @@ export function EditPlanDialog({
       setYearlyDiscount(selectedGroupedPlan.yearlyDiscount ?? 0);
       setYearlyRate(selectedGroupedPlan.yearlyRate ?? "");
 
-      const parsed = parsePlanColor(
-        selectedGroupedPlan.gradientColor ||
-          selectedGroupedPlan.cardColor ||
-          selectedGroupedPlan.color,
-        selectedGroupedPlan.tier || selectedGroupedPlan.name,
-      );
-      setBaseHex(parsed.main);
-      setLightColor(parsed.light);
-      setMainColor(parsed.main);
-      setDarkColor(parsed.dark);
+      // const parsed = parsePlanColor(
+      //   selectedGroupedPlan.gradientColor ||
+      //     selectedGroupedPlan.cardColor ||
+      //     selectedGroupedPlan.color,
+      //   selectedGroupedPlan.tier || selectedGroupedPlan.name,
+      // );
+      // setBaseHex(parsed.main);
+      // setLightColor(parsed.light);
+      // setMainColor(parsed.main);
+      // setDarkColor(parsed.dark);
       setIsPopular(Boolean(selectedGroupedPlan.isPopular));
     }
   }, [selectedGroupedPlan]);
 
-  const handleBaseHexChange = (val: string) => {
-    setBaseHex(val);
-    if (isValidHex(val)) {
-      const generated = generateColorShades(val);
-      setLightColor(generated.light);
-      setMainColor(generated.main);
-      setDarkColor(generated.dark);
-    }
-  };
+  // const handleBaseHexChange = (val: string) => {
+  //   setBaseHex(val);
+  //   if (isValidHex(val)) {
+  //     const generated = generateColorShades(val);
+  //     setLightColor(generated.light);
+  //     setMainColor(generated.main);
+  //     setDarkColor(generated.dark);
+  //   }
+  // };
 
   const handleMonthlyChange = (e: InputChangeEvent) => {
     const val = e.target.value;
@@ -114,17 +114,17 @@ export function EditPlanDialog({
     setYearlyRate(calculatedYearly > 0 ? calculatedYearly.toFixed(2) : "0.00");
   };
 
-  const combinedCode = combineColorShades({
-    light: lightColor,
-    main: mainColor,
-    dark: darkColor,
-  });
+  // const combinedCode = combineColorShades({
+  //   light: lightColor,
+  //   main: mainColor,
+  //   dark: darkColor,
+  // });
 
-  const generatedGradient = createGradientString({
-    light: lightColor,
-    main: mainColor,
-    dark: darkColor,
-  });
+  // const generatedGradient = createGradientString({
+  //   light: lightColor,
+  //   main: mainColor,
+  //   dark: darkColor,
+  // });
 
   const handleSubmit = (event: FormSubmitEvent) => {
     event.preventDefault();
@@ -141,9 +141,9 @@ export function EditPlanDialog({
       monthlyRate: Number(monthlyRate) || 0,
       yearlyDiscount: Number(yearlyDiscount) || 0,
       yearlyRate: Number(yearlyRate) || 0,
-      color: mainColor,
-      cardColor: combinedCode,
-      gradientColor: generatedGradient,
+      // color: mainColor,
+      // cardColor: combinedCode,
+      // gradientColor: generatedGradient,
       isPopular,
     });
   };
@@ -228,7 +228,7 @@ export function EditPlanDialog({
               onDiscountChange={handleDiscountChange}
             />
 
-            <ColorCustomizerSection
+            {/* <ColorCustomizerSection
               baseHex={baseHex}
               lightColor={lightColor}
               mainColor={mainColor}
@@ -237,7 +237,7 @@ export function EditPlanDialog({
               onLightChange={setLightColor}
               onMainChange={setMainColor}
               onDarkChange={setDarkColor}
-            />
+            /> */}
 
             <PlanDetailsSection plan={selectedGroupedPlan} />
           </DialogContent>

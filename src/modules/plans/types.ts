@@ -2,22 +2,19 @@ import type React from "react";
 
 export type PlanType = "Monthly" | "Annually" | string;
 
-export interface PlanItem {
-  id: string;
-  name: string;
-  tier: string;
-  description: string;
-  monthlyRate: number | string;
-  yearlyDiscount: number | string;
-  yearlyRate: number | string;
-  razorpayMonthlyPlanId: string | null;
-  razorpayYearlyPlanId: string | null;
+export interface PlanLimits {
   maxWarehouses: number;
   maxUsers: number;
   maxSuppliers: number;
   maxSkus: number;
   maxPurchaseOrdersPerMonth: number;
   maxSalesOrdersPerMonth: number;
+  maxLabelPrintsPerMonth?: number;
+  maxStorageTransfersPerMonth?: number;
+  maxClients?: number;
+}
+
+export interface PlanModules {
   moduleInventoryManagement: boolean;
   moduleGrnPutaway: boolean;
   moduleLabelPrinting: boolean;
@@ -28,8 +25,39 @@ export interface PlanItem {
   moduleReturns: boolean;
   moduleCycleCounts: boolean;
   moduleProduction: boolean;
-  reportsTier?: string;
-  financeTier?: string;
+}
+
+export interface PlanTiers {
+  reportsTier: string;
+  financeTier: string;
+}
+
+export interface RazorpayPlanIds {
+  monthly: string | null;
+  yearly: string | null;
+}
+
+export interface PlanPricing {
+  monthlyRate: number;
+  yearlyRate: number;
+  yearlyDiscount: number;
+}
+
+export interface PlanItem {
+  id: string;
+  name: string;
+  tier: string;
+  description: string;
+  monthlyRate: number | string;
+  yearlyDiscount: number | string;
+  yearlyRate: number | string;
+  razorpayMonthlyPlanId: string | null;
+  razorpayYearlyPlanId: string | null;
+  razorpayPlanIds?: RazorpayPlanIds;
+  limits: PlanLimits;
+  modules: PlanModules;
+  tiers: PlanTiers;
+  pricing?: PlanPricing;
   color?: string;
   cardColor?: string;
   gradientColor?: string;
@@ -39,6 +67,7 @@ export interface PlanItem {
   type: PlanType;
   createdAt: string;
   updatedAt: string;
+  isCurrentPlan?: boolean;
 }
 
 export interface PlansState {
@@ -91,28 +120,16 @@ export interface GroupedPlan {
   yearlyDiscount: number;
   razorpayMonthlyPlanId: string | null;
   razorpayYearlyPlanId: string | null;
-  maxWarehouses: number;
-  maxUsers: number;
-  maxSuppliers: number;
-  maxSkus: number;
-  maxPurchaseOrdersPerMonth: number;
-  maxSalesOrdersPerMonth: number;
-  moduleInventoryManagement: boolean;
-  moduleGrnPutaway: boolean;
-  moduleLabelPrinting: boolean;
-  moduleBasicReports: boolean;
-  moduleTransferOrders: boolean;
-  moduleStockTransfers: boolean;
-  moduleDispatchManagement: boolean;
-  moduleReturns: boolean;
-  moduleCycleCounts: boolean;
-  moduleProduction: boolean;
-  reportsTier?: string;
-  financeTier?: string;
+  razorpayPlanIds?: RazorpayPlanIds;
+  limits: PlanLimits;
+  modules: PlanModules;
+  tiers: PlanTiers;
+  pricing?: PlanPricing;
   color?: string;
   cardColor?: string;
   gradientColor?: string;
   isPopular?: boolean;
+  isCurrentPlan?: boolean;
 }
 
 export interface PlanCardListProps {

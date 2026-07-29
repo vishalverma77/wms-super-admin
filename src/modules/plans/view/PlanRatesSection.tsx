@@ -1,4 +1,10 @@
-import { Box, Typography, TextField, Grid, InputAdornment } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  Grid,
+  InputAdornment,
+} from "@mui/material";
 import {
   Label as LabelIcon,
   Percent as PercentIcon,
@@ -19,7 +25,8 @@ export function PlanRatesSection({
   return (
     <Box className="plan-section-card-premium">
       <Typography className="plan-section-title-premium">
-        <TuneIcon sx={{ fontSize: 18, color: "#0284c7" }} /> Rates & Pricing Configuration
+        <TuneIcon sx={{ fontSize: 18, color: "#0284c7" }} /> Rates & Pricing
+        Configuration
       </Typography>
 
       <Box>
@@ -45,7 +52,7 @@ export function PlanRatesSection({
       <Grid container spacing={{ xs: 1.5, sm: 2 }}>
         <Grid item xs={12} sm={4}>
           <Typography variant="caption" className="plan-field-label">
-            Monthly Rate (₹)
+            Monthly Rate ($)
           </Typography>
           <TextField
             fullWidth
@@ -57,7 +64,7 @@ export function PlanRatesSection({
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <span className="plan-currency-symbol">₹</span>
+                  <span className="plan-currency-symbol">$</span>
                 </InputAdornment>
               ),
             }}
@@ -87,7 +94,7 @@ export function PlanRatesSection({
 
         <Grid item xs={12} sm={4}>
           <Typography variant="caption" className="plan-field-label">
-            Yearly Rate (₹) [Calculated]
+            Yearly Rate ($) [Calculated]
           </Typography>
           <TextField
             fullWidth
@@ -98,7 +105,7 @@ export function PlanRatesSection({
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <span className="plan-currency-symbol-disabled">₹</span>
+                  <span className="plan-currency-symbol-disabled">$</span>
                 </InputAdornment>
               ),
             }}
@@ -113,7 +120,7 @@ export function PlanRatesSection({
             Calculated Annual Billing
           </Typography>
           <Typography className="plan-rate-banner-amount-premium">
-            ₹{yearlyRate || 0} / year
+            ${yearlyRate || 0} / year
           </Typography>
         </Box>
         {Number(yearlyDiscount) > 0 && (

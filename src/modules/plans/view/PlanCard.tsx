@@ -34,7 +34,7 @@ export function PlanCard({
 }: PlanCardListProps) {
   return (
     <Grid container spacing={{ xs: 2.5, md: 3 }} alignItems="stretch">
-      {groupedPlans.map((plan: GroupedPlan) => {
+      {groupedPlans.map((plan: GroupedPlan, index: number) => {
         const tierLower = (plan.tier || plan.name).toLowerCase();
         const isEnterprise = tierLower.includes("enterprise");
         const isGrowth =
@@ -45,11 +45,44 @@ export function PlanCard({
         // Letter Avatar
         const letter = plan.name ? plan.name.charAt(0).toUpperCase() : "P";
 
-        // Parse custom gradient & 3-shade colors directly from API
-        const shades = parsePlanColor(
-          plan.gradientColor || plan.cardColor || plan.color,
-          plan.tier || plan.name,
-        );
+        // Hardcoded card styles based on index
+        let cardBackground = "";
+        let shades = { light: "", main: "", dark: "" };
+
+        if (index === 0) {
+          cardBackground =
+            "linear-gradient(135deg, #FFFFFF 0%, #F3FBFF 35%, #E6F7FF 70%, #D6F1FF 100%)";
+          shades = {
+            light: "#F3FBFF",
+            main: "#0284c7",
+            dark: "#0369a1",
+          };
+        } else if (index === 1) {
+          cardBackground =
+            "linear-gradient(135deg, #FFFFFF 0%, #F3FFF8 30%, #E0FCEB 65%, #C8F5D8 100%)";
+          shades = {
+            light: "#F3FFF8",
+            main: "#16a34a",
+            dark: "#15803d",
+          };
+        } else if (index === 2) {
+          cardBackground =
+            "linear-gradient(135deg, #FFFFFF 0%, #FAF8FF 30%, #F0E9FF 65%, #E5DBFF 100%)";
+          shades = {
+            light: "#FAF8FF",
+            main: "#7c3aed",
+            dark: "#6d28d9",
+          };
+        } else {
+          // If plan length > 2 then next card should be in primary color of theme (Blue)
+          cardBackground =
+            "linear-gradient(135deg, #FFFFFF 0%, #F3FBFF 35%, #E6F7FF 70%, #D6F1FF 100%)";
+          shades = {
+            light: "#F3FBFF",
+            main: "#0284c7",
+            dark: "#0369a1",
+          };
+        }
 
         // Popular state
         const isPopular = Boolean(plan.isPopular);
@@ -63,19 +96,27 @@ export function PlanCard({
         const quotas = [
           {
             label: "Warehouses",
-            val: formatQuota(plan.maxWarehouses),
+            val: formatQuota(plan.limits?.maxWarehouses),
             Icon: WarehouseIcon,
           },
-          { label: "Users", val: formatQuota(plan.maxUsers), Icon: PeopleIcon },
-          { label: "SKUs", val: formatQuota(plan.maxSkus), Icon: SkuIcon },
+          {
+            label: "Users",
+            val: formatQuota(plan.limits?.maxUsers),
+            Icon: PeopleIcon,
+          },
+          {
+            label: "SKUs",
+            val: formatQuota(plan.limits?.maxSkus),
+            Icon: SkuIcon,
+          },
           {
             label: "Suppliers",
-            val: formatQuota(plan.maxSuppliers),
+            val: formatQuota(plan.limits?.maxSuppliers),
             Icon: SupplierIcon,
           },
           {
             label: "POs/mo",
-            val: formatQuota(plan.maxPurchaseOrdersPerMonth),
+            val: formatQuota(plan.limits?.maxPurchaseOrdersPerMonth),
             Icon: OrderIcon,
           },
         ];
@@ -84,20 +125,26 @@ export function PlanCard({
         const features = [
           {
             name: "Inventory Management",
-            active: plan.moduleInventoryManagement,
+            active: plan.modules?.moduleInventoryManagement,
           },
-          { name: "GRN & Putaway", active: plan.moduleGrnPutaway },
-          { name: "Label Printing", active: plan.moduleLabelPrinting },
-          { name: "Basic Reports", active: plan.moduleBasicReports },
-          { name: "Transfer Orders", active: plan.moduleTransferOrders },
-          { name: "Stock Transfers", active: plan.moduleStockTransfers },
+          { name: "GRN & Putaway", active: plan.modules?.moduleGrnPutaway },
+          { name: "Label Printing", active: plan.modules?.moduleLabelPrinting },
+          { name: "Basic Reports", active: plan.modules?.moduleBasicReports },
+          {
+            name: "Transfer Orders",
+            active: plan.modules?.moduleTransferOrders,
+          },
+          {
+            name: "Stock Transfers",
+            active: plan.modules?.moduleStockTransfers,
+          },
           {
             name: "Dispatch Management",
-            active: plan.moduleDispatchManagement,
+            active: plan.modules?.moduleDispatchManagement,
           },
-          { name: "Returns & QC", active: plan.moduleReturns },
-          { name: "Cycle Counts", active: plan.moduleCycleCounts },
-          { name: "Production", active: plan.moduleProduction },
+          { name: "Returns & QC", active: plan.modules?.moduleReturns },
+          { name: "Cycle Counts", active: plan.modules?.moduleCycleCounts },
+          { name: "Production", active: plan.modules?.moduleProduction },
         ];
 
         return (
@@ -107,7 +154,7 @@ export function PlanCard({
               className={`exact-plan-card ${isPopular ? "popular-highlight" : ""}`}
               style={{
                 borderColor: isPopular ? shades.main : `${shades.main}40`,
-                background: `linear-gradient(180deg, ${shades.light} 0%, #ffffff 80%)`,
+                background: cardBackground,
                 boxShadow: isPopular
                   ? `0 12px 28px ${shades.main}25`
                   : undefined,
@@ -237,7 +284,7 @@ export function PlanCard({
                         className="exact-price-amount"
                         style={{ color: shades.dark || shades.main }}
                       >
-                        ₹
+                        $
                         {monthlyRateNum > 0
                           ? monthlyRateNum.toLocaleString("en-IN")
                           : "0"}
@@ -264,7 +311,7 @@ export function PlanCard({
                             fontSize: "0.775rem",
                           }}
                         >
-                          (₹{yearlyRateNum.toLocaleString("en-IN")} /year)
+                          (${yearlyRateNum.toLocaleString("en-IN")} /year)
                         </Typography>
                         {discountNum > 0 && (
                           <Typography className="exact-price-discount">

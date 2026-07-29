@@ -135,24 +135,39 @@ export function PlansPage() {
         yearlyDiscount: yDisc,
         razorpayMonthlyPlanId: plan.razorpayMonthlyPlanId || null,
         razorpayYearlyPlanId: plan.razorpayYearlyPlanId || null,
-        maxWarehouses: plan.maxWarehouses ?? 0,
-        maxUsers: plan.maxUsers ?? 0,
-        maxSuppliers: plan.maxSuppliers ?? 0,
-        maxSkus: plan.maxSkus ?? 0,
-        maxPurchaseOrdersPerMonth: plan.maxPurchaseOrdersPerMonth ?? 0,
-        maxSalesOrdersPerMonth: plan.maxSalesOrdersPerMonth ?? 0,
-        moduleInventoryManagement: Boolean(plan.moduleInventoryManagement),
-        moduleGrnPutaway: Boolean(plan.moduleGrnPutaway),
-        moduleLabelPrinting: Boolean(plan.moduleLabelPrinting),
-        moduleBasicReports: Boolean(plan.moduleBasicReports),
-        moduleTransferOrders: Boolean(plan.moduleTransferOrders),
-        moduleStockTransfers: Boolean(plan.moduleStockTransfers),
-        moduleDispatchManagement: Boolean(plan.moduleDispatchManagement),
-        moduleReturns: Boolean(plan.moduleReturns),
-        moduleCycleCounts: Boolean(plan.moduleCycleCounts),
-        moduleProduction: Boolean(plan.moduleProduction),
-        reportsTier: plan.reportsTier || "Basic",
-        financeTier: plan.financeTier || "Basic",
+        razorpayPlanIds: plan.razorpayPlanIds || {
+          monthly: plan.razorpayMonthlyPlanId || null,
+          yearly: plan.razorpayYearlyPlanId || null,
+        },
+        limits: plan.limits || {
+          maxWarehouses: 0,
+          maxUsers: 0,
+          maxSuppliers: 0,
+          maxSkus: 0,
+          maxPurchaseOrdersPerMonth: 0,
+          maxSalesOrdersPerMonth: 0,
+        },
+        modules: plan.modules || {
+          moduleInventoryManagement: false,
+          moduleGrnPutaway: false,
+          moduleLabelPrinting: false,
+          moduleBasicReports: false,
+          moduleTransferOrders: false,
+          moduleStockTransfers: false,
+          moduleDispatchManagement: false,
+          moduleReturns: false,
+          moduleCycleCounts: false,
+          moduleProduction: false,
+        },
+        tiers: plan.tiers || {
+          reportsTier: "Basic",
+          financeTier: "Basic",
+        },
+        pricing: plan.pricing || {
+          monthlyRate: mRate,
+          yearlyRate: yRate,
+          yearlyDiscount: yDisc,
+        },
         color: plan.color,
         cardColor: plan.cardColor || plan.color,
         gradientColor: plan.gradientColor,
@@ -163,13 +178,26 @@ export function PlansPage() {
       };
       groupedPlansMap.set(key, existing);
     } else {
-      if (mRate > 0) existing.monthlyRate = mRate;
-      if (yRate > 0) existing.yearlyRate = yRate;
-      if (yDisc > 0) existing.yearlyDiscount = yDisc;
-      if (plan.razorpayMonthlyPlanId)
+      if (mRate > 0) {
+        existing.monthlyRate = mRate;
+        if (existing.pricing) existing.pricing.monthlyRate = mRate;
+      }
+      if (yRate > 0) {
+        existing.yearlyRate = yRate;
+        if (existing.pricing) existing.pricing.yearlyRate = yRate;
+      }
+      if (yDisc > 0) {
+        existing.yearlyDiscount = yDisc;
+        if (existing.pricing) existing.pricing.yearlyDiscount = yDisc;
+      }
+      if (plan.razorpayMonthlyPlanId) {
         existing.razorpayMonthlyPlanId = plan.razorpayMonthlyPlanId;
-      if (plan.razorpayYearlyPlanId)
+        if (existing.razorpayPlanIds) existing.razorpayPlanIds.monthly = plan.razorpayMonthlyPlanId;
+      }
+      if (plan.razorpayYearlyPlanId) {
         existing.razorpayYearlyPlanId = plan.razorpayYearlyPlanId;
+        if (existing.razorpayPlanIds) existing.razorpayPlanIds.yearly = plan.razorpayYearlyPlanId;
+      }
       if (plan.cardColor || plan.color)
         existing.cardColor = plan.cardColor || plan.color;
       if (plan.gradientColor) existing.gradientColor = plan.gradientColor;

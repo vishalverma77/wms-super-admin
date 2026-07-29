@@ -25,39 +25,45 @@ export function PlanDetailsSection({ plan }: PlanDetailsSectionProps) {
   const quotas = [
     {
       label: "Max Warehouses",
-      val: fmtQ(plan.maxWarehouses),
+      val: fmtQ(plan.limits?.maxWarehouses),
       Icon: WarehouseIcon,
     },
-    { label: "Max Users", val: fmtQ(plan.maxUsers), Icon: PeopleIcon },
-    { label: "Max SKUs", val: fmtQ(plan.maxSkus), Icon: SkuIcon },
+    { label: "Max Users", val: fmtQ(plan.limits?.maxUsers), Icon: PeopleIcon },
+    { label: "Max SKUs", val: fmtQ(plan.limits?.maxSkus), Icon: SkuIcon },
     {
       label: "Max Suppliers",
-      val: fmtQ(plan.maxSuppliers),
+      val: fmtQ(plan.limits?.maxSuppliers),
       Icon: SupplierIcon,
     },
     {
       label: "Max POs / Month",
-      val: fmtQ(plan.maxPurchaseOrdersPerMonth),
+      val: fmtQ(plan.limits?.maxPurchaseOrdersPerMonth),
       Icon: PoIcon,
     },
     {
       label: "Max SOs / Month",
-      val: fmtQ(plan.maxSalesOrdersPerMonth),
+      val: fmtQ(plan.limits?.maxSalesOrdersPerMonth),
       Icon: SoIcon,
     },
   ];
 
   const modules = [
-    { name: "Inventory Management", active: plan.moduleInventoryManagement },
-    { name: "GRN & Putaway", active: plan.moduleGrnPutaway },
-    { name: "Label Printing", active: plan.moduleLabelPrinting },
-    { name: "Basic Reports", active: plan.moduleBasicReports },
-    { name: "Transfer Orders", active: plan.moduleTransferOrders },
-    { name: "Stock Transfers", active: plan.moduleStockTransfers },
-    { name: "Dispatch Management", active: plan.moduleDispatchManagement },
-    { name: "Returns Management", active: plan.moduleReturns },
-    { name: "Cycle Counts", active: plan.moduleCycleCounts },
-    { name: "Production Module", active: plan.moduleProduction },
+    {
+      name: "Inventory Management",
+      active: plan.modules?.moduleInventoryManagement,
+    },
+    { name: "GRN & Putaway", active: plan.modules?.moduleGrnPutaway },
+    { name: "Label Printing", active: plan.modules?.moduleLabelPrinting },
+    { name: "Basic Reports", active: plan.modules?.moduleBasicReports },
+    { name: "Transfer Orders", active: plan.modules?.moduleTransferOrders },
+    { name: "Stock Transfers", active: plan.modules?.moduleStockTransfers },
+    {
+      name: "Dispatch Management",
+      active: plan.modules?.moduleDispatchManagement,
+    },
+    { name: "Returns Management", active: plan.modules?.moduleReturns },
+    { name: "Cycle Counts", active: plan.modules?.moduleCycleCounts },
+    { name: "Production Module", active: plan.modules?.moduleProduction },
   ];
 
   return (
@@ -145,7 +151,7 @@ export function PlanDetailsSection({ plan }: PlanDetailsSectionProps) {
                   Reports Tier
                 </Typography>
                 <span className="plan-code-badge-premium" style={{ margin: 0 }}>
-                  {plan.reportsTier || "Basic"}
+                  {plan.tiers?.reportsTier || "Basic"}
                 </span>
               </Box>
               <Box
@@ -166,7 +172,7 @@ export function PlanDetailsSection({ plan }: PlanDetailsSectionProps) {
                   Finance Tier
                 </Typography>
                 <span className="plan-code-badge-premium" style={{ margin: 0 }}>
-                  {plan.financeTier || "Basic"}
+                  {plan.tiers?.financeTier || "Basic"}
                 </span>
               </Box>
             </Box>
@@ -198,7 +204,9 @@ export function PlanDetailsSection({ plan }: PlanDetailsSectionProps) {
                   Monthly Plan ID
                 </Typography>
                 <span className="plan-code-badge-premium" style={{ margin: 0 }}>
-                  {plan.razorpayMonthlyPlanId || "Not Configured"}
+                  {plan.razorpayPlanIds?.monthly ||
+                    plan.razorpayMonthlyPlanId ||
+                    "Not Configured"}
                 </span>
               </Box>
               <Box
@@ -219,7 +227,9 @@ export function PlanDetailsSection({ plan }: PlanDetailsSectionProps) {
                   Yearly Plan ID
                 </Typography>
                 <span className="plan-code-badge-premium" style={{ margin: 0 }}>
-                  {plan.razorpayYearlyPlanId || "Not Configured"}
+                  {plan.razorpayPlanIds?.yearly ||
+                    plan.razorpayYearlyPlanId ||
+                    "Not Configured"}
                 </span>
               </Box>
             </Box>
