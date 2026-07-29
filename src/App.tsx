@@ -4,6 +4,7 @@ import { Dashboard } from "./modules/dashboard/view/Dashboard";
 import { TrialUsers } from "./modules/trial-users/view/TrialUsers";
 import { Subscriptions } from "./modules/subscriptions/view/Subscriptions";
 import { Revenue } from "./modules/revenue/view/Revenue";
+import { PlansPage } from "./modules/plans/view/PlansPage";
 import { Login } from "./modules/auth/view/Login";
 
 // Domain Module Views
@@ -45,19 +46,18 @@ function App() {
           <Route path="trial-users" element={<TrialUsers />} />
           <Route path="subscriptions" element={<Subscriptions />} />
           <Route path="revenue" element={<Revenue />} />
+          <Route path="plans" element={<PlansPage />} />
 
-          {/* Analytics Submenu Routes */}
-          <Route path="analytics" element={<OverviewPage />} />
-          <Route path="analytics/overview" element={<OverviewPage />} />
+          <Route path="overview" element={<OverviewPage />} />
           <Route
-            path="analytics/landing-page"
+            path="landing-page"
             element={<LandingPageAnalytics />}
           />
           <Route
-            path="analytics/traffic-sources"
+            path="traffic-sources"
             element={<TrafficSourcesPage />}
           />
-          <Route path="analytics/events" element={<EventsPage />} />
+          <Route path="events" element={<EventsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
