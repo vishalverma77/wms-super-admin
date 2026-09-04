@@ -21,6 +21,7 @@ type SubscriptionTableProps = {
   loading: boolean;
   error: string | null;
   onRetry: () => void;
+  searchQuery?: string;
 };
 
 export function SubscriptionTable({
@@ -28,12 +29,30 @@ export function SubscriptionTable({
   loading,
   error,
   onRetry,
+  searchQuery,
 }: SubscriptionTableProps) {
   const getCustomerName = (sub: RazorpaySubscription) => {
     if (sub.notes?.companyName) return sub.notes.companyName;
     if (sub.notes?.customerName) return sub.notes.customerName;
     return "N/A";
   };
+
+  const filteredSubscriptions = subscriptions.filter((sub) => {
+    if (!searchQuery?.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    const customerName = getCustomerName(sub).toLowerCase();
+    const email = (sub.notes?.customerEmail || "").toLowerCase();
+    const subId = (sub.razorpaySubscriptionId || sub.id || "").toLowerCase();
+    const planId = (sub.razorpayPlanId || "").toLowerCase();
+    const status = (sub.status || "").toLowerCase();
+    return (
+      customerName.includes(q) ||
+      email.includes(q) ||
+      subId.includes(q) ||
+      planId.includes(q) ||
+      status.includes(q)
+    );
+  });
 
   const getInitials = (name: string) => {
     if (!name || name === "N/A") return "S";
@@ -105,7 +124,7 @@ export function SubscriptionTable({
       )}
 
       {/* Empty State Text */}
-      {!loading && !error && subscriptions.length === 0 && (
+      {!loading && !error && filteredSubscriptions.length === 0 && (
         <Box
           sx={{
             py: 6,
@@ -119,31 +138,33 @@ export function SubscriptionTable({
           }}
         >
           <Typography variant="body1" sx={{ color: "var(--tx2, #4a4a4a)", fontWeight: 500 }}>
-            No subscriptions found
+            {searchQuery ? `No subscriptions matching "${searchQuery}"` : "No subscriptions found"}
           </Typography>
           <Typography variant="body2" sx={{ color: "var(--tx3, #7a7876)", fontSize: "0.825rem" }}>
-            There are no subscriptions to display right now.
+            {searchQuery ? "Try adjusting your search criteria" : "There are no subscriptions to display right now."}
           </Typography>
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={onRetry}
-            sx={{
-              mt: 1,
-              textTransform: "none",
-              borderColor: "var(--bdr2, #e6eef2)",
-              color: "var(--tx2, #4a4a4a)",
-              fontSize: "0.8rem",
-              borderRadius: "6px",
-            }}
-          >
-            Refresh
-          </Button>
+          {!searchQuery && (
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={onRetry}
+              sx={{
+                mt: 1,
+                textTransform: "none",
+                borderColor: "var(--bdr2, #e6eef2)",
+                color: "var(--tx2, #4a4a4a)",
+                fontSize: "0.8rem",
+                borderRadius: "6px",
+              }}
+            >
+              Refresh
+            </Button>
+          )}
         </Box>
       )}
 
       {/* Subscription Table fitted to 100% width without horizontal scroll on desktop */}
-      {!loading && !error && subscriptions.length > 0 && (
+      {!loading && !error && filteredSubscriptions.length > 0 && (
         <TableContainer sx={{ width: "100%", overflowX: "auto" }}>
           <Table sx={{ width: "100%" }}>
             <TableHead sx={{ bgcolor: "var(--bg, #f9fbfe)" }}>
@@ -172,7 +193,7 @@ export function SubscriptionTable({
               </TableRow>
             </TableHead>
             <TableBody>
-              {subscriptions.map((row) => {
+              {filteredSubscriptions.map((row) => {
                 const customerName = getCustomerName(row);
                 const isActive = row.status?.toLowerCase() === "active";
 

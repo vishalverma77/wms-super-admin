@@ -25,6 +25,7 @@ export function EventsPage() {
   } = useAppSelector((state) => state.events);
   const [dateRange, setDateRange] = useState("Last 30 Days");
   const [filterEvent, setFilterEvent] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [reloadToken, setReloadToken] = useState(0);
   const itemsPerPage = 8;
@@ -35,6 +36,11 @@ export function EventsPage() {
     setCurrentPage(1);
   }, [dispatch, dateRange, reloadToken]);
 
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    setCurrentPage(1);
+  };
+
   if (loading && !events) {
     return (
       <>
@@ -43,6 +49,9 @@ export function EventsPage() {
           subtitle="Granular event tracking logs, section interactions, and device metadata."
           dateRange={dateRange}
           setDateRange={setDateRange}
+          searchQuery={searchQuery}
+          onSearchChange={handleSearchChange}
+          searchPlaceholder="Search event, page, device, country..."
         />
         <div
           className="card"
@@ -83,9 +92,26 @@ export function EventsPage() {
   }, [events]);
 
   const filteredEvents = useMemo(() => {
-    if (filterEvent === "All") return enrichedEvents;
-    return enrichedEvents.filter((e) => e.event === filterEvent);
-  }, [enrichedEvents, filterEvent]);
+    let list = enrichedEvents;
+    if (filterEvent !== "All") {
+      list = list.filter((e) => e.event === filterEvent);
+    }
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter((e) => {
+        return (
+          e.event?.toLowerCase().includes(q) ||
+          e.page?.toLowerCase().includes(q) ||
+          e.sectionName?.toLowerCase().includes(q) ||
+          e.device?.toLowerCase().includes(q) ||
+          e.browser?.toLowerCase().includes(q) ||
+          e.country?.toLowerCase().includes(q) ||
+          e.time?.toLowerCase().includes(q)
+        );
+      });
+    }
+    return list;
+  }, [enrichedEvents, filterEvent, searchQuery]);
 
   const totalPages = Math.max(
     1,
@@ -104,6 +130,9 @@ export function EventsPage() {
         subtitle="Granular event tracking logs, section interactions, and device metadata."
         dateRange={dateRange}
         setDateRange={setDateRange}
+        searchQuery={searchQuery}
+        onSearchChange={handleSearchChange}
+        searchPlaceholder="Search event, page, device, country..."
         onRefresh={() => setReloadToken((prev) => prev + 1)}
       />
 
@@ -237,7 +266,9 @@ export function EventsPage() {
                   >
                     {loading
                       ? "Loading event logs..."
-                      : "No events recorded for this selection."}
+                      : searchQuery
+                        ? `No events found matching "${searchQuery}".`
+                        : "No events recorded for this selection."}
                   </td>
                 </tr>
               )}

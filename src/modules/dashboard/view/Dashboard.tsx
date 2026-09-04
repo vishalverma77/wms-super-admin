@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Header } from "../../../components/Header";
 import type { RecentActivityItem } from "../types";
 
 export function Dashboard() {
+  const [searchQuery, setSearchQuery] = useState("");
+
   const recentActivity: RecentActivityItem[] = [
     {
       id: 1,
@@ -35,11 +38,24 @@ export function Dashboard() {
     },
   ];
 
+  const filteredActivity = recentActivity.filter((act) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      act.action.toLowerCase().includes(q) ||
+      act.time.toLowerCase().includes(q) ||
+      act.type.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <>
       <Header
         title="Overview Dashboard"
         subtitle="Global analytics · System health · Recent activity"
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search dashboard activity..."
       />
 
       <div className="kgrid kg4">
@@ -236,7 +252,7 @@ export function Dashboard() {
               Recent Activity
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              {recentActivity.map((act) => (
+              {filteredActivity.map((act) => (
                 <div key={act.id} style={{ display: "flex", gap: 12 }}>
                   <div
                     style={{
@@ -354,6 +370,11 @@ export function Dashboard() {
                   </div>
                 </div>
               ))}
+              {filteredActivity.length === 0 && (
+                <div style={{ textAlign: "center", padding: 20, color: "#8e9fab", fontSize: 13 }}>
+                  {searchQuery ? `No activity found matching "${searchQuery}".` : "No recent activity."}
+                </div>
+              )}
             </div>
           </div>
         </div>

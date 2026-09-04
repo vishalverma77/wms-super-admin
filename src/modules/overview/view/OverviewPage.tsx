@@ -29,12 +29,80 @@ export function OverviewPage() {
     error,
   } = useAppSelector((state) => state.overview);
   const [dateRange, setDateRange] = useState("Last 30 Days");
+  const [searchQuery, setSearchQuery] = useState("");
   const [reloadToken, setReloadToken] = useState(0);
 
   useEffect(() => {
     const range = resolveAnalyticsDateRange(dateRange);
     dispatch(fetchOverviewRequest(range));
   }, [dispatch, dateRange, reloadToken]);
+
+  const kpiCardsTop = [
+    {
+      label: "Total Visitors",
+      value: formatCompactNumber(dashboard?.totalVisitors),
+      description: "Unique visitors in period",
+      icon: Users,
+      colorTheme: "b" as const,
+    },
+    {
+      label: "Active Visitors",
+      value: formatCompactNumber(dashboard?.activeVisitors),
+      description: "Currently active / recent",
+      icon: Activity,
+      colorTheme: "g" as const,
+    },
+    {
+      label: "Page Views",
+      value: formatCompactNumber(dashboard?.pageViews),
+      description: `Sessions: ${formatCompactNumber(dashboard?.sessions)}`,
+      icon: Eye,
+      colorTheme: "t" as const,
+    },
+    {
+      label: "Avg Session Duration",
+      value: formatDurationSeconds(dashboard?.averageSessionDuration),
+      description: `Bounce Rate: ${formatPercentage(dashboard?.bounceRate)}`,
+      icon: Clock,
+      colorTheme: "w" as const,
+    },
+  ];
+
+  const kpiCardsBottom = [
+    {
+      label: "Conversion Rate",
+      value: formatPercentage(dashboard?.conversionRate),
+      description: "Goal completion ratio",
+      icon: Target,
+      colorTheme: "g" as const,
+    },
+    {
+      label: "CTA Click Rate",
+      value: formatPercentage(dashboard?.ctaClickRate),
+      description: "Primary call-to-action clicks",
+      icon: Target,
+      colorTheme: "b" as const,
+    },
+    {
+      label: "New vs Returning",
+      value: `${formatCompactNumber(dashboard?.newVisitors)} / ${formatCompactNumber(dashboard?.returningVisitors)}`,
+      description: "New visitors / Returning visitors",
+      icon: Users,
+      colorTheme: "t" as const,
+    },
+  ];
+
+  const filteredTop = kpiCardsTop.filter((c) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return c.label.toLowerCase().includes(q) || c.description.toLowerCase().includes(q) || String(c.value).toLowerCase().includes(q);
+  });
+
+  const filteredBottom = kpiCardsBottom.filter((c) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return c.label.toLowerCase().includes(q) || c.description.toLowerCase().includes(q) || String(c.value).toLowerCase().includes(q);
+  });
 
   if (loading && !dashboard) {
     return (
@@ -44,6 +112,9 @@ export function OverviewPage() {
           subtitle="General system metrics, user growth, sessions, and engagement."
           dateRange={dateRange}
           setDateRange={setDateRange}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          searchPlaceholder="Search analytics metrics..."
         />
         <div
           className="card"
@@ -83,6 +154,9 @@ export function OverviewPage() {
         subtitle="General system metrics, user growth, sessions, and engagement."
         dateRange={dateRange}
         setDateRange={setDateRange}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search analytics metrics..."
         onRefresh={() => setReloadToken((prev) => prev + 1)}
       />
 
@@ -102,60 +176,41 @@ export function OverviewPage() {
       ) : null}
 
       {/* KPI Cards */}
-      <div className="kgrid kg4" style={{ marginBottom: 24 }}>
-        <KpiCard
-          label="Total Visitors"
-          value={formatCompactNumber(dashboard?.totalVisitors)}
-          description="Unique visitors in period"
-          icon={Users}
-          colorTheme="b"
-        />
-        <KpiCard
-          label="Active Visitors"
-          value={formatCompactNumber(dashboard?.activeVisitors)}
-          description="Currently active / recent"
-          icon={Activity}
-          colorTheme="g"
-        />
-        <KpiCard
-          label="Page Views"
-          value={formatCompactNumber(dashboard?.pageViews)}
-          description={`Sessions: ${formatCompactNumber(dashboard?.sessions)}`}
-          icon={Eye}
-          colorTheme="t"
-        />
-        <KpiCard
-          label="Avg Session Duration"
-          value={formatDurationSeconds(dashboard?.averageSessionDuration)}
-          description={`Bounce Rate: ${formatPercentage(dashboard?.bounceRate)}`}
-          icon={Clock}
-          colorTheme="w"
-        />
-      </div>
+      {filteredTop.length > 0 && (
+        <div className="kgrid kg4" style={{ marginBottom: 24 }}>
+          {filteredTop.map((card, i) => (
+            <KpiCard
+              key={i}
+              label={card.label}
+              value={card.value}
+              description={card.description}
+              icon={card.icon}
+              colorTheme={card.colorTheme}
+            />
+          ))}
+        </div>
+      )}
 
-      <div className="kgrid kg3" style={{ marginBottom: 24 }}>
-        <KpiCard
-          label="Conversion Rate"
-          value={formatPercentage(dashboard?.conversionRate)}
-          description="Goal completion ratio"
-          icon={Target}
-          colorTheme="g"
-        />
-        <KpiCard
-          label="CTA Click Rate"
-          value={formatPercentage(dashboard?.ctaClickRate)}
-          description="Primary call-to-action clicks"
-          icon={Target}
-          colorTheme="b"
-        />
-        <KpiCard
-          label="New vs Returning"
-          value={`${formatCompactNumber(dashboard?.newVisitors)} / ${formatCompactNumber(dashboard?.returningVisitors)}`}
-          description="New visitors / Returning visitors"
-          icon={Users}
-          colorTheme="t"
-        />
-      </div>
+      {filteredBottom.length > 0 && (
+        <div className="kgrid kg3" style={{ marginBottom: 24 }}>
+          {filteredBottom.map((card, i) => (
+            <KpiCard
+              key={i}
+              label={card.label}
+              value={card.value}
+              description={card.description}
+              icon={card.icon}
+              colorTheme={card.colorTheme}
+            />
+          ))}
+        </div>
+      )}
+
+      {searchQuery && filteredTop.length === 0 && filteredBottom.length === 0 && (
+        <div className="card" style={{ padding: 32, textAlign: "center", color: "#64748b", marginBottom: 24 }}>
+          No metrics found matching &quot;{searchQuery}&quot;.
+        </div>
+      )}
 
       {/* Visitor Trend Chart */}
       <div className="card" style={{ padding: "20px 24px", marginBottom: 24 }}>

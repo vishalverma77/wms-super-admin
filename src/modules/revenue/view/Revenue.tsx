@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Header } from "../../../components/Header";
 import type { TransactionItem } from "../types";
 
@@ -59,11 +60,30 @@ const transactions: TransactionItem[] = [
 ];
 
 export function Revenue() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredTransactions = transactions.filter((tx) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      tx.id.toLowerCase().includes(q) ||
+      tx.client.toLowerCase().includes(q) ||
+      tx.plan.toLowerCase().includes(q) ||
+      tx.method.toLowerCase().includes(q) ||
+      tx.status.toLowerCase().includes(q) ||
+      tx.amount.toLowerCase().includes(q) ||
+      tx.date.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <>
       <Header
         title="Revenue"
         subtitle="MRR · ARR · Invoice tracking · Payment flow"
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search invoices, clients, payment status..."
       />
 
       <div className="kgrid kg4">
@@ -108,7 +128,7 @@ export function Revenue() {
               </tr>
             </thead>
             <tbody>
-              {transactions.map((tx) => (
+              {filteredTransactions.map((tx) => (
                 <tr key={tx.id}>
                   <td>
                     <span
@@ -172,6 +192,20 @@ export function Revenue() {
                   </td>
                 </tr>
               ))}
+              {filteredTransactions.length === 0 && (
+                <tr>
+                  <td
+                    colSpan={7}
+                    style={{
+                      textAlign: "center",
+                      padding: 40,
+                      color: "#8e9fab",
+                    }}
+                  >
+                    No invoices found matching &quot;{searchQuery}&quot;.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

@@ -40,6 +40,7 @@ export function LandingPageAnalytics() {
     error,
   } = useAppSelector((state) => state.landing);
   const [dateRange, setDateRange] = useState("Last 30 Days");
+  const [searchQuery, setSearchQuery] = useState("");
   const [reloadToken, setReloadToken] = useState(0);
 
   useEffect(() => {
@@ -55,6 +56,9 @@ export function LandingPageAnalytics() {
           subtitle="Performance, user engagement, and conversion funnel for your landing page."
           dateRange={dateRange}
           setDateRange={setDateRange}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          searchPlaceholder="Search sections, CTAs, services, paths..."
         />
         <div
           className="card"
@@ -152,7 +156,7 @@ export function LandingPageAnalytics() {
     },
   ];
 
-  const sectionAnalyticsList = Object.entries(
+  const rawSectionAnalyticsList = Object.entries(
     landing?.sectionAnalytics || {},
   ).map(([key, value]) => ({
     section: humanizeKey(key),
@@ -161,7 +165,12 @@ export function LandingPageAnalytics() {
     interactions: value.interactions,
   }));
 
-  const ctaPerformanceList = Object.entries(landing?.ctaPerformance || {}).map(
+  const sectionAnalyticsList = rawSectionAnalyticsList.filter((item) => {
+    if (!searchQuery.trim()) return true;
+    return item.section.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
+  const rawCtaPerformanceList = Object.entries(landing?.ctaPerformance || {}).map(
     ([key, value]) => ({
       name: humanizeKey(key),
       views: value.views,
@@ -171,7 +180,12 @@ export function LandingPageAnalytics() {
     }),
   );
 
-  const serviceInterestList = Object.entries(
+  const ctaPerformanceList = rawCtaPerformanceList.filter((item) => {
+    if (!searchQuery.trim()) return true;
+    return item.name.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
+  const rawServiceInterestList = Object.entries(
     landing?.serviceInterest || {},
   ).map(([key, value]) => ({
     service: humanizeKey(key),
@@ -180,6 +194,31 @@ export function LandingPageAnalytics() {
     ctr: formatPercentage(value.ctr),
   }));
 
+  const serviceInterestList = rawServiceInterestList.filter((item) => {
+    if (!searchQuery.trim()) return true;
+    return item.service.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
+  const mostViewedPages = (landing?.pagePerformance.mostViewedPages || []).filter(
+    (page) => {
+      if (!searchQuery.trim()) return true;
+      return (
+        page.path.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        humanizePath(page.path).toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    },
+  );
+
+  const leastViewedPages = (landing?.pagePerformance.leastViewedPages || []).filter(
+    (page) => {
+      if (!searchQuery.trim()) return true;
+      return (
+        page.path.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        humanizePath(page.path).toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    },
+  );
+
   return (
     <>
       <Header
@@ -187,6 +226,9 @@ export function LandingPageAnalytics() {
         subtitle="Performance, user engagement, and conversion funnel for your landing page."
         dateRange={dateRange}
         setDateRange={setDateRange}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search sections, CTAs, services, paths..."
         onRefresh={() => setReloadToken((prev) => prev + 1)}
       />
 
@@ -348,20 +390,25 @@ export function LandingPageAnalytics() {
                 </tr>
               </thead>
               <tbody>
-                {(landing?.pagePerformance.mostViewedPages || []).map(
-                  (page, i) => (
-                    <tr key={i}>
-                      <td style={{ fontWeight: 600 }}>
-                        {humanizePath(page.path)}
-                      </td>
-                      <td>{formatCompactNumber(page.views)}</td>
-                      <td>
-                        <span className="tag t-green">
-                          {formatCompactNumber(page.activeUsers)}
-                        </span>
-                      </td>
-                    </tr>
-                  ),
+                {mostViewedPages.map((page, i) => (
+                  <tr key={i}>
+                    <td style={{ fontWeight: 600 }}>
+                      {humanizePath(page.path)}
+                    </td>
+                    <td>{formatCompactNumber(page.views)}</td>
+                    <td>
+                      <span className="tag t-green">
+                        {formatCompactNumber(page.activeUsers)}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+                {mostViewedPages.length === 0 && (
+                  <tr>
+                    <td colSpan={3} style={{ textAlign: "center", padding: 20, color: "#94a3b8" }}>
+                      {searchQuery ? `No pages found matching "${searchQuery}".` : "No data"}
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
@@ -393,20 +440,25 @@ export function LandingPageAnalytics() {
                 </tr>
               </thead>
               <tbody>
-                {(landing?.pagePerformance.leastViewedPages || []).map(
-                  (page, i) => (
-                    <tr key={i}>
-                      <td style={{ fontWeight: 600 }}>
-                        {humanizePath(page.path)}
-                      </td>
-                      <td>{formatCompactNumber(page.views)}</td>
-                      <td>
-                        <span className="tag t-orange">
-                          {formatCompactNumber(page.activeUsers)}
-                        </span>
-                      </td>
-                    </tr>
-                  ),
+                {leastViewedPages.map((page, i) => (
+                  <tr key={i}>
+                    <td style={{ fontWeight: 600 }}>
+                      {humanizePath(page.path)}
+                    </td>
+                    <td>{formatCompactNumber(page.views)}</td>
+                    <td>
+                      <span className="tag t-orange">
+                        {formatCompactNumber(page.activeUsers)}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+                {leastViewedPages.length === 0 && (
+                  <tr>
+                    <td colSpan={3} style={{ textAlign: "center", padding: 20, color: "#94a3b8" }}>
+                      {searchQuery ? `No pages found matching "${searchQuery}".` : "No data"}
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
@@ -455,6 +507,13 @@ export function LandingPageAnalytics() {
                   </td>
                 </tr>
               ))}
+              {ctaPerformanceList.length === 0 && (
+                <tr>
+                  <td colSpan={5} style={{ textAlign: "center", padding: 20, color: "#94a3b8" }}>
+                    {searchQuery ? `No CTAs found matching "${searchQuery}".` : "No CTA performance data."}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -497,6 +556,13 @@ export function LandingPageAnalytics() {
                   </td>
                 </tr>
               ))}
+              {serviceInterestList.length === 0 && (
+                <tr>
+                  <td colSpan={4} style={{ textAlign: "center", padding: 20, color: "#94a3b8" }}>
+                    {searchQuery ? `No services found matching "${searchQuery}".` : "No service interest data."}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

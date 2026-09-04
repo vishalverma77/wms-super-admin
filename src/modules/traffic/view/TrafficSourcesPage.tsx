@@ -29,6 +29,7 @@ export function TrafficSourcesPage() {
     error,
   } = useAppSelector((state) => state.traffic);
   const [dateRange, setDateRange] = useState("Last 30 Days");
+  const [searchQuery, setSearchQuery] = useState("");
   const [reloadToken, setReloadToken] = useState(0);
 
   useEffect(() => {
@@ -44,6 +45,9 @@ export function TrafficSourcesPage() {
           subtitle="Channel attribution, geographic distribution, and device breakdowns."
           dateRange={dateRange}
           setDateRange={setDateRange}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          searchPlaceholder="Search traffic channels, countries, devices..."
         />
         <div
           className="card"
@@ -76,7 +80,7 @@ export function TrafficSourcesPage() {
     );
   }
 
-  const trafficSources = useMemo(() => {
+  const rawTrafficSources = useMemo(() => {
     const colorMap: Record<string, string> = {
       direct: "#3b82f6",
       organicSearch: "#10b981",
@@ -98,19 +102,42 @@ export function TrafficSourcesPage() {
     );
   }, [traffic]);
 
+  const trafficSources = useMemo(() => {
+    if (!searchQuery.trim()) return rawTrafficSources;
+    const q = searchQuery.toLowerCase();
+    return rawTrafficSources.filter((item) =>
+      item.name.toLowerCase().includes(q),
+    );
+  }, [rawTrafficSources, searchQuery]);
+
+  const rawCountries = traffic?.countries || [];
+  const filteredCountries = useMemo(() => {
+    if (!searchQuery.trim()) return rawCountries;
+    const q = searchQuery.toLowerCase();
+    return rawCountries.filter((c) =>
+      c.country.toLowerCase().includes(q),
+    );
+  }, [rawCountries, searchQuery]);
+
   const deviceData = useMemo(() => {
-    return Object.entries(traffic?.devices || {}).map(([key, value]) => ({
+    const list = Object.entries(traffic?.devices || {}).map(([key, value]) => ({
       name: key.charAt(0).toUpperCase() + key.slice(1),
       visitors: value,
     }));
-  }, [traffic]);
+    if (!searchQuery.trim()) return list;
+    const q = searchQuery.toLowerCase();
+    return list.filter((item) => item.name.toLowerCase().includes(q));
+  }, [traffic, searchQuery]);
 
   const browserData = useMemo(() => {
-    return Object.entries(traffic?.browsers || {}).map(([key, value]) => ({
+    const list = Object.entries(traffic?.browsers || {}).map(([key, value]) => ({
       name: key.charAt(0).toUpperCase() + key.slice(1),
       visitors: value,
     }));
-  }, [traffic]);
+    if (!searchQuery.trim()) return list;
+    const q = searchQuery.toLowerCase();
+    return list.filter((item) => item.name.toLowerCase().includes(q));
+  }, [traffic, searchQuery]);
 
   return (
     <>
@@ -119,6 +146,9 @@ export function TrafficSourcesPage() {
         subtitle="Channel attribution, geographic distribution, and device breakdowns."
         dateRange={dateRange}
         setDateRange={setDateRange}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search traffic channels, countries, devices..."
         onRefresh={() => setReloadToken((prev) => prev + 1)}
       />
 
@@ -270,23 +300,36 @@ export function TrafficSourcesPage() {
               </tr>
             </thead>
             <tbody>
-              {(traffic?.countries || []).map((row, i) => (
-                <tr key={i}>
-                  <td style={{ fontWeight: 600 }}>
-                    <span style={{ marginRight: 8, fontSize: "1.1rem" }}>
-                      {getCountryFlag(row.country)}
-                    </span>
-                    {row.country}
+              {filteredCountries.length > 0 ? (
+                filteredCountries.map((row, i) => (
+                  <tr key={i}>
+                    <td style={{ fontWeight: 600 }}>
+                      <span style={{ marginRight: 8, fontSize: "1.1rem" }}>
+                        {getCountryFlag(row.country)}
+                      </span>
+                      {row.country}
+                    </td>
+                    <td>{formatCompactNumber(row.visitors)}</td>
+                    <td>
+                      <span className="tag t-green">
+                        {formatCompactNumber(row.conversions)}
+                      </span>
+                    </td>
+                    <td>{formatDurationSeconds(row.averageSession)}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={4}
+                    style={{ textAlign: "center", padding: 24, color: "#94a3b8" }}
+                  >
+                    {searchQuery
+                      ? `No countries found matching "${searchQuery}".`
+                      : "No country data available."}
                   </td>
-                  <td>{formatCompactNumber(row.visitors)}</td>
-                  <td>
-                    <span className="tag t-green">
-                      {formatCompactNumber(row.conversions)}
-                    </span>
-                  </td>
-                  <td>{formatDurationSeconds(row.averageSession)}</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

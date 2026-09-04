@@ -26,6 +26,7 @@ export function PlansPage() {
 
   const [selectedGroupedPlan, setSelectedGroupedPlan] =
     useState<GroupedPlan | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
   const [snackbarMsg, setSnackbarMsg] = useState<string>("");
   const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
@@ -234,11 +235,25 @@ export function PlansPage() {
     }
   });
 
+  const filteredPlansList = groupedPlansList.filter((plan) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    const nameMatch = plan.name?.toLowerCase().includes(q);
+    const tierMatch = plan.tier?.toLowerCase().includes(q);
+    const descMatch = plan.description?.toLowerCase().includes(q);
+    const rateMatch =
+      String(plan.monthlyRate).includes(q) || String(plan.yearlyRate).includes(q);
+    return Boolean(nameMatch || tierMatch || descMatch || rateMatch);
+  });
+
   return (
     <>
       <Header
         title="Plan Management"
         subtitle="Manage subscription plans, rates, card color themes, and feature access."
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search plans, features, pricing..."
       />
 
       <Container
@@ -266,11 +281,17 @@ export function PlansPage() {
             <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
               <CircularProgress sx={{ color: "#3ac1ef" }} />
             </Box>
-          ) : groupedPlansList.length === 0 ? (
-            <EmptyPlansView />
+          ) : filteredPlansList.length === 0 ? (
+            searchQuery ? (
+              <Box sx={{ textAlign: "center", py: 8, color: "#64748b" }}>
+                No plans found matching &quot;{searchQuery}&quot;.
+              </Box>
+            ) : (
+              <EmptyPlansView />
+            )
           ) : (
             <PlanCard
-              groupedPlans={groupedPlansList}
+              groupedPlans={filteredPlansList}
               onSelectPlan={handleSelectPlan}
               onTogglePopular={handleTogglePopular}
             />
