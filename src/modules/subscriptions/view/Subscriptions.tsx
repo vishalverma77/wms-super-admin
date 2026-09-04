@@ -19,6 +19,7 @@ export function Subscriptions() {
 
   const [showEnterpriseContacts, setShowEnterpriseContacts] = useState(false);
   const [isBannerVisible, setIsBannerVisible] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     dispatch(fetchSubscriptionsRequest());
@@ -52,6 +53,9 @@ export function Subscriptions() {
       <Header
         title="Subscriptions"
         subtitle="Plan overview · Subscriber management · Retention tracking"
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search subscriptions..."
       />
 
       {/* Show banner ONLY if contactSales length > 0 */}
@@ -75,6 +79,7 @@ export function Subscriptions() {
         loading={loading}
         error={error}
         onRetry={() => dispatch(fetchSubscriptionsRequest())}
+        searchQuery={searchQuery}
       />
 
       <EnterpriseContactsModal

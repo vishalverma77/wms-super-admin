@@ -31,6 +31,7 @@ export function TrialUsers() {
   const [selectedUser, setSelectedUser] = useState<MappedTrialUser | null>(
     null,
   );
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     dispatch(fetchTrialUsersRequest());
@@ -76,6 +77,20 @@ export function TrialUsers() {
     };
   });
 
+  const filteredUsers = mappedUsers.filter((u) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      u.name.toLowerCase().includes(q) ||
+      u.email.toLowerCase().includes(q) ||
+      u.contact.toLowerCase().includes(q) ||
+      u.status.toLowerCase().includes(q) ||
+      u.plan.toLowerCase().includes(q) ||
+      u.phone.toLowerCase().includes(q) ||
+      u.notes.toLowerCase().includes(q)
+    );
+  });
+
   const active = mappedUsers.filter(
     (u) => u.status === "Trial Created" || u.status === "Active",
   ).length;
@@ -88,6 +103,9 @@ export function TrialUsers() {
       <Header
         title="Trial Users"
         subtitle="Monitor active trials · Expiry tracking · Conversion pipeline"
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search trial users..."
       />
 
       <div className="kgrid kg4">
@@ -141,7 +159,7 @@ export function TrialUsers() {
                 </tr>
               </thead>
               <tbody>
-                {mappedUsers.map((row) => (
+                {filteredUsers.map((row) => (
                   <tr
                     key={row.id}
                     style={{ cursor: "pointer" }}
@@ -232,7 +250,7 @@ export function TrialUsers() {
                     </td>
                   </tr>
                 ))}
-                {mappedUsers.length === 0 && (
+                {filteredUsers.length === 0 && (
                   <tr>
                     <td
                       colSpan={7}
@@ -242,7 +260,13 @@ export function TrialUsers() {
                         color: "#8e9fab",
                       }}
                     >
-                      No trial users found.
+                      {searchQuery ? (
+                        <div>
+                          No trial users found matching &quot;{searchQuery}&quot;.
+                        </div>
+                      ) : (
+                        "No trial users found."
+                      )}
                     </td>
                   </tr>
                 )}

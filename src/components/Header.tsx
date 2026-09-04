@@ -1,34 +1,51 @@
-import { useState } from "react";
-import {
-  Search,
-  Calendar,
-  RefreshCw,
-  Bell,
-  ChevronDown,
-  Sparkles,
-  Check,
-} from "lucide-react";
+import React, { useState, useRef } from "react";
+import { Search, Calendar, ChevronDown, Check, X } from "lucide-react";
 
 export interface HeaderProps {
   title: string;
   subtitle: string;
-  onRefresh?: () => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
+  searchPlaceholder?: string;
   dateRange?: string;
   setDateRange?: (range: string) => void;
+  onRefresh?: () => void;
+  children?: React.ReactNode;
 }
 
 export function Header({
   title,
   subtitle,
-  onRefresh,
+  searchQuery,
+  onSearchChange,
+  searchPlaceholder = "Search...",
   dateRange,
   setDateRange,
+  children,
 }: HeaderProps) {
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [localQuery, setLocalQuery] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isFocused, setIsFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const isControlled = searchQuery !== undefined;
+  const currentQuery = isControlled ? searchQuery : localQuery;
+
+  const handleQueryChange = (val: string) => {
+    if (!isControlled) {
+      setLocalQuery(val);
+    }
+    if (onSearchChange) {
+      onSearchChange(val);
+    }
+  };
+
+  const handleClear = () => {
+    handleQueryChange("");
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
 
   const dateOptions = [
     "Today",
@@ -38,166 +55,203 @@ export function Header({
     "Last 90 Days",
   ];
 
-  const handleRefreshClick = () => {
-    setIsRefreshing(true);
-    setToastMessage("Refreshing page data...");
-    if (onRefresh) onRefresh();
-    setTimeout(() => {
-      setIsRefreshing(false);
-      setToastMessage("Data updated live");
-      setTimeout(() => setToastMessage(null), 2500);
-    }, 800);
-  };
-
   return (
     <div
-      className="pgh"
+      className="pgh header-component"
       style={{
-        flexDirection: "column",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
         gap: 16,
-        alignItems: "stretch",
         marginBottom: 24,
+        flexWrap: "wrap",
       }}
     >
-      {/* Toast Notification */}
-      {toastMessage && (
-        <div
+      {/* Title & Subtitle */}
+      <div className="pgh-l" style={{ minWidth: 200, flex: "1 1 auto" }}>
+        <h1
           style={{
-            position: "fixed",
-            top: 20,
-            right: 24,
-            zIndex: 9999,
-            background: "#0f1e35",
-            color: "#fff",
-            padding: "10px 18px",
-            borderRadius: 8,
-            boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
-            fontSize: 13,
-            fontWeight: 600,
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            border: "1px solid var(--primary)",
+            fontSize: "1.45rem",
+            fontWeight: 700,
+            color: "var(--color-navy, #0f1e35)",
+            margin: 0,
+            letterSpacing: "-0.02em",
+            fontFamily: '"Outfit", sans-serif',
           }}
         >
-          <Sparkles size={16} color="var(--primary)" />
-          {toastMessage}
-        </div>
-      )}
+          {title}
+        </h1>
+        <p
+          style={{
+            margin: "4px 0 0",
+            fontSize: "0.82rem",
+            color: "var(--color-muted, #64748b)",
+            fontWeight: 500,
+          }}
+        >
+          {subtitle}
+        </p>
+      </div>
 
-      {/* Main Top Row */}
+      {/* Global Toolbar Actions (Always on one line) */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
-          gap: 16,
-          flexWrap: "wrap",
+          gap: 10,
+          flexWrap: "nowrap",
+          flexShrink: 0,
         }}
       >
-        <div className="pgh-l" style={{ minWidth: 0, flex: "1 1 200px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <h1>{title}</h1>
-          </div>
-          <p>{subtitle}</p>
-        </div>
-
-        {/* Global Toolbar Actions */}
+        {/* Working Search Bar */}
         <div
           style={{
+            position: "relative",
             display: "flex",
             alignItems: "center",
-            gap: 10,
-            flexWrap: "wrap",
-            maxWidth: "100%",
+            width: 240,
+            height: 38,
+            background: isFocused ? "#ffffff" : "#f8fafc",
+            border: isFocused
+              ? "1.5px solid var(--color-primary, #0ea5e9)"
+              : "1px solid #dbe4ef",
+            borderRadius: 8,
+            padding: "0 10px",
+            boxShadow: isFocused
+              ? "0 0 0 3px rgba(14, 165, 233, 0.15), 0 1px 2px rgba(0,0,0,0.04)"
+              : "0 1px 2px rgba(0,0,0,0.02)",
+            transition: "all 0.15s ease",
           }}
         >
-          {/* Search Input */}
-          <div
+          <Search
+            size={15}
+            color={isFocused ? "var(--color-primary, #0ea5e9)" : "#64748b"}
+            style={{ flexShrink: 0, marginRight: 8, transition: "color 0.15s" }}
+          />
+          <input
+            ref={inputRef}
+            type="text"
+            placeholder={searchPlaceholder}
+            value={currentQuery}
+            onChange={(e) => handleQueryChange(e.target.value)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
             style={{
-              position: "relative",
-              display: "flex",
-              alignItems: "center",
-              flex: "1 1 180px",
-              maxWidth: 260,
-              minWidth: 140,
-              height: 38,
-              background: "#fff",
-              border: "1px solid #dbe4ef",
-              borderRadius: 8,
-              padding: "0 10px",
-              boxShadow: "0 1px 2px rgba(0,0,0,0.03)",
+              width: "100%",
+              border: 0,
+              outline: 0,
+              fontSize: 12.5,
+              fontWeight: 500,
+              fontFamily: "inherit",
+              color: "#1e293b",
+              background: "transparent",
             }}
-          >
-            <Search
-              size={15}
-              color="#64748b"
-              style={{ flexShrink: 0, marginRight: 8 }}
-            />
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          {currentQuery ? (
+            <button
+              type="button"
+              onClick={handleClear}
+              title="Clear search"
               style={{
-                width: "100%",
                 border: 0,
-                outline: 0,
-                fontSize: 12,
-                fontWeight: 500,
-                fontFamily: "DM Sans, sans-serif",
-                color: "#1a1a1a",
-                background: "transparent",
+                background: "#e2e8f0",
+                borderRadius: "50%",
+                width: 16,
+                height: 16,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                color: "#64748b",
+                padding: 0,
+                flexShrink: 0,
+                marginLeft: 4,
+                transition: "background 0.15s",
               }}
-            />
-          </div>
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.background = "#cbd5e1")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.background = "#e2e8f0")
+              }
+            >
+              <X size={10} strokeWidth={2.5} />
+            </button>
+          ) : null}
+        </div>
 
-          {/* Date Range Picker Dropdown (if dateRange & setDateRange provided) */}
-          {dateRange && setDateRange ? (
-            <div style={{ position: "relative" }}>
-              <button
-                onClick={() => setShowDatePicker(!showDatePicker)}
+        {/* Date Range Picker Dropdown (if dateRange & setDateRange provided) */}
+        {dateRange && setDateRange ? (
+          <div style={{ position: "relative" }}>
+            <button
+              type="button"
+              onClick={() => setShowDatePicker(!showDatePicker)}
+              style={{
+                height: 38,
+                padding: "0 12px",
+                background: "#ffffff",
+                border: showDatePicker
+                  ? "1px solid var(--color-primary, #0ea5e9)"
+                  : "1px solid #dbe4ef",
+                borderRadius: 8,
+                display: "flex",
+                alignItems: "center",
+                gap: 7,
+                fontSize: 12,
+                fontWeight: 600,
+                color: "#334155",
+                cursor: "pointer",
+                boxShadow: "0 1px 2px rgba(0,0,0,0.03)",
+                transition: "all 0.15s ease",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <Calendar size={14} color="var(--color-primary, #0ea5e9)" />
+              <span>{dateRange}</span>
+              <ChevronDown
+                size={14}
+                color="#94a3b8"
                 style={{
-                  height: 38,
-                  padding: "0 12px",
-                  background: "#fff",
-                  border: "1px solid #dbe4ef",
-                  borderRadius: 8,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: "#4a4a4a",
-                  cursor: "pointer",
-                  boxShadow: "0 1px 2px rgba(0,0,0,0.03)",
+                  transform: showDatePicker ? "rotate(180deg)" : "rotate(0deg)",
+                  transition: "transform 0.15s ease",
                 }}
-              >
-                <Calendar size={14} color="var(--primary)" />
-                <span>{dateRange}</span>
-                <ChevronDown size={14} color="#64748b" />
-              </button>
+              />
+            </button>
 
-              {showDatePicker && (
+            {showDatePicker && (
+              <>
+                <div
+                  onClick={() => setShowDatePicker(false)}
+                  style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    zIndex: 190,
+                  }}
+                />
                 <div
                   style={{
                     position: "absolute",
-                    top: "105%",
+                    top: "calc(100% + 6px)",
                     right: 0,
                     zIndex: 200,
                     width: 170,
-                    background: "#fff",
+                    background: "#ffffff",
                     border: "1px solid #e2e8f0",
                     borderRadius: 8,
                     boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
-                    padding: "6px 0",
+                    padding: "4px 0",
                     display: "flex",
                     flexDirection: "column",
+                    overflow: "hidden",
                   }}
                 >
                   {dateOptions.map((opt) => (
                     <button
                       key={opt}
+                      type="button"
                       onClick={() => {
                         setDateRange(opt);
                         setShowDatePicker(false);
@@ -209,201 +263,67 @@ export function Header({
                         padding: "8px 14px",
                         fontSize: 12,
                         fontWeight: dateRange === opt ? 700 : 500,
-                        color: dateRange === opt ? "var(--primary)" : "#334155",
-                        background:
+                        color:
                           dateRange === opt
-                            ? "var(--primary-light)"
-                            : "transparent",
+                            ? "var(--color-primary, #0ea5e9)"
+                            : "#334155",
+                        background:
+                          dateRange === opt ? "#f0f9ff" : "transparent",
                         border: 0,
                         textAlign: "left",
                         cursor: "pointer",
+                        transition: "background 0.15s",
+                      }}
+                      onMouseEnter={(e) => {
+                        if (dateRange !== opt)
+                          e.currentTarget.style.background = "#f8fafc";
+                      }}
+                      onMouseLeave={(e) => {
+                        if (dateRange !== opt)
+                          e.currentTarget.style.background = "transparent";
                       }}
                     >
                       <span>{opt}</span>
                       {dateRange === opt && (
-                        <Check size={13} color="var(--primary)" />
+                        <Check
+                          size={13}
+                          color="var(--color-primary, #0ea5e9)"
+                        />
                       )}
                     </button>
                   ))}
                 </div>
-              )}
-            </div>
-          ) : null}
-
-          {/* Refresh Button */}
-          <button
-            onClick={handleRefreshClick}
-            title="Refresh data"
-            style={{
-              height: 38,
-              width: 38,
-              borderRadius: 8,
-              border: "1px solid #dbe4ef",
-              background: "#fff",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-              color: "#4a4a4a",
-              boxShadow: "0 1px 2px rgba(0,0,0,0.03)",
-              transition: "transform 0.2s",
-            }}
-          >
-            <RefreshCw
-              size={15}
-              style={{
-                animation: isRefreshing ? "spin 0.8s linear infinite" : "none",
-              }}
-            />
-          </button>
-
-          {/* Notification Icon */}
-          <div style={{ position: "relative" }}>
-            <button
-              onClick={() => setShowNotifications(!showNotifications)}
-              style={{
-                height: 38,
-                width: 38,
-                borderRadius: 8,
-                border: "1px solid #dbe4ef",
-                background: "#fff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                color: "#4a4a4a",
-                position: "relative",
-              }}
-            >
-              <Bell size={16} />
-              <span
-                style={{
-                  position: "absolute",
-                  top: 6,
-                  right: 6,
-                  width: 8,
-                  height: 8,
-                  borderRadius: "50%",
-                  background: "#be123c",
-                  border: "2px solid #fff",
-                }}
-              />
-            </button>
-
-            {showNotifications && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: "105%",
-                  right: 0,
-                  zIndex: 200,
-                  width: 280,
-                  background: "#fff",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: 10,
-                  boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
-                  padding: 14,
-                }}
-              >
-                <div
-                  style={{
-                    fontWeight: 700,
-                    fontSize: 13,
-                    color: "#0f1e35",
-                    marginBottom: 10,
-                  }}
-                >
-                  System Alerts (3)
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 10,
-                    fontSize: 12,
-                  }}
-                >
-                  <div
-                    style={{
-                      padding: "8px 10px",
-                      background: "var(--primary-light)",
-                      borderRadius: 6,
-                    }}
-                  >
-                    <div style={{ fontWeight: 600, color: "#1a1a1a" }}>
-                      System Update (+24%)
-                    </div>
-                    <div style={{ fontSize: 11, color: "#64748b" }}>
-                      Live network traffic normal
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      padding: "8px 10px",
-                      background: "#fff4e8",
-                      borderRadius: 6,
-                    }}
-                  >
-                    <div style={{ fontWeight: 600, color: "#b45309" }}>
-                      Subscription Alert
-                    </div>
-                    <div style={{ fontSize: 11, color: "#64748b" }}>
-                      New enterprise inquiries
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      padding: "8px 10px",
-                      background: "#e8f8ef",
-                      borderRadius: 6,
-                    }}
-                  >
-                    <div style={{ fontWeight: 600, color: "#15803d" }}>
-                      Target Reached
-                    </div>
-                    <div style={{ fontSize: 11, color: "#64748b" }}>
-                      Monthly revenue target achieved
-                    </div>
-                  </div>
-                </div>
-              </div>
+              </>
             )}
           </div>
+        ) : null}
 
-          {/* Admin Profile Pill */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              height: 38,
-              padding: "0 10px",
-              background: "#fff",
-              border: "1px solid #dbe4ef",
-              borderRadius: 8,
-            }}
-          >
-            <div
-              style={{
-                width: 24,
-                height: 24,
-                borderRadius: "50%",
-                background: "var(--primary)",
-                color: "#fff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 11,
-                fontWeight: 700,
-              }}
-            >
-              SA
-            </div>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#0f1e35" }}>
-              Super Admin
-            </span>
-          </div>
+        {/* Clean Avatar Circle (No box wrapper) */}
+        <div
+          title="Super Admin Account"
+          style={{
+            width: 36,
+            height: 36,
+            borderRadius: "50%",
+            background: "linear-gradient(135deg, #0284c7 0%, #38bdf8 100%)",
+            color: "#ffffff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 12,
+            fontWeight: 700,
+            letterSpacing: "0.5px",
+            boxShadow: "0 2px 6px rgba(2, 132, 199, 0.25)",
+            border: "2px solid #ffffff",
+            flexShrink: 0,
+            cursor: "default",
+          }}
+        >
+          SA
         </div>
+
+        {/* Optional extra page actions */}
+        {children}
       </div>
     </div>
   );

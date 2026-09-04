@@ -134,21 +134,6 @@ export function SuperAdminLayout() {
     <div className={`sa-root${mobileOpen ? " sb-open" : ""}`}>
       {/* ── Sidebar ── */}
       <div id="sb" className={collapsed ? "collapsed" : ""}>
-        <button
-          className="collapse-btn"
-          onClick={() => setCollapsed((v) => !v)}
-        >
-          {collapsed ? (
-            <svg viewBox="0 0 24 24">
-              <path d="M9 18l6-6-6-6" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24">
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
-          )}
-        </button>
-
         <div
           style={{
             width: "100%",
@@ -158,8 +143,19 @@ export function SuperAdminLayout() {
             flexDirection: "column",
           }}
         >
-          <div className="sbh p_relative">
+          <div className="sbh">
             <img className="sblogo" src={logo} alt="DexoGlob" />
+            <button
+              type="button"
+              className="collapse-btn"
+              onClick={() => setCollapsed(true)}
+              title="Collapse sidebar"
+              aria-label="Collapse sidebar"
+            >
+              <svg viewBox="0 0 24 24">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
           </div>
 
           <div className="sbu">
@@ -213,8 +209,10 @@ export function SuperAdminLayout() {
         {/* Topbar */}
         <div id="topbar">
           <button
+            type="button"
             className="mobile-nav-toggle"
             onClick={() => setMobileOpen((v) => !v)}
+            aria-label="Toggle navigation menu"
           >
             <svg viewBox="0 0 24 24">
               <line x1="3" y1="12" x2="21" y2="12" />
@@ -222,6 +220,20 @@ export function SuperAdminLayout() {
               <line x1="3" y1="18" x2="21" y2="18" />
             </svg>
           </button>
+
+          {collapsed && (
+            <button
+              type="button"
+              className="collapse-btn-expand"
+              onClick={() => setCollapsed(false)}
+              title="Expand sidebar"
+              aria-label="Expand sidebar"
+            >
+              <svg viewBox="0 0 24 24">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          )}
 
           <div id="tbt">{title}</div>
 
