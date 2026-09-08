@@ -13,19 +13,26 @@ const getToken = (state: RootState) => state.auth.token;
 function* handleFetchRevenue(): Generator<any, any, any> {
   try {
     const token: string | null = yield select(getToken);
-    const authHeaderToken = token || localStorage.getItem("token");
+    const authHeaderToken =
+      token ||
+      localStorage.getItem("token") ||
+      localStorage.getItem("superAdminToken") ||
+      localStorage.getItem("authToken");
 
     const response = (yield call(
       [apiClient, apiClient.get],
       REVENUE_ENDPOINTS.stats,
       {
         headers: {
-          ...(authHeaderToken ? { Authorization: `Bearer ${authHeaderToken}` } : {}),
+          ...(authHeaderToken
+            ? { Authorization: `Bearer ${authHeaderToken}` }
+            : {}),
         },
       },
     )) as { data: any };
 
-    yield put(fetchRevenueSuccess(response.data));
+    const payload = response.data?.data || response.data || {};
+    yield put(fetchRevenueSuccess(payload));
   } catch (error: unknown) {
     const err = error as { response?: { data?: { message?: string } } };
     const errorMessage =
