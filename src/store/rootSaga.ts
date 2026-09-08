@@ -7,6 +7,7 @@ import { trafficSaga } from "../modules/traffic/saga";
 import { eventsSaga } from "../modules/events/saga";
 import { subscriptionsSaga } from "../modules/subscriptions/saga";
 import { plansSaga } from "../modules/plans/sagas";
+import { revenueSaga } from "../modules/revenue/sagas";
 
 export function* rootSaga(): Generator<any, any, any> {
   yield all([
@@ -18,5 +19,6 @@ export function* rootSaga(): Generator<any, any, any> {
     fork(eventsSaga),
     fork(subscriptionsSaga),
     fork(plansSaga),
+    fork(revenueSaga),
   ]);
 }

@@ -1,5 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Header } from "../../../components/Header";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { fetchRevenueRequest } from "../slice";
 import type { TransactionItem } from "../types";
 import {
   Receipt,
@@ -14,17 +16,40 @@ import {
   XCircle,
   Sparkles,
   Calendar,
+  Layers,
 } from "lucide-react";
-import { Box, Paper, Typography, Avatar, Chip } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Typography,
+  Avatar,
+  Chip,
+  CircularProgress,
+  Alert,
+  Button,
+} from "@mui/material";
 
 export function Revenue() {
-  // Dynamic state without any hardcoded transaction records
-  const [transactions] = useState<TransactionItem[]>([]);
+  const dispatch = useAppDispatch();
+  const { data: revenueData, loading, error } = useAppSelector(
+    (state) => state.revenue,
+  );
+
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("All");
 
-  // Helper to safely parse numeric value from amount (e.g. "$499.00", "499", or 499)
-  const parseAmount = (amount: string | number): number => {
+  // Trigger API call immediately on component mount
+  useEffect(() => {
+    dispatch(fetchRevenueRequest());
+  }, [dispatch]);
+
+  // Extract transactions from API response (or empty array)
+  const transactions: TransactionItem[] = useMemo(() => {
+    return revenueData?.transactions || [];
+  }, [revenueData]);
+
+  // Helper to safely parse numeric value from amount
+  const parseAmount = (amount: string | number | undefined): number => {
     if (typeof amount === "number") return isNaN(amount) ? 0 : amount;
     if (!amount) return 0;
     const cleaned = amount.toString().replace(/[^0-9.-]+/g, "");
@@ -42,41 +67,51 @@ export function Revenue() {
     }).format(val);
   };
 
-  // Dynamically computed metrics
+  // Dynamically computed metrics using API summary data with fallback to transaction item calculations
   const stats = useMemo(() => {
-    let mrr = 0;
-    let pendingAmount = 0;
-    let pendingCount = 0;
-    let failedAmount = 0;
-    let failedCount = 0;
+    let calculatedPaid = 0;
+    let calculatedPending = 0;
+    let calculatedPendingCount = 0;
+    let calculatedFailed = 0;
+    let calculatedFailedCount = 0;
 
     transactions.forEach((tx) => {
       const amt = parseAmount(tx.amount);
       const statusLower = (tx.status || "").toLowerCase();
 
-      if (statusLower === "paid") {
-        mrr += amt;
+      if (statusLower === "paid" || statusLower === "active") {
+        calculatedPaid += amt;
       } else if (statusLower === "pending") {
-        pendingAmount += amt;
-        pendingCount += 1;
+        calculatedPending += amt;
+        calculatedPendingCount += 1;
       } else if (statusLower === "failed") {
-        failedAmount += amt;
-        failedCount += 1;
+        calculatedFailed += amt;
+        calculatedFailedCount += 1;
       }
     });
 
-    const arr = mrr * 12;
+    const mrr = revenueData?.mrr !== undefined ? revenueData.mrr : calculatedPaid;
+    const arr = revenueData?.arr !== undefined ? revenueData.arr : mrr * 12;
+    const pendingAmount =
+      revenueData?.pendingRevenue !== undefined
+        ? revenueData.pendingRevenue
+        : calculatedPending;
+    const failedAmount =
+      revenueData?.failedRevenue !== undefined
+        ? revenueData.failedRevenue
+        : calculatedFailed;
 
     return {
       mrr,
       arr,
       pendingAmount,
-      pendingCount,
+      pendingCount: calculatedPendingCount,
       failedAmount,
-      failedCount,
+      failedCount: calculatedFailedCount,
       totalCount: transactions.length,
+      planBreakdown: revenueData?.planBreakdown || [],
     };
-  }, [transactions]);
+  }, [transactions, revenueData]);
 
   // Filtered transactions based on search query and status tab
   const filteredTransactions = useMemo(() => {
@@ -123,7 +158,7 @@ export function Revenue() {
 
   const getStatusBadge = (status: string) => {
     const s = (status || "").toLowerCase();
-    if (s === "paid") {
+    if (s === "paid" || s === "active") {
       return (
         <span
           style={{
@@ -139,7 +174,7 @@ export function Revenue() {
           }}
         >
           <CheckCircle2 size={12} />
-          Paid
+          {status || "Paid"}
         </span>
       );
     }
@@ -201,6 +236,26 @@ export function Revenue() {
         onSearchChange={setSearchQuery}
         searchPlaceholder="Search invoices, clients, payment status..."
       />
+
+      {/* Error Alert */}
+      {error && !loading && (
+        <Alert
+          severity="error"
+          action={
+            <Button
+              color="inherit"
+              size="small"
+              onClick={() => dispatch(fetchRevenueRequest())}
+              sx={{ fontWeight: 600, textTransform: "none" }}
+            >
+              Retry
+            </Button>
+          }
+          sx={{ borderRadius: "8px", fontSize: "0.85rem" }}
+        >
+          {error}
+        </Alert>
+      )}
 
       {/* Responsive KPI Summary Cards Grid */}
       <Box
@@ -492,6 +547,65 @@ export function Revenue() {
         </Paper>
       </Box>
 
+      {/* Plan Breakdown Section if available */}
+      {stats.planBreakdown && stats.planBreakdown.length > 0 && (
+        <Paper
+          elevation={0}
+          sx={{
+            background: "var(--color-surface, #ffffff)",
+            border: "1px solid var(--bdr2, #e6eef2)",
+            borderRadius: "12px",
+            p: 2,
+            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
+            <Layers size={16} color="var(--blue, #3ac1ef)" />
+            <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "var(--tx, #1a1a1a)" }}>
+              Revenue by Subscription Plan
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr",
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
+              },
+              gap: 1.5,
+            }}
+          >
+            {stats.planBreakdown.map((plan, idx) => (
+              <Box
+                key={idx}
+                sx={{
+                  p: 1.5,
+                  borderRadius: "8px",
+                  border: "1px solid var(--bdr2, #e6eef2)",
+                  background: "var(--bg, #f9fbfe)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Box>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: "var(--tx, #1a1a1a)" }}>
+                    {plan.planName}
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: "var(--tx3, #7a7876)" }}>
+                    {plan.activeCount} active subscribers
+                  </Typography>
+                </Box>
+                <Typography variant="body2" sx={{ fontWeight: 700, color: "var(--color-primary-strong, #1597c6)" }}>
+                  {formatCurrency(plan.mrr || plan.totalRevenue || 0)}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        </Paper>
+      )}
+
       {/* Main Content Area */}
       <Paper
         elevation={0}
@@ -600,8 +714,27 @@ export function Revenue() {
           )}
         </Box>
 
+        {/* Loading State Spinner */}
+        {loading && (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              py: 8,
+              gap: 1.5,
+            }}
+          >
+            <CircularProgress size={32} sx={{ color: "var(--color-primary, #3ac1ef)" }} />
+            <Typography variant="body2" sx={{ color: "var(--tx3, #7a7876)", fontSize: "0.85rem" }}>
+              Fetching latest revenue & transaction data...
+            </Typography>
+          </Box>
+        )}
+
         {/* State 1: No Data at all (Empty State Card) */}
-        {transactions.length === 0 && (
+        {!loading && transactions.length === 0 && (
           <Box
             sx={{
               py: { xs: 6, sm: 8 },
@@ -726,7 +859,7 @@ export function Revenue() {
         )}
 
         {/* State 2: Has Data, but Filter/Search produces 0 results */}
-        {transactions.length > 0 && filteredTransactions.length === 0 && (
+        {!loading && transactions.length > 0 && filteredTransactions.length === 0 && (
           <Box
             sx={{
               py: 6,
@@ -806,7 +939,7 @@ export function Revenue() {
         )}
 
         {/* State 3: Transactions Data (Desktop Table + Mobile Cards) */}
-        {filteredTransactions.length > 0 && (
+        {!loading && filteredTransactions.length > 0 && (
           <>
             {/* Desktop Table View (sm and up) */}
             <Box
