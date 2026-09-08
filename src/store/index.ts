@@ -26,11 +26,13 @@ const storage = {
 };
 import authReducer from './slices/authSlice';
 import trialUsersReducer from './slices/trialUsersSlice';
+import revenueReducer from './slices/revenueSlice';
 import { rootSaga } from './sagas/rootSaga';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   trialUsers: trialUsersReducer,
+  revenue: revenueReducer,
 });
 
 const persistConfig = {

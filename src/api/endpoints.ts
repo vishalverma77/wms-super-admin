@@ -6,5 +6,6 @@ export const ENDPOINTS = {
   },
   users: {
     trialUsers: `${BASE_URL}/api/v1/super-admin/trial-users`,
-  }
+  },
+  revenue: `${BASE_URL}/api/v1/super-admin/revenue`,
 };
