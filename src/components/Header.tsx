@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Search, Calendar, ChevronDown, Check, X } from "lucide-react";
+import { COLORS, withAlpha } from "../constants/colors";
 
 export interface HeaderProps {
   title: string;
@@ -73,7 +74,7 @@ export function Header({
           style={{
             fontSize: "1.45rem",
             fontWeight: 700,
-            color: "var(--color-navy, #0f1e35)",
+            color: "var(--color-navy, #0f172a)",
             margin: 0,
             letterSpacing: "-0.02em",
             fontFamily: '"Outfit", sans-serif',
@@ -113,19 +114,19 @@ export function Header({
             height: 38,
             background: isFocused ? "#ffffff" : "#f8fafc",
             border: isFocused
-              ? "1.5px solid var(--color-primary, #0ea5e9)"
+              ? `1.5px solid ${COLORS.primary}`
               : "1px solid #dbe4ef",
             borderRadius: 8,
             padding: "0 10px",
             boxShadow: isFocused
-              ? "0 0 0 3px rgba(14, 165, 233, 0.15), 0 1px 2px rgba(0,0,0,0.04)"
+              ? `0 0 0 3px ${COLORS.primaryFocusRing}, 0 1px 2px rgba(0,0,0,0.04)`
               : "0 1px 2px rgba(0,0,0,0.02)",
             transition: "all 0.15s ease",
           }}
         >
           <Search
             size={15}
-            color={isFocused ? "var(--color-primary, #0ea5e9)" : "#64748b"}
+            color={isFocused ? COLORS.primary : "#64748b"}
             style={{ flexShrink: 0, marginRight: 8, transition: "color 0.15s" }}
           />
           <input
@@ -191,7 +192,7 @@ export function Header({
                 padding: "0 12px",
                 background: "#ffffff",
                 border: showDatePicker
-                  ? "1px solid var(--color-primary, #0ea5e9)"
+                  ? `1px solid ${COLORS.primary}`
                   : "1px solid #dbe4ef",
                 borderRadius: 8,
                 display: "flex",
@@ -206,7 +207,7 @@ export function Header({
                 whiteSpace: "nowrap",
               }}
             >
-              <Calendar size={14} color="var(--color-primary, #0ea5e9)" />
+              <Calendar size={14} color={COLORS.primary} />
               <span>{dateRange}</span>
               <ChevronDown
                 size={14}
@@ -265,10 +266,10 @@ export function Header({
                         fontWeight: dateRange === opt ? 700 : 500,
                         color:
                           dateRange === opt
-                            ? "var(--color-primary, #0ea5e9)"
+                            ? COLORS.primary
                             : "#334155",
                         background:
-                          dateRange === opt ? "#f0f9ff" : "transparent",
+                          dateRange === opt ? COLORS.primaryLight : "transparent",
                         border: 0,
                         textAlign: "left",
                         cursor: "pointer",
@@ -287,7 +288,7 @@ export function Header({
                       {dateRange === opt && (
                         <Check
                           size={13}
-                          color="var(--color-primary, #0ea5e9)"
+                          color={COLORS.primary}
                         />
                       )}
                     </button>
@@ -305,7 +306,7 @@ export function Header({
             width: 36,
             height: 36,
             borderRadius: "50%",
-            background: "linear-gradient(135deg, #0284c7 0%, #38bdf8 100%)",
+            background: COLORS.gradient,
             color: "#ffffff",
             display: "flex",
             alignItems: "center",
@@ -313,7 +314,7 @@ export function Header({
             fontSize: 12,
             fontWeight: 700,
             letterSpacing: "0.5px",
-            boxShadow: "0 2px 6px rgba(2, 132, 199, 0.25)",
+            boxShadow: `0 2px 8px ${withAlpha(COLORS.primary, 0.3)}`,
             border: "2px solid #ffffff",
             flexShrink: 0,
             cursor: "default",

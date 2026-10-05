@@ -9,6 +9,7 @@ import {
 import { Palette as PaletteIcon } from "@mui/icons-material";
 import type { ColorCustomizerSectionProps, InputChangeEvent } from "../types";
 import { to6DigitHex } from "../utils";
+import { COLORS } from "../../../constants/colors";
 
 export function ColorCustomizerSection({
   baseHex,
@@ -32,18 +33,18 @@ export function ColorCustomizerSection({
         }}
       >
         <Typography className="plan-section-title-premium">
-          <PaletteIcon sx={{ fontSize: 18, color: "#0284c7" }} /> Brand Color
+          <PaletteIcon sx={{ fontSize: 18, color: COLORS.primary }} /> Brand Color
           Customizer
         </Typography>
         <Chip
           label="API Synced"
           size="small"
           sx={{
-            backgroundColor: "#f0f9ff",
-            color: "#0284c7",
+            backgroundColor: COLORS.primaryTint,
+            color: COLORS.primary,
             fontWeight: 800,
             fontSize: "0.625rem",
-            border: "1px solid #bae6fd",
+            border: `1px solid ${COLORS.primaryBorder}`,
           }}
         />
       </Box>
@@ -62,7 +63,7 @@ export function ColorCustomizerSection({
               width: 44,
               height: 40,
               padding: 0,
-              border: "2px solid #0284c7",
+              border: `2px solid ${COLORS.primary}`,
               borderRadius: 10,
               cursor: "pointer",
               backgroundColor: "transparent",
@@ -74,7 +75,7 @@ export function ColorCustomizerSection({
             size="small"
             value={baseHex}
             onChange={(e: InputChangeEvent) => onBaseHexChange(e.target.value)}
-            placeholder="#10b981 or #3b82f6"
+            placeholder="#4857D2 or #3b82f6"
             className="plan-textfield-premium"
             InputProps={{
               startAdornment: (
@@ -82,7 +83,7 @@ export function ColorCustomizerSection({
                   <span
                     style={{
                       fontWeight: 900,
-                      color: "#0284c7",
+                      color: COLORS.primary,
                       fontSize: "1rem",
                     }}
                   >

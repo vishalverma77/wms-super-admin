@@ -1,7 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Header } from "../../../components/Header";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { fetchRevenueRequest } from "../../revenue/slice";
+import { COLORS } from "../../../constants/colors";
 import type { RecentActivityItem } from "../types";
 import {
   ResponsiveContainer,
@@ -12,9 +14,11 @@ import {
   Tooltip,
   CartesianGrid,
 } from "recharts";
-import { TrendingUp } from "lucide-react";
+import { TrendingUp, DollarSign, Building2, Zap, UserPlus } from "lucide-react";
+import { StatsCard } from "../../../components/StatsCard";
 
 export function Dashboard() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { data: revenueData } = useAppSelector((state) => state.revenue);
   const [searchQuery, setSearchQuery] = useState("");
@@ -130,23 +134,50 @@ export function Dashboard() {
         searchPlaceholder="Search dashboard activity..."
       />
 
-      <div className="kgrid kg4">
-        <div className="kc kc-b">
-          <div className="kl">Annual Recurring Revenue</div>
-          <div className="kn">{arrFormatted}</div>
-        </div>
-        <div className="kc kc-g">
-          <div className="kl">Active Paying Tenants</div>
-          <div className="kn">{activeTenantsFormatted}</div>
-        </div>
-        <div className="kc kc-t">
-          <div className="kl">Active Trials</div>
-          <div className="kn">{activeTrialsFormatted}</div>
-        </div>
-        <div className="kc kc-w">
-          <div className="kl">New Signups (30d)</div>
-          <div className="kn">{newSignupsFormatted}</div>
-        </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))",
+          gap: "12px",
+          marginBottom: "16px",
+        }}
+      >
+        <StatsCard
+          title="ANNUAL REVENUE"
+          value={arrFormatted}
+          icon={DollarSign}
+          color="primary"
+          trend="+18%"
+          actionText="View breakdown"
+          onAction={() => navigate("/revenue")}
+        />
+        <StatsCard
+          title="PAYING TENANTS"
+          value={activeTenantsFormatted}
+          icon={Building2}
+          color="primary"
+          trend="+12%"
+          actionText="View subscribers"
+          onAction={() => navigate("/subscriptions")}
+        />
+        <StatsCard
+          title="ACTIVE TRIALS"
+          value={activeTrialsFormatted}
+          icon={Zap}
+          color="primary"
+          trend="+8%"
+          actionText="View trial users"
+          onAction={() => navigate("/trial-users")}
+        />
+        <StatsCard
+          title="NEW SIGNUPS"
+          value={newSignupsFormatted}
+          icon={UserPlus}
+          color="primary"
+          trend="+24%"
+          actionText="View analytics"
+          onAction={() => navigate("/overview")}
+        />
       </div>
 
       <div className="resp-grid">
@@ -213,8 +244,8 @@ export function Dashboard() {
               >
                 <defs>
                   <linearGradient id="revenueGrowthGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3ac1ef" stopOpacity={0.35} />
-                    <stop offset="95%" stopColor="#3ac1ef" stopOpacity={0.02} />
+                    <stop offset="5%" stopColor={COLORS.primary} stopOpacity={0.35} />
+                    <stop offset="95%" stopColor={COLORS.primary} stopOpacity={0.02} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid
@@ -238,8 +269,8 @@ export function Dashboard() {
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#0f1e35",
-                    borderColor: "#162640",
+                    backgroundColor: "#0f172a",
+                    borderColor: "#1e293b",
                     borderRadius: 8,
                     color: "#fff",
                     boxShadow: "0 8px 16px rgba(0,0,0,0.15)",
@@ -254,11 +285,11 @@ export function Dashboard() {
                 <Area
                   type="monotone"
                   dataKey="revenue"
-                  stroke="#3ac1ef"
+                  stroke={COLORS.primary}
                   strokeWidth={2.5}
                   fillOpacity={1}
                   fill="url(#revenueGrowthGrad)"
-                  activeDot={{ r: 6, stroke: "#3ac1ef", strokeWidth: 2, fill: "#fff" }}
+                  activeDot={{ r: 6, stroke: COLORS.primary, strokeWidth: 2, fill: "#fff" }}
                 />
               </AreaChart>
             </ResponsiveContainer>

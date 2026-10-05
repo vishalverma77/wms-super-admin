@@ -23,10 +23,10 @@
 .plan-empty-icon-box {
   padding: 16px;
   border-radius: 50%;
-  background-color: #eaf8fd;
-  color: #3ac1ef;
+  background-color: var(--primary-tint, #f0f2fd);
+  color: var(--primary, #4857D2);
   margin-bottom: 16px;
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--primary-border, #c5cdfa);
 }
 
 /* Exact Subscription Plan Card Styling */
@@ -375,15 +375,15 @@
 .plan-dialog-tag.MuiTypography-root {
   font-size: 0.65rem;
   font-weight: 800;
-  color: #0284c7;
+  color: var(--primary, #4857D2);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  background-color: #f0f9ff;
+  background-color: var(--primary-tint, #f0f2fd);
   padding: 2px 7px;
   border-radius: 4px;
   display: inline-block;
   margin-bottom: 4px;
-  border: 1px solid #e0f2fe;
+  border: 1px solid var(--primary-border, #c5cdfa);
 }
 .plan-dialog-title.MuiTypography-root {
   font-weight: 800;
@@ -509,7 +509,7 @@
 .plan-rate-banner-amount.MuiTypography-root {
   font-size: 1.35rem;
   font-weight: 800;
-  color: #38bdf8;
+  color: var(--secondary, #98A9F9);
   font-family: "Outfit", sans-serif;
 }
 @media (min-width: 600px) {
@@ -726,7 +726,7 @@
 .plan-dialog-tag-premium {
   font-size: 0.625rem;
   font-weight: 800;
-  color: #38bdf8;
+  color: var(--secondary, #98A9F9);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -921,8 +921,8 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background-color: #eaf8fd;
-  color: #0284c7;
+  background-color: var(--primary-tint, #f0f2fd);
+  color: var(--primary, #4857D2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1116,8 +1116,8 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background-color: #eaf8fd;
-  color: #0284c7;
+  background-color: var(--primary-tint, #f0f2fd);
+  color: var(--primary, #4857D2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1189,7 +1189,7 @@
 
 .plan-dialog-save-btn-premium.MuiButton-root {
   color: #ffffff !important;
-  background-color: #0284c7 !important;
+  background-color: var(--primary, #4857D2) !important;
   font-weight: 600 !important;
   font-size: 0.8rem !important;
   border-radius: 8px !important;
@@ -1197,10 +1197,10 @@
   text-transform: none !important;
   height: 36px !important;
   white-space: nowrap !important;
-  box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25) !important;
+  box-shadow: 0 3px 10px rgba(72, 87, 210, 0.28) !important;
   transition: all 0.2s ease !important;
 }
 .plan-dialog-save-btn-premium.MuiButton-root:hover {
-  background-color: #0369a1 !important;
-  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+  background-color: var(--primary-hover, #3b47b8) !important;
+  box-shadow: 0 4px 14px rgba(72, 87, 210, 0.38) !important;
 }

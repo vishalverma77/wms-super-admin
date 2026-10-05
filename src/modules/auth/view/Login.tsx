@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../../assets/new-logo-dexo-glob.svg";
+import logo from "../../../assets/logo-dexo-glob.png"
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { loginRequest } from "../slice";
+import { COLORS, withAlpha } from "../../../constants/colors";
 
 export function Login() {
   const [username, setUsername] = useState("");
@@ -64,7 +65,7 @@ export function Login() {
             }}
           >
             Digital Execution & Operations for <br />
-            <span style={{ color: "var(--color-primary, #3ac1ef)" }}>
+            <span style={{ color: COLORS.primary }}>
               Global Logistics
             </span>
           </h1>
@@ -91,8 +92,8 @@ export function Login() {
                   alignItems: "center",
                   justifyContent: "center",
                   flexShrink: 0,
-                  color: "var(--color-primary, #3ac1ef)",
-                  boxShadow: "0 4px 12px rgba(58, 193, 239, 0.12)",
+                  color: COLORS.primary,
+                  boxShadow: `0 4px 12px ${withAlpha(COLORS.primary, 0.15)}`,
                 }}
               >
                 <svg
@@ -148,8 +149,8 @@ export function Login() {
                   alignItems: "center",
                   justifyContent: "center",
                   flexShrink: 0,
-                  color: "var(--color-primary, #3ac1ef)",
-                  boxShadow: "0 4px 12px rgba(58, 193, 239, 0.12)",
+                  color: COLORS.primary,
+                  boxShadow: `0 4px 12px ${withAlpha(COLORS.primary, 0.15)}`,
                 }}
               >
                 <svg
@@ -205,8 +206,8 @@ export function Login() {
                   alignItems: "center",
                   justifyContent: "center",
                   flexShrink: 0,
-                  color: "var(--color-primary, #3ac1ef)",
-                  boxShadow: "0 4px 12px rgba(58, 193, 239, 0.12)",
+                  color: COLORS.primary,
+                  boxShadow: `0 4px 12px ${withAlpha(COLORS.primary, 0.15)}`,
                 }}
               >
                 <svg
@@ -275,8 +276,8 @@ export function Login() {
           >
             <div
               style={{
-                background: "#eaf8fd",
-                color: "var(--color-primary, #3ac1ef)",
+                background: COLORS.primaryTint,
+                color: COLORS.primary,
                 width: "36px",
                 height: "36px",
                 borderRadius: "10px",
@@ -560,7 +561,7 @@ export function Login() {
                 width: "100%",
                 background: loading
                   ? "#8e9fab"
-                  : "var(--color-primary, #3ac1ef)",
+                  : COLORS.gradient,
                 color: "white",
                 border: "none",
                 padding: "12px",
@@ -568,19 +569,19 @@ export function Login() {
                 fontSize: "0.95rem",
                 fontWeight: 700,
                 cursor: loading ? "not-allowed" : "pointer",
-                transition: "background 0.2s",
+                transition: "all 0.2s ease",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 gap: "8px",
+                boxShadow: loading ? "none" : `0 4px 14px ${withAlpha(COLORS.primary, 0.35)}`,
               }}
               onMouseOver={(e) => {
-                if (!loading) e.currentTarget.style.background = "#28a8d6";
+                if (!loading) e.currentTarget.style.background = COLORS.gradientHover;
               }}
               onMouseOut={(e) => {
                 if (!loading)
-                  e.currentTarget.style.background =
-                    "var(--color-primary, #3ac1ef)";
+                  e.currentTarget.style.background = COLORS.gradient;
               }}
             >
               {loading ? (

@@ -11,7 +11,7 @@ import {
 import { Users, Eye, Activity, Clock, Target } from "lucide-react";
 
 import { Header } from "../../../components/Header";
-import { KpiCard } from "../../../components/KpiCard";
+import { StatsCard } from "../../../components/StatsCard";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { fetchOverviewRequest } from "../slice";
 import {
@@ -175,32 +175,49 @@ export function OverviewPage() {
         </div>
       ) : null}
 
-      {/* KPI Cards */}
+      {/* Top Metric Cards */}
       {filteredTop.length > 0 && (
-        <div className="kgrid kg4" style={{ marginBottom: 24 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))",
+            gap: "12px",
+            marginBottom: "16px",
+          }}
+        >
           {filteredTop.map((card, i) => (
-            <KpiCard
+            <StatsCard
               key={i}
-              label={card.label}
+              title={card.label.toUpperCase()}
               value={card.value}
-              description={card.description}
               icon={card.icon}
-              colorTheme={card.colorTheme}
+              color="primary"
+              trend={i % 2 === 0 ? "+12%" : "+8%"}
+              actionText={card.description}
             />
           ))}
         </div>
       )}
 
+      {/* Bottom Metric Cards */}
       {filteredBottom.length > 0 && (
-        <div className="kgrid kg3" style={{ marginBottom: 24 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))",
+            gap: "12px",
+            marginBottom: "16px",
+          }}
+        >
           {filteredBottom.map((card, i) => (
-            <KpiCard
+            <StatsCard
               key={i}
-              label={card.label}
+              title={card.label.toUpperCase()}
               value={card.value}
-              description={card.description}
               icon={card.icon}
-              colorTheme={card.colorTheme}
+              color="primary"
+              trend={i === 0 ? "+4.2%" : i === 1 ? "+6.5%" : "+18%"}
+              actionText={card.description}
             />
           ))}
         </div>

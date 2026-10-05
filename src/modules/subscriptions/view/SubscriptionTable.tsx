@@ -99,7 +99,7 @@ export function SubscriptionTable({
             gap: 1.5,
           }}
         >
-          <CircularProgress size={32} sx={{ color: "var(--color-primary, #3ac1ef)" }} />
+          <CircularProgress size={32} sx={{ color: "var(--primary)" }} />
           <Typography variant="body2" sx={{ color: "var(--tx3, #7a7876)", fontSize: "0.85rem" }}>
             Fetching subscription records...
           </Typography>
@@ -211,8 +211,8 @@ export function SubscriptionTable({
                           sx={{
                             width: 28,
                             height: 28,
-                            bgcolor: "var(--bg2, #eef8fc)",
-                            color: "var(--blue, #3ac1ef)",
+                            bgcolor: "var(--bg2, #f0f3fc)",
+                            color: "var(--primary)",
                             fontSize: "0.75rem",
                             fontWeight: 600,
                           }}
@@ -248,8 +248,8 @@ export function SubscriptionTable({
                         sx={{
                           fontFamily: "monospace",
                           fontSize: "0.75rem",
-                          bgcolor: "var(--color-primary-soft, #eaf8fd)",
-                          color: "var(--color-primary-strong, #1597c6)",
+                          bgcolor: "var(--primary-light)",
+                          color: "var(--primary)",
                           borderRadius: "4px",
                           height: "22px",
                         }}

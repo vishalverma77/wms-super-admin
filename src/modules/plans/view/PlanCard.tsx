@@ -19,6 +19,7 @@ import {
   Edit as EditIcon,
 } from "@mui/icons-material";
 import type { PlanCardListProps, GroupedPlan } from "../types";
+import { COLORS } from "../../../constants/colors";
 import "./index.css";
 
 const formatQuota = (val?: number) =>
@@ -49,12 +50,11 @@ export function PlanCard({
         let shades = { light: "", main: "", dark: "" };
 
         if (index === 0) {
-          cardBackground =
-            "linear-gradient(135deg, #FFFFFF 0%, #F3FBFF 35%, #E6F7FF 70%, #D6F1FF 100%)";
+          cardBackground = COLORS.gradientCard;
           shades = {
-            light: "#F3FBFF",
-            main: "#0284c7",
-            dark: "#0369a1",
+            light: COLORS.primaryTint,
+            main: COLORS.primary,
+            dark: COLORS.primaryActive,
           };
         } else if (index === 1) {
           cardBackground =
@@ -73,13 +73,12 @@ export function PlanCard({
             dark: "#6d28d9",
           };
         } else {
-          // If plan length > 2 then next card should be in primary color of theme (Blue)
-          cardBackground =
-            "linear-gradient(135deg, #FFFFFF 0%, #F3FBFF 35%, #E6F7FF 70%, #D6F1FF 100%)";
+          // If plan length > 2 then next card should be in primary color of theme
+          cardBackground = COLORS.gradientCard;
           shades = {
-            light: "#F3FBFF",
-            main: "#0284c7",
-            dark: "#0369a1",
+            light: COLORS.primaryTint,
+            main: COLORS.primary,
+            dark: COLORS.primaryActive,
           };
         }
 

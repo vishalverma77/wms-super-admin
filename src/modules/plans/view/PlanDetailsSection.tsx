@@ -71,7 +71,7 @@ export function PlanDetailsSection({ plan }: PlanDetailsSectionProps) {
       {/* Quotas Card */}
       <Box className="plan-section-card-premium">
         <Typography className="plan-section-title-premium">
-          <AnalyticsIcon sx={{ fontSize: 18, color: "#0284c7" }} /> Resource
+          <AnalyticsIcon sx={{ fontSize: 18, color: "var(--primary)" }} /> Resource
           Quotas & System Limits
         </Typography>
 
@@ -99,7 +99,7 @@ export function PlanDetailsSection({ plan }: PlanDetailsSectionProps) {
       {/* Module Permissions & System IDs */}
       <Box className="plan-section-card-premium">
         <Typography className="plan-section-title-premium">
-          <ExtensionIcon sx={{ fontSize: 18, color: "#0284c7" }} /> Included
+          <ExtensionIcon sx={{ fontSize: 18, color: "var(--primary)" }} /> Included
           Module Permissions
         </Typography>
 
@@ -122,7 +122,7 @@ export function PlanDetailsSection({ plan }: PlanDetailsSectionProps) {
         </Box>
 
         <Typography className="plan-section-title-premium" sx={{ mt: 1.5 }}>
-          <PaymentIcon sx={{ fontSize: 18, color: "#0284c7" }} /> System &
+          <PaymentIcon sx={{ fontSize: 18, color: "var(--primary)" }} /> System &
           Payment Identifiers
         </Typography>
 

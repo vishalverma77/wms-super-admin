@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
-import logo from "../../assets/new-logo-dexo-glob.svg";
+import logo from "../../assets/logo-dexo-glob.png"
 import { useAppDispatch } from "../../store/hooks";
 import { logout } from "../../modules/auth/slice";
 

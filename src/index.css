@@ -1,12 +1,38 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap");
 
 :root {
-  --navy: #0f1e35;
-  --navy2: #162640;
-  --bg: #f9fbfe;
-  --bg2: #eef8fc;
-  --white: #f2fcff;
+  /* MASTER_THEME Single Source of Truth Alignment */
+  --primary: #4857D2;
+  --pri: #4857D2;
+  --primary-hover: #3b47b8;
+  --primary-active: #303b9e;
+  --primary-light: rgba(72, 87, 210, 0.08);
+  --primary-focus-ring: rgba(72, 87, 210, 0.22);
+  --primary-tint: #f0f2fd;
+  --primary-border: #c5cdfa;
+
+  --secondary: #98A9F9;
+  --secondary-hover: #8295f5;
+  --secondary-active: #6d83f0;
+  --secondary-light: rgba(152, 169, 249, 0.15);
+  --secondary-border: #d8e0fc;
+
+  --primary-gradient: linear-gradient(90deg, #7889f7 0%, #5d6fef 50%, #4857D2 100%);
+  --primary-gradient-hover: linear-gradient(90deg, #8899f8 0%, #6a7cf0 50%, #3b47b8 100%);
+  --primary-gradient-soft: linear-gradient(135deg, #f6f8ff 0%, #edf1ff 100%);
+  --primary-gradient-subtle: linear-gradient(135deg, rgba(72, 87, 210, 0.08) 0%, rgba(152, 169, 249, 0.15) 100%);
+  --primary-gradient-card: linear-gradient(135deg, #ffffff 0%, #f6f8ff 40%, #edf1ff 75%, #e0e7ff 100%);
+
+  --navy: #0f172a;
+  --navy2: #1e293b;
+  --bg: #f8faff;
+  --bg2: #f0f3fc;
+  --bg3: #e4e9f7;
+  --white: #ffffff;
   --surface: #ffffff;
+  --card: #ffffff;
+  --sidebar-bg: #f8faff;
+  --sidebar-active: linear-gradient(90deg, #7889f7 0%, #5d6fef 50%, #4857D2 100%);
   --stroke: #f2f2f2;
   --bdr: #f2f2f2;
   --bdr2: #e6eef2;
@@ -14,11 +40,18 @@
   --tx2: #4a4a4a;
   --tx3: #7a7876;
   --tx4: #a8a5a0;
-  --icon-box: #3ac1ef;
-  --label: #3ac1ef;
-  --blue: #3ac1ef;
-  --teal: #288f87;
-  --teal-l: #eefffb;
+  --icon-box: #4857D2;
+  --label: #4857D2;
+  --blue: #4857D2;
+  --blu: #4857D2;
+  --blu-l: #f0f2fd;
+  --blu-b: #c5cdfa;
+  --pur: #4857D2;
+  --pur-l: #f0f2fd;
+  --pur-b: #c5cdfa;
+  --teal: #4857D2;
+  --teal-l: #f0f2fd;
+  --teal-b: #c5cdfa;
   --red: #be123c;
   --red-l: #fff1f2;
   --red-b: #fecdd3;
@@ -33,25 +66,25 @@
   --rlg: 14px;
   --sh: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
   --shmd: 0 4px 12px rgba(0, 0, 0, 0.05);
-  --color-primary: #3ac1ef;
-  --color-primary-strong: #1597c6;
-  --color-primary-soft: #eaf8fd;
-  --color-teal: #288f87;
-  --color-teal-soft: #e8f6f4;
-  --color-navy: #0f1e35;
-  --color-background: #f9fbfe;
+  --color-primary: #4857D2;
+  --color-primary-strong: #3b47b8;
+  --color-primary-soft: #f0f2fd;
+  --color-teal: #4857D2;
+  --color-teal-soft: #f0f2fd;
+  --color-navy: #0f172a;
+  --color-background: #f8faff;
   --color-surface: #ffffff;
   --color-border: #e6eef2;
   --color-text: #1a1a1a;
   --color-muted: #64748b;
-  --color-success: #10b981;
-  --color-success-soft: #e8f8ef;
-  --color-warning: #f97316;
-  --color-warning-soft: #fff2e8;
-  --color-danger: #ef4444;
-  --color-danger-soft: #fff0f0;
-  --shadow-sm: 0 1px 2px rgb(15 30 53 / 6%);
-  --shadow-md: 0 12px 28px rgb(15 30 53 / 8%);
+  --color-success: #15803d;
+  --color-success-soft: #f0fdf4;
+  --color-warning: #b45309;
+  --color-warning-soft: #fffbeb;
+  --color-danger: #be123c;
+  --color-danger-soft: #fff1f2;
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 6%);
+  --shadow-md: 0 12px 28px rgb(15 23 42 / 8%);
   --radius-sm: 6px;
   --radius-md: 8px;
   --sidebar-width: 272px;
@@ -585,7 +618,7 @@ button {
 
 .button--primary {
   background: var(--color-primary);
-  color: var(--color-navy);
+  color: #ffffff;
 }
 
 .button--secondary {
@@ -805,7 +838,7 @@ button {
   width: var(--sidebar-width);
   border-right: 0;
   background:
-    linear-gradient(180deg, rgba(58, 193, 239, 0.1), transparent 28%),
+    linear-gradient(180deg, var(--primary-light), transparent 28%),
     var(--navy);
   color: #d7e8f2;
   padding: 18px 14px;
@@ -1178,14 +1211,9 @@ button {
   }
 }
 
-/* ===== SUPER ADMIN â€” WMS REFERENCE STYLES ===== */
-:root {
-  --primary: #3ac1ef;
-  --primary-light: #eef8fc;
-  --primary-hover: #1597c6;
-}
+/* ===== SUPER ADMIN — WMS REFERENCE STYLES ===== */
 
-/* â”€â”€ Root shell â”€â”€ */
+/* ── Root shell ── */
 .sa-root {
   --sw: 240px;
   display: flex;
@@ -1196,16 +1224,16 @@ button {
   font-family: "DM Sans", sans-serif;
   font-size: 14px;
   color: var(--tx, #1a1a1a);
-  background: var(--bg, #f9fbfe);
+  background: var(--bg, #f8faff);
 }
 
-/* â”€â”€ Sidebar â”€â”€ */
+/* ── Sidebar ── */
 .sa-root #sb {
   position: relative;
   width: var(--sw);
   min-width: var(--sw);
-  background: var(--primary-light);
-  border-right: 1px solid #f2f2f2;
+  background: var(--sidebar-bg, #f8faff);
+  border-right: 1px solid var(--bdr, #f2f2f2);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -1298,12 +1326,13 @@ button {
 .sa-root .sbu {
   padding: 9px 12px;
   margin: 7px 9px 10px;
-  background: var(--primary);
-  border-radius: 5px;
+  background: var(--primary-gradient, var(--primary));
+  border-radius: 8px;
   display: flex;
   align-items: center;
   gap: 9px;
   flex-shrink: 0;
+  box-shadow: 0 3px 8px rgba(72, 87, 210, 0.22);
 }
 
 .sa-root .sbav {
@@ -1327,7 +1356,7 @@ button {
   white-space: nowrap;
 }
 
-/* Nav â€” CRITICAL: use flex column to pack items tightly */
+/* Nav — CRITICAL: use flex column to pack items tightly */
 .sa-root .sbnav {
   flex: 1;
   overflow-y: auto;
@@ -1362,11 +1391,11 @@ button {
   gap: 10px;
   padding: 9px 16px;
   margin: 1px 9px;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   transition:
-    background 0.12s,
-    color 0.12s;
+    background 0.15s ease,
+    color 0.15s ease;
   color: var(--tx2, #4a4a4a);
   font-size: 13px;
   font-weight: 500;
@@ -1376,14 +1405,15 @@ button {
 }
 
 .sa-root .si:hover {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(72, 87, 210, 0.06);
   color: var(--tx, #1a1a1a);
 }
 
 .sa-root .si.on {
-  background: var(--primary);
+  background: var(--sidebar-active, var(--primary-gradient));
   color: #fff;
   font-weight: 700;
+  box-shadow: 0 3px 10px rgba(72, 87, 210, 0.28);
 }
 
 .sa-root .si.on::before {
@@ -2395,8 +2425,8 @@ button {
 
 /* Subscriptions View Styles */
 .ent-banner {
-  background: var(--color-primary-soft, #eaf8fd);
-  border: 1px solid var(--color-primary, #3ac1ef);
+  background: var(--primary-light, #f0f2fd);
+  border: 1px solid var(--primary-border, #c5cdfa);
   border-radius: var(--radius-md, 8px);
   padding: 16px 20px;
   margin-bottom: 24px;
@@ -2404,7 +2434,7 @@ button {
   align-items: center;
   justify-content: space-between;
   box-shadow: var(--shadow-sm);
-  color: var(--color-primary-strong, #1597c6);
+  color: var(--primary, #4857D2);
   gap: 16px;
 }
 .ent-banner-content {
