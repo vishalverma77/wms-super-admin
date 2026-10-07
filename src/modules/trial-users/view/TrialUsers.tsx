@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { fetchTrialUsersRequest } from "../slice";
 import { StatsCard } from "../../../components/StatsCard";
-import { Users, Zap, Clock, ShieldCheck } from "lucide-react";
+import { Users, Zap, Clock, ShieldCheck, Calendar, CalendarCheck } from "lucide-react";
 
 interface MappedTrialUser {
   id: string;
@@ -491,38 +491,43 @@ function TrialUserDetailModal({
           }}
         >
           {/* KPI row */}
-          <div className="kgrid kg4" style={{ marginBottom: 0 }}>
-            <div className="kc kc-w">
-              <div className="kl">Days Until Expiry</div>
-              <div
-                className="kn"
-                style={{ color: user.daysLeft <= 3 ? "#be123c" : "#1a1a1a" }}
-              >
-                {user.daysLeft > 0 ? `${user.daysLeft}d` : "Expired"}
-              </div>
-            </div>
-            <div className="kc kc-b">
-              <div className="kl">Trial Started</div>
-              <div className="kn" style={{ fontSize: 17 }}>
-                {user.started}
-              </div>
-            </div>
-            <div className="kc kc-r">
-              <div className="kl">Expiry Date</div>
-              <div
-                className="kn"
-                style={{
-                  fontSize: 17,
-                  color: user.daysLeft <= 3 ? "#be123c" : "#1a1a1a",
-                }}
-              >
-                {user.expiry}
-              </div>
-            </div>
-            <div className="kc kc-g">
-              <div className="kl">Total Logins</div>
-              <div className="kn">{user.logins}</div>
-            </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))",
+              gap: "10px",
+              marginBottom: 0,
+            }}
+          >
+            <StatsCard
+              title="DAYS UNTIL EXPIRY"
+              value={user.daysLeft > 0 ? `${user.daysLeft}d` : "Expired"}
+              icon={Clock}
+              color={user.daysLeft <= 3 ? "danger" : "warning"}
+              trend={user.daysLeft <= 3 ? "Urgent" : undefined}
+              actionText="Days remaining"
+            />
+            <StatsCard
+              title="TRIAL STARTED"
+              value={user.started}
+              icon={Calendar}
+              color="primary"
+              actionText="Start date"
+            />
+            <StatsCard
+              title="EXPIRY DATE"
+              value={user.expiry}
+              icon={CalendarCheck}
+              color={user.daysLeft <= 3 ? "danger" : "secondary"}
+              actionText="End date"
+            />
+            <StatsCard
+              title="TOTAL LOGINS"
+              value={user.logins}
+              icon={Zap}
+              color="success"
+              actionText="Login count"
+            />
           </div>
 
           <div className="resp-grid">
