@@ -2514,3 +2514,21 @@ button {
     transform: rotate(360deg);
   }
 }
+
+/* Remove grey hover boxes, focus outlines and cursor rectangles on Recharts */
+.recharts-tooltip-cursor,
+.recharts-rectangle.recharts-tooltip-cursor {
+  fill: transparent !important;
+  stroke: transparent !important;
+  opacity: 0 !important;
+}
+
+.recharts-wrapper,
+.recharts-surface,
+.recharts-pie,
+.recharts-pie-sector,
+.recharts-bar-rectangle,
+.recharts-layer path,
+.recharts-layer sector {
+  outline: none !important;
+}
