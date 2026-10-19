@@ -3,7 +3,7 @@ import { authSaga } from "../modules/auth/saga";
 import { trialUsersSaga } from "../modules/trial-users/saga";
 import { overviewSaga } from "../modules/overview/saga";
 import { landingSaga } from "../modules/landing/saga";
-import { trafficSaga } from "../modules/traffic/saga";
+import { trafficSaga } from "../modules/traffic/sagas";
 import { eventsSaga } from "../modules/events/saga";
 import { subscriptionsSaga } from "../modules/subscriptions/saga";
 import { plansSaga } from "../modules/plans/sagas";

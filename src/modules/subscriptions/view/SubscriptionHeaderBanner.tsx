@@ -32,7 +32,7 @@ export function SubscriptionHeaderBanner({
       <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, width: { xs: "100%", sm: "auto" } }}>
         <Avatar
           sx={{
-            bgcolor: "var(--color-primary, #3ac1ef)",
+            bgcolor: "var(--primary)",
             color: "#ffffff",
             width: 36,
             height: 36,
@@ -58,7 +58,7 @@ export function SubscriptionHeaderBanner({
           <Typography
             variant="subtitle2"
             fontWeight={600}
-            sx={{ color: "var(--color-primary-strong, #1597c6)", fontSize: "0.95rem" }}
+            sx={{ color: "var(--primary)", fontSize: "0.95rem" }}
           >
             Enterprise Pro Plan Inquiries
           </Typography>
@@ -79,7 +79,7 @@ export function SubscriptionHeaderBanner({
           disableElevation
           onClick={onOpenRequests}
           sx={{
-            bgcolor: "var(--color-primary, #3ac1ef)",
+            bgcolor: "var(--primary)",
             color: "#ffffff",
             fontWeight: 600,
             borderRadius: "6px",
@@ -88,7 +88,7 @@ export function SubscriptionHeaderBanner({
             textTransform: "none",
             fontSize: "0.825rem",
             "&:hover": {
-              bgcolor: "var(--color-primary-strong, #1597c6)",
+              bgcolor: "var(--primary-hover)",
             },
           }}
         >
@@ -97,7 +97,7 @@ export function SubscriptionHeaderBanner({
         <IconButton
           size="small"
           onClick={onCloseBanner}
-          sx={{ color: "var(--color-primary-strong, #1597c6)", opacity: 0.7, "&:hover": { opacity: 1 } }}
+          sx={{ color: "var(--primary)", opacity: 0.7, "&:hover": { opacity: 1 } }}
         >
           <svg
             width="18"

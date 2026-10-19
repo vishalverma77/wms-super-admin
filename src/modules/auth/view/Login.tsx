@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../../assets/new-logo-dexo-glob.svg";
+import logo from "../../../assets/logo-dexo-glob.png"
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { loginRequest } from "../slice";
+import { COLORS, withAlpha } from "../../../constants/colors";
 
 export function Login() {
   const [username, setUsername] = useState("");
@@ -30,41 +31,29 @@ export function Login() {
       <div className="login-card">
         {/* Left Side (Brand & Value Props) */}
         <div className="login-left">
-          {/* Subtle background decoration */}
-          <div
-            style={{
-              position: "absolute",
-              right: "-5%",
-              bottom: "5%",
-              opacity: 0.04,
-              pointerEvents: "none",
-            }}
-          >
-            <svg
-              width="300"
-              height="300"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path d="M4,4H20V20H4V4M6,6V18H18V6H6Z" />
-            </svg>
-          </div>
-
           <div style={{ marginBottom: "24px" }}>
-            <img src={logo} alt="Dexo Glob" style={{ height: "40px" }} />
+            <img src={logo} alt="Dexo Glob" style={{ height: "40px", objectFit: "contain" }} />
           </div>
 
           <h1
             style={{
-              fontSize: "1.8rem",
+              fontSize: "1.75rem",
               fontWeight: 800,
-              color: "#1a2b3c",
+              color: "#0f172a",
               lineHeight: 1.25,
               marginBottom: "32px",
+              fontFamily: '"Outfit", sans-serif',
             }}
           >
             Digital Execution & Operations for <br />
-            <span style={{ color: "var(--color-primary, #3ac1ef)" }}>
+            <span
+              style={{
+                background: "linear-gradient(90deg, #4857D2 0%, #6d7ef5 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                display: "inline-block",
+              }}
+            >
               Global Logistics
             </span>
           </h1>
@@ -91,8 +80,9 @@ export function Login() {
                   alignItems: "center",
                   justifyContent: "center",
                   flexShrink: 0,
-                  color: "var(--color-primary, #3ac1ef)",
-                  boxShadow: "0 4px 12px rgba(58, 193, 239, 0.12)",
+                  color: COLORS.primary,
+                  border: "1px solid rgba(72, 87, 210, 0.16)",
+                  boxShadow: `0 4px 12px ${withAlpha(COLORS.primary, 0.08)}`,
                 }}
               >
                 <svg
@@ -113,7 +103,7 @@ export function Login() {
                   style={{
                     margin: "0 0 4px 0",
                     fontSize: "0.95rem",
-                    color: "#1a2b3c",
+                    color: "#0f172a",
                     fontWeight: 700,
                   }}
                 >
@@ -122,7 +112,7 @@ export function Login() {
                 <p
                   style={{
                     margin: 0,
-                    color: "#546b82",
+                    color: "#64748b",
                     fontSize: "0.85rem",
                     lineHeight: 1.5,
                   }}
@@ -148,8 +138,9 @@ export function Login() {
                   alignItems: "center",
                   justifyContent: "center",
                   flexShrink: 0,
-                  color: "var(--color-primary, #3ac1ef)",
-                  boxShadow: "0 4px 12px rgba(58, 193, 239, 0.12)",
+                  color: COLORS.primary,
+                  border: "1px solid rgba(72, 87, 210, 0.16)",
+                  boxShadow: `0 4px 12px ${withAlpha(COLORS.primary, 0.08)}`,
                 }}
               >
                 <svg
@@ -170,7 +161,7 @@ export function Login() {
                   style={{
                     margin: "0 0 4px 0",
                     fontSize: "0.95rem",
-                    color: "#1a2b3c",
+                    color: "#0f172a",
                     fontWeight: 700,
                   }}
                 >
@@ -179,7 +170,7 @@ export function Login() {
                 <p
                   style={{
                     margin: 0,
-                    color: "#546b82",
+                    color: "#64748b",
                     fontSize: "0.85rem",
                     lineHeight: 1.5,
                   }}
@@ -205,8 +196,9 @@ export function Login() {
                   alignItems: "center",
                   justifyContent: "center",
                   flexShrink: 0,
-                  color: "var(--color-primary, #3ac1ef)",
-                  boxShadow: "0 4px 12px rgba(58, 193, 239, 0.12)",
+                  color: COLORS.primary,
+                  border: "1px solid rgba(72, 87, 210, 0.16)",
+                  boxShadow: `0 4px 12px ${withAlpha(COLORS.primary, 0.08)}`,
                 }}
               >
                 <svg
@@ -227,7 +219,7 @@ export function Login() {
                   style={{
                     margin: "0 0 4px 0",
                     fontSize: "0.95rem",
-                    color: "#1a2b3c",
+                    color: "#0f172a",
                     fontWeight: 700,
                   }}
                 >
@@ -236,7 +228,7 @@ export function Login() {
                 <p
                   style={{
                     margin: 0,
-                    color: "#546b82",
+                    color: "#64748b",
                     fontSize: "0.85rem",
                     lineHeight: 1.5,
                   }}
@@ -254,7 +246,7 @@ export function Login() {
               style={{
                 margin: 0,
                 fontSize: "0.75rem",
-                color: "#6a849c",
+                color: "#94a3b8",
                 fontWeight: 600,
               }}
             >
@@ -275,8 +267,8 @@ export function Login() {
           >
             <div
               style={{
-                background: "#eaf8fd",
-                color: "var(--color-primary, #3ac1ef)",
+                background: COLORS.primaryTint,
+                color: COLORS.primary,
                 width: "36px",
                 height: "36px",
                 borderRadius: "10px",
@@ -305,7 +297,8 @@ export function Login() {
                 margin: 0,
                 fontSize: "1.5rem",
                 fontWeight: 700,
-                color: "#1a2b3c",
+                color: "#0f172a",
+                fontFamily: '"Outfit", sans-serif',
               }}
             >
               Sign In
@@ -340,7 +333,7 @@ export function Login() {
                   marginBottom: "6px",
                   fontSize: "0.8125rem",
                   fontWeight: 700,
-                  color: "#3a4b5c",
+                  color: "#334155",
                 }}
               >
                 Role
@@ -354,9 +347,9 @@ export function Login() {
                     width: "100%",
                     padding: "10px 14px",
                     borderRadius: "6px",
-                    border: "1px solid #d2dce6",
+                    border: "1px solid #e2e8f0",
                     background: "#f8fafc",
-                    color: "#1a2b3c",
+                    color: "#334155",
                     fontSize: "0.875rem",
                     outline: "none",
                     fontWeight: 600,
@@ -375,7 +368,7 @@ export function Login() {
                   marginBottom: "6px",
                   fontSize: "0.8125rem",
                   fontWeight: 700,
-                  color: "#3a4b5c",
+                  color: "#334155",
                 }}
               >
                 Username
@@ -387,7 +380,7 @@ export function Login() {
                     left: "14px",
                     top: "50%",
                     transform: "translateY(-50%)",
-                    color: "#8e9fab",
+                    color: "#94a3b8",
                   }}
                 >
                   <svg
@@ -414,20 +407,22 @@ export function Login() {
                     width: "100%",
                     padding: "10px 14px 10px 38px",
                     borderRadius: "6px",
-                    border: "1px solid #d2dce6",
+                    border: "1px solid #e2e8f0",
                     background: "#ffffff",
-                    color: "#1a2b3c",
+                    color: "#0f172a",
                     fontSize: "0.875rem",
                     outline: "none",
                     boxSizing: "border-box",
-                    transition: "border-color 0.2s",
+                    transition: "all 0.2s ease",
                   }}
-                  onFocus={(e) =>
-                    (e.currentTarget.style.borderColor = "var(--color-primary)")
-                  }
-                  onBlur={(e) =>
-                    (e.currentTarget.style.borderColor = "#d2dce6")
-                  }
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = COLORS.primary;
+                    e.currentTarget.style.boxShadow = `0 0 0 3px ${withAlpha(COLORS.primary, 0.12)}`;
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = "#e2e8f0";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
                 />
               </div>
             </div>
@@ -440,7 +435,7 @@ export function Login() {
                   marginBottom: "6px",
                   fontSize: "0.8125rem",
                   fontWeight: 700,
-                  color: "#3a4b5c",
+                  color: "#334155",
                 }}
               >
                 Password
@@ -452,7 +447,7 @@ export function Login() {
                     left: "14px",
                     top: "50%",
                     transform: "translateY(-50%)",
-                    color: "#8e9fab",
+                    color: "#94a3b8",
                   }}
                 >
                   <svg
@@ -486,20 +481,22 @@ export function Login() {
                     width: "100%",
                     padding: "10px 38px 10px 38px",
                     borderRadius: "6px",
-                    border: "1px solid #d2dce6",
+                    border: "1px solid #e2e8f0",
                     background: "#ffffff",
-                    color: "#1a2b3c",
+                    color: "#0f172a",
                     fontSize: "0.875rem",
                     outline: "none",
                     boxSizing: "border-box",
-                    transition: "border-color 0.2s",
+                    transition: "all 0.2s ease",
                   }}
-                  onFocus={(e) =>
-                    (e.currentTarget.style.borderColor = "var(--color-primary)")
-                  }
-                  onBlur={(e) =>
-                    (e.currentTarget.style.borderColor = "#d2dce6")
-                  }
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = COLORS.primary;
+                    e.currentTarget.style.boxShadow = `0 0 0 3px ${withAlpha(COLORS.primary, 0.12)}`;
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = "#e2e8f0";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
                 />
                 <button
                   type="button"
@@ -512,7 +509,7 @@ export function Login() {
                     background: "transparent",
                     border: "none",
                     cursor: "pointer",
-                    color: "#8e9fab",
+                    color: "#94a3b8",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -560,7 +557,7 @@ export function Login() {
                 width: "100%",
                 background: loading
                   ? "#8e9fab"
-                  : "var(--color-primary, #3ac1ef)",
+                  : COLORS.gradient,
                 color: "white",
                 border: "none",
                 padding: "12px",
@@ -568,19 +565,19 @@ export function Login() {
                 fontSize: "0.95rem",
                 fontWeight: 700,
                 cursor: loading ? "not-allowed" : "pointer",
-                transition: "background 0.2s",
+                transition: "all 0.2s ease",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 gap: "8px",
+                boxShadow: loading ? "none" : `0 4px 14px ${withAlpha(COLORS.primary, 0.35)}`,
               }}
               onMouseOver={(e) => {
-                if (!loading) e.currentTarget.style.background = "#28a8d6";
+                if (!loading) e.currentTarget.style.background = COLORS.gradientHover;
               }}
               onMouseOut={(e) => {
                 if (!loading)
-                  e.currentTarget.style.background =
-                    "var(--color-primary, #3ac1ef)";
+                  e.currentTarget.style.background = COLORS.gradient;
               }}
             >
               {loading ? (

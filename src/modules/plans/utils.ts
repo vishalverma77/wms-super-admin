@@ -1,3 +1,5 @@
+import { MASTER_THEME } from "../../constants/colors";
+
 // Utility functions for plan card color customization & 3-shade gradient generator
 
 export interface ColorShades {
@@ -9,9 +11,9 @@ export interface ColorShades {
 // Default presets for plan tiers if no backend custom color exists
 export const DEFAULT_TIER_COLORS: Record<string, ColorShades> = {
   starter: {
-    light: "#e0f2fe",
-    main: "#3b82f6",
-    dark: "#1d4ed8",
+    light: MASTER_THEME.primaryTint,
+    main: MASTER_THEME.primary,
+    dark: MASTER_THEME.primaryActive,
   },
   growth: {
     light: "#f3e8ff",
@@ -37,7 +39,7 @@ export function isValidHex(hex: string): boolean {
  */
 export function to6DigitHex(hex?: string): string {
   if (!hex || typeof hex !== "string" || !isValidHex(hex)) {
-    return "#0ea5e9";
+    return MASTER_THEME.primary;
   }
   let clean = hex.trim().replace("#", "");
   if (clean.length === 3) {

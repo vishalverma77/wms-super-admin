@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { Header } from "../../../components/Header";
+import { StatsCard } from "../../../components/StatsCard";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { fetchRevenueRequest } from "../slice";
 import type { TransactionItem } from "../types";
@@ -258,294 +259,47 @@ export function Revenue() {
       )}
 
       {/* Responsive KPI Summary Cards Grid */}
-      <Box
-        sx={{
+      <div
+        style={{
           display: "grid",
-          gridTemplateColumns: {
-            xs: "1fr",
-            sm: "repeat(2, 1fr)",
-            lg: "repeat(4, 1fr)",
-          },
-          gap: { xs: 1.5, sm: 1.75 },
+          gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))",
+          gap: "12px",
           width: "100%",
         }}
       >
-        {/* MRR Card */}
-        <Paper
-          elevation={0}
-          className="kc kc-g"
-          sx={{
-            background: "var(--color-surface, #ffffff)",
-            border: "1px solid var(--bdr2, #e6eef2)",
-            borderRadius: "12px",
-            p: { xs: 2, sm: 2.25 },
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-            position: "relative",
-            overflow: "hidden",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: "0.8125rem",
-                fontWeight: 600,
-                color: "var(--tx3, #7a7876)",
-                letterSpacing: "0.01em",
-              }}
-            >
-              Monthly Recurring Revenue
-            </Typography>
-            <Box
-              sx={{
-                width: 32,
-                height: 32,
-                borderRadius: "8px",
-                background: "var(--grn-l, #f0fdf4)",
-                color: "var(--grn, #15803d)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <DollarSign size={16} />
-            </Box>
-          </Box>
-          <Typography
-            sx={{
-              fontSize: { xs: "1.45rem", sm: "1.65rem" },
-              fontWeight: 700,
-              color: "var(--tx, #1a1a1a)",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            {formatCurrency(stats.mrr)}
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: "0.75rem",
-              color: "var(--tx4, #a8a5a0)",
-            }}
-          >
-            Live monthly run rate
-          </Typography>
-        </Paper>
-
-        {/* ARR Card */}
-        <Paper
-          elevation={0}
-          className="kc kc-b"
-          sx={{
-            background: "var(--color-surface, #ffffff)",
-            border: "1px solid var(--bdr2, #e6eef2)",
-            borderRadius: "12px",
-            p: { xs: 2, sm: 2.25 },
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-            position: "relative",
-            overflow: "hidden",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: "0.8125rem",
-                fontWeight: 600,
-                color: "var(--tx3, #7a7876)",
-                letterSpacing: "0.01em",
-              }}
-            >
-              Annual Run Rate
-            </Typography>
-            <Box
-              sx={{
-                width: 32,
-                height: 32,
-                borderRadius: "8px",
-                background: "var(--bg2, #eef8fc)",
-                color: "var(--blue, #3ac1ef)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <TrendingUp size={16} />
-            </Box>
-          </Box>
-          <Typography
-            sx={{
-              fontSize: { xs: "1.45rem", sm: "1.65rem" },
-              fontWeight: 700,
-              color: "var(--tx, #1a1a1a)",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            {formatCurrency(stats.arr)}
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: "0.75rem",
-              color: "var(--tx4, #a8a5a0)",
-            }}
-          >
-            Projected annualized ARR
-          </Typography>
-        </Paper>
-
-        {/* Pending Invoices Card */}
-        <Paper
-          elevation={0}
-          className="kc kc-w"
-          sx={{
-            background: "var(--color-surface, #ffffff)",
-            border: "1px solid var(--bdr2, #e6eef2)",
-            borderRadius: "12px",
-            p: { xs: 2, sm: 2.25 },
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-            position: "relative",
-            overflow: "hidden",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: "0.8125rem",
-                fontWeight: 600,
-                color: "var(--tx3, #7a7876)",
-                letterSpacing: "0.01em",
-              }}
-            >
-              Pending Invoices
-            </Typography>
-            <Box
-              sx={{
-                width: 32,
-                height: 32,
-                borderRadius: "8px",
-                background: "var(--amb-l, #fffbeb)",
-                color: "var(--amb, #b45309)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Clock size={16} />
-            </Box>
-          </Box>
-          <Typography
-            sx={{
-              fontSize: { xs: "1.45rem", sm: "1.65rem" },
-              fontWeight: 700,
-              color: "var(--tx, #1a1a1a)",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            {formatCurrency(stats.pendingAmount)}
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: "0.75rem",
-              color: "var(--tx4, #a8a5a0)",
-            }}
-          >
-            {stats.pendingCount} pending {stats.pendingCount === 1 ? "invoice" : "invoices"}
-          </Typography>
-        </Paper>
-
-        {/* Failed Payments Card */}
-        <Paper
-          elevation={0}
-          className="kc kc-r"
-          sx={{
-            background: "var(--color-surface, #ffffff)",
-            border: "1px solid var(--bdr2, #e6eef2)",
-            borderRadius: "12px",
-            p: { xs: 2, sm: 2.25 },
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-            position: "relative",
-            overflow: "hidden",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: "0.8125rem",
-                fontWeight: 600,
-                color: "var(--tx3, #7a7876)",
-                letterSpacing: "0.01em",
-              }}
-            >
-              Failed Payments
-            </Typography>
-            <Box
-              sx={{
-                width: 32,
-                height: 32,
-                borderRadius: "8px",
-                background: "var(--red-l, #fff1f2)",
-                color: "var(--red, #be123c)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <AlertCircle size={16} />
-            </Box>
-          </Box>
-          <Typography
-            sx={{
-              fontSize: { xs: "1.45rem", sm: "1.65rem" },
-              fontWeight: 700,
-              color: "var(--tx, #1a1a1a)",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            {formatCurrency(stats.failedAmount)}
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: "0.75rem",
-              color: "var(--tx4, #a8a5a0)",
-            }}
-          >
-            {stats.failedCount} failed {stats.failedCount === 1 ? "transaction" : "transactions"}
-          </Typography>
-        </Paper>
-      </Box>
+        <StatsCard
+          title="MONTHLY RECURRING REVENUE"
+          value={formatCurrency(stats.mrr)}
+          icon={DollarSign}
+          color="primary"
+          trend="+18%"
+          actionText="Live monthly rate"
+        />
+        <StatsCard
+          title="ANNUAL RUN RATE"
+          value={formatCurrency(stats.arr)}
+          icon={TrendingUp}
+          color="primary"
+          trend="+12%"
+          actionText="Projected ARR"
+        />
+        <StatsCard
+          title="PENDING INVOICES"
+          value={formatCurrency(stats.pendingAmount)}
+          icon={Clock}
+          color="warning"
+          trend={`${stats.pendingCount} pending`}
+          actionText="Review pending"
+        />
+        <StatsCard
+          title="FAILED PAYMENTS"
+          value={formatCurrency(stats.failedAmount)}
+          icon={AlertCircle}
+          color="danger"
+          trend={stats.failedCount > 0 ? `-${stats.failedCount}` : undefined}
+          actionText="Retry payments"
+        />
+      </div>
 
       {/* Plan Breakdown Section if available */}
       {stats.planBreakdown && stats.planBreakdown.length > 0 && (
@@ -560,7 +314,7 @@ export function Revenue() {
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
-            <Layers size={16} color="var(--blue, #3ac1ef)" />
+            <Layers size={16} color="var(--primary)" />
             <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "var(--tx, #1a1a1a)" }}>
               Revenue by Subscription Plan
             </Typography>
@@ -597,7 +351,7 @@ export function Revenue() {
                     {plan.activeCount} active subscribers
                   </Typography>
                 </Box>
-                <Typography variant="body2" sx={{ fontWeight: 700, color: "var(--color-primary-strong, #1597c6)" }}>
+                <Typography variant="body2" sx={{ fontWeight: 700, color: "var(--primary)" }}>
                   {formatCurrency(plan.mrr || plan.totalRevenue || 0)}
                 </Typography>
               </Box>
@@ -639,8 +393,8 @@ export function Revenue() {
                 width: 34,
                 height: 34,
                 borderRadius: "8px",
-                background: "var(--bg2, #eef8fc)",
-                color: "var(--blue, #3ac1ef)",
+                background: "var(--bg2, #f0f3fc)",
+                color: "var(--primary)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -726,7 +480,7 @@ export function Revenue() {
               gap: 1.5,
             }}
           >
-            <CircularProgress size={32} sx={{ color: "var(--color-primary, #3ac1ef)" }} />
+            <CircularProgress size={32} sx={{ color: "var(--primary)" }} />
             <Typography variant="body2" sx={{ color: "var(--tx3, #7a7876)", fontSize: "0.85rem" }}>
               Fetching latest revenue & transaction data...
             </Typography>
@@ -754,13 +508,13 @@ export function Revenue() {
                 height: { xs: 64, sm: 76 },
                 borderRadius: "50%",
                 background:
-                  "linear-gradient(135deg, var(--bg2, #eef8fc) 0%, #e0f2fe 100%)",
+                  "linear-gradient(135deg, var(--bg2, #f0f3fc) 0%, #edf1ff 100%)",
                 border: "1px solid var(--bdr2, #e6eef2)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                color: "var(--blue, #3ac1ef)",
-                boxShadow: "0 8px 20px rgba(58, 193, 239, 0.12)",
+                color: "var(--primary)",
+                boxShadow: "0 8px 20px rgba(72, 87, 210, 0.15)",
               }}
             >
               <Receipt size={36} strokeWidth={1.75} />
@@ -815,7 +569,7 @@ export function Revenue() {
                   fontWeight: 500,
                 }}
               >
-                <Sparkles size={14} color="var(--blue, #3ac1ef)" />
+                <Sparkles size={14} color="var(--primary)" />
                 Automatic MRR / ARR Sync
               </Box>
               <Box
@@ -833,7 +587,7 @@ export function Revenue() {
                   fontWeight: 500,
                 }}
               >
-                <CreditCard size={14} color="var(--blue, #3ac1ef)" />
+                <CreditCard size={14} color="var(--primary)" />
                 Multi-Gateway Tracking
               </Box>
               <Box
@@ -1057,8 +811,8 @@ export function Revenue() {
                           style={{
                             fontFamily: "monospace",
                             fontWeight: 700,
-                            color: "var(--color-primary-strong, #1597c6)",
-                            background: "var(--color-primary-soft, #eaf8fd)",
+                            color: "var(--primary)",
+                            background: "var(--primary-light)",
                             padding: "3px 8px",
                             borderRadius: "4px",
                             fontSize: "0.75rem",
@@ -1074,8 +828,8 @@ export function Revenue() {
                               width: 30,
                               height: 30,
                               borderRadius: "50%",
-                              background: "var(--bg2, #eef8fc)",
-                              color: "var(--blue, #3ac1ef)",
+                              background: "var(--bg2, #f0f3fc)",
+                              color: "var(--primary)",
                               fontWeight: 700,
                               fontSize: "0.75rem",
                             }}
@@ -1115,8 +869,8 @@ export function Revenue() {
                             borderRadius: "4px",
                             fontSize: "0.75rem",
                             fontWeight: 600,
-                            bgcolor: "var(--bg2, #eef8fc)",
-                            color: "var(--blue, #3ac1ef)",
+                            bgcolor: "var(--bg2, #f0f3fc)",
+                            color: "var(--primary)",
                             height: "22px",
                           }}
                         />
@@ -1196,8 +950,8 @@ export function Revenue() {
                         sx={{
                           width: 28,
                           height: 28,
-                          bgcolor: "var(--bg2, #eef8fc)",
-                          color: "var(--blue, #3ac1ef)",
+                          bgcolor: "var(--bg2, #f0f3fc)",
+                          color: "var(--primary)",
                           fontSize: "0.75rem",
                           fontWeight: 700,
                         }}
@@ -1242,8 +996,8 @@ export function Revenue() {
                           borderRadius: "4px",
                           fontSize: "0.7rem",
                           fontWeight: 600,
-                          bgcolor: "var(--bg2, #eef8fc)",
-                          color: "var(--blue, #3ac1ef)",
+                          bgcolor: "var(--bg2, #f0f3fc)",
+                          color: "var(--primary)",
                           height: "20px",
                         }}
                       />

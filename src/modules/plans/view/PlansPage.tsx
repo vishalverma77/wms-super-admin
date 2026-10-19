@@ -17,6 +17,7 @@ import type { PlanItem, GroupedPlan, UpdatePlanPayload } from "../types";
 import { PlanCard } from "./PlanCard";
 import { EditPlanDialog } from "./EditPlanDialog";
 import { EmptyPlansView } from "./EmptyPlansView";
+import { COLORS } from "../../../constants/colors";
 
 export function PlansPage() {
   const dispatch = useAppDispatch();
@@ -279,7 +280,7 @@ export function PlansPage() {
 
           {loading ? (
             <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
-              <CircularProgress sx={{ color: "#3ac1ef" }} />
+              <CircularProgress sx={{ color: COLORS.primary }} />
             </Box>
           ) : filteredPlansList.length === 0 ? (
             searchQuery ? (
@@ -318,7 +319,7 @@ export function PlansPage() {
             sx={{
               width: "100%",
               backgroundColor:
-                snackbarSeverity === "error" ? "#ef4444" : "#0284c7",
+                snackbarSeverity === "error" ? COLORS.danger.main : COLORS.primary,
               color: "#ffffff",
               fontWeight: 700,
             }}

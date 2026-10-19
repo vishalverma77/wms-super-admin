@@ -67,8 +67,8 @@ export function EnterpriseContactsModal({
                 label={`${newContactsCount} New`}
                 size="small"
                 sx={{
-                  bgcolor: "var(--color-primary-soft, #eaf8fd)",
-                  color: "var(--color-primary-strong, #1597c6)",
+                  bgcolor: "var(--primary-light)",
+                  color: "var(--primary)",
                   fontWeight: 600,
                   fontSize: "0.75rem",
                   height: "22px",
@@ -131,8 +131,8 @@ export function EnterpriseContactsModal({
                         sx={{
                           width: 30,
                           height: 30,
-                          bgcolor: "var(--bg2, #eef8fc)",
-                          color: "var(--blue, #3ac1ef)",
+                          bgcolor: "var(--bg2, #f0f3fc)",
+                          color: "var(--primary)",
                           fontSize: "0.75rem",
                           fontWeight: 600,
                         }}
@@ -172,11 +172,11 @@ export function EnterpriseContactsModal({
                         borderRadius: "4px",
                         bgcolor:
                           contact.status === "New"
-                            ? "var(--color-primary-soft, #eaf8fd)"
+                            ? "var(--primary-light)"
                             : "var(--grn-b, #dcfce7)",
                         color:
                           contact.status === "New"
-                            ? "var(--color-primary-strong, #1597c6)"
+                            ? "var(--primary)"
                             : "var(--grn, #15803d)",
                       }}
                     />

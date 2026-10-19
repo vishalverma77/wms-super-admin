@@ -25,7 +25,7 @@ export function PlanRatesSection({
   return (
     <Box className="plan-section-card-premium">
       <Typography className="plan-section-title-premium">
-        <TuneIcon sx={{ fontSize: 18, color: "#0284c7" }} /> Rates & Pricing
+        <TuneIcon sx={{ fontSize: 18, color: "var(--primary)" }} /> Rates & Pricing
         Configuration
       </Typography>
 

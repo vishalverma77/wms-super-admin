@@ -1,3 +1,6 @@
+import { Users, CheckCircle2, RotateCw, Clock } from "lucide-react";
+import { StatsCard } from "../../../components/StatsCard";
+
 type SubscriptionKpiCardsProps = {
   totalCount: number;
   activeCount: number;
@@ -12,23 +15,46 @@ export function SubscriptionKpiCards({
   remainingCycles,
 }: SubscriptionKpiCardsProps) {
   return (
-    <div className="kgrid kg4">
-      <div className="kc kc-b">
-        <div className="kl">Total Subscribers</div>
-        <div className="kn">{totalCount.toLocaleString()}</div>
-      </div>
-      <div className="kc kc-g">
-        <div className="kl">Active Subscriptions</div>
-        <div className="kn">{activeCount.toLocaleString()}</div>
-      </div>
-      <div className="kc kc-t">
-        <div className="kl">Total Paid Cycles</div>
-        <div className="kn">{paidCycles.toLocaleString()}</div>
-      </div>
-      <div className="kc kc-r">
-        <div className="kl">Remaining Cycles</div>
-        <div className="kn">{remainingCycles.toLocaleString()}</div>
-      </div>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))",
+        gap: "12px",
+        marginBottom: "16px",
+      }}
+    >
+      <StatsCard
+        title="TOTAL SUBSCRIBERS"
+        value={totalCount.toLocaleString()}
+        icon={Users}
+        color="primary"
+        trend="+14%"
+        actionText="All subscribers"
+      />
+      <StatsCard
+        title="ACTIVE SUBSCRIPTIONS"
+        value={activeCount.toLocaleString()}
+        icon={CheckCircle2}
+        color="primary"
+        trend="+9%"
+        actionText="Active plans"
+      />
+      <StatsCard
+        title="TOTAL PAID CYCLES"
+        value={paidCycles.toLocaleString()}
+        icon={RotateCw}
+        color="primary"
+        trend="+24%"
+        actionText="Billing cycles"
+      />
+      <StatsCard
+        title="REMAINING CYCLES"
+        value={remainingCycles.toLocaleString()}
+        icon={Clock}
+        color="primary"
+        trend="-2%"
+        actionText="Upcoming terms"
+      />
     </div>
   );
 }
